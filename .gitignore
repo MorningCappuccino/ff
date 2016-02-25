@@ -1,0 +1,10 @@
+# this is just a demo .gitignore file, put all the files and folders you want to be ignored by git inside
+# if you work with NetBeans: ignore NetBeans project files
+/nbproject/private/
+
+/.idea/
+/-admin/
+ff.sublime-project
+ff.sublime-workspace
+# don't commit all the dependencies fetched via Composer
+/vendor/

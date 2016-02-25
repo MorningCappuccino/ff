@@ -1,0 +1,14 @@
+{
+    "name": "cappuccino/film_festival",
+    "description": "This is website about cinema festival",
+    "authors": [
+        {
+            "name": "Alex Minchenkov",
+            "email": "alexanderminchenkov@yandex.by"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": { "": ["application/core/", "application/model/"] }
+    }
+}

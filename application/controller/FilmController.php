@@ -1,0 +1,61 @@
+<?php
+
+class FilmController extends Controller
+{
+    /**
+     * Construct this object by extending the basic Controller class
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        // VERY IMPORTANT: All controllers/areas that should only be usable by logged-in users
+        // need this line! Otherwise not-logged in users could do actions. If all of your pages should only
+        // be usable by logged-in users: Put this line into libs/Controller->__construct
+        Auth::checkAuthentication();
+    }
+
+
+    public function create()
+    {
+        $this->View->render('madmin/films/create-edit', array(
+            'film' => (object) array('film_id' => '',
+                             'film_name' => '')
+            ));
+    }
+
+    /**
+     * This method controls what happens when you move to /note/edit(/XX) in your app.
+     * Shows the current content of the note and an editing form.
+     * @param $note_id int id of the note
+     */
+    public function edit($p)
+    {
+        $this->View->render('madmin/films/create-edit', array(
+            'film' => FilmModel::getFilm($p)
+        ));
+    }
+
+    /**
+     * This method controls what happens when you move to /note/editSave in your app.
+     * Edits a note (performs the editing after form submit).
+     * POST request.
+     */
+    public function save()
+    {
+        FilmModel::createFilm(Request::post('film_name'));
+        Redirect::to('madmin/films');
+    }
+
+    /**
+     * This method controls what happens when you move to /note/delete(/XX) in your app.
+     * Deletes a note. In a real application a deletion via GET/URL is not recommended, but for demo purposes it's
+     * totally okay.
+     * @param int $note_id id of the note
+     */
+    public function delete($note_id)
+    {
+        NoteModel::deleteNote($note_id);
+        Redirect::to('note');
+    }
+}
