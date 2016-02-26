@@ -43,7 +43,7 @@ class FilmController extends Controller
      */
     public function save()
     {
-        FilmModel::createFilm(Request::post('film_name'));
+        FilmModel::createFilm(Request::post('film_id'), Request::post('film_name'));
         Redirect::to('madmin/films');
     }
 

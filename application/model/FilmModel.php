@@ -44,7 +44,7 @@ class FilmModel
      * @param string $film_name note text that will be created
      * @return bool feedback (was the note created properly ?)
      */
-    public static function createFilm($film_name)
+    public static function createFilm($film_id, $film_name)
     {
         // -----------Validate it on JavaScript-----------
 
@@ -55,17 +55,25 @@ class FilmModel
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "INSERT INTO films (film_name, user_id) VALUES (:film_name, :user_id)";
-        $query = $database->prepare($sql);
-        $query->execute(array(':film_name' => $film_name, ':user_id' => Session::get('user_id')));
+        if ($film_id == '') {
 
-        if ($query->rowCount() == 1) {
-            return true;
+            $sql = "INSERT INTO films (film_name, user_id) VALUES (:film_name, :user_id)";
+            $query = $database->prepare($sql);
+            $query->execute(array(':film_name' => $film_name, ':user_id' => Session::get('user_id')));
+
+            if ($query->rowCount() == 1) {
+                return true;
+            }
+
+            // default return
+            Session::add('feedback_negative', Text::get('FEEDBACK_FILM_CREATION_FAILED'));
+            return false;
+        } else {
+            $sql = "UPDATE films (film_name, user_id) VALUES (:film_name, :user_id)";
+            $query = $database->prepare($sql);
+            $query->execute(array(':film_name' => $film_name, ':user_id' => Session::get('user_id')));
         }
 
-        // default return
-        Session::add('feedback_negative', Text::get('FEEDBACK_FILM_CREATION_FAILED'));
-        return false;
     }
 
     /**

@@ -5,8 +5,12 @@
 	<?php if ($this->film): ?>
 		<form method="post" action="<?= Config::get('URL') . 'film/save' ?>" class="form">
 			<div class="form-group">
+				<label hidden for="">id</label>
+				<input type="hidden" name="film_id" class="form-control" value="<?= $this->film->film_id ?>">
+			</div>
+			<div class="form-group">
 				<label for="">Название фильма</label>
-				<input type="text" name="film_name" class="form-control" value="<?php $this->film->film_name ?>">
+				<input type="text" name="film_name" class="form-control" value="<?= $this->film->film_name ?>">
 			</div>
 				<button type="submit" class="btn btn-default">Сохранить</button>
 		</form>

@@ -18,8 +18,8 @@
 					<tr>
 						<td><?= $film->id ?> </td> <!-- make hidden -->
 						<td><?= $film->film_name ?> </td>
-						<td><a href="<?= Config::get('URL') . 'films/edit/' . $film->id ?>">edit</a></td>
-						<td><a href="<?= Config::get('URL') . 'films/delete/' . $film->id ?>">delete</a></td>
+						<td><a href="<?= Config::get('URL') . 'film/edit/' . $film->id ?>">edit</a></td>
+						<td><a href="<?= Config::get('URL') . 'film/delete/' . $film->id ?>">delete</a></td>
 					</tr>
 				<?php endforeach ?>
 			</table>
