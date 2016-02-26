@@ -35,8 +35,14 @@ class FilmModel
         $query = $database->prepare($sql);
         $query->execute(array(':film_id' => $film_id));
 
+        //select all film categories
+        $sql2 = "SELECT * FROM film_category";
+        $query2 = $database->query($sql2);
+
         // fetch() is the PDO method that gets a single result
-        return $query->fetch();
+        return  [ 'film' => $query->fetch(),
+                          'categories' => $query2->fetchAll()
+                        ];
     }
 
     /**
@@ -44,7 +50,7 @@ class FilmModel
      * @param string $film_name note text that will be created
      * @return bool feedback (was the note created properly ?)
      */
-    public static function createFilm($film_id, $film_name)
+    public static function createOrUpdateFilm($film_id, $film_name)
     {
         // -----------Validate it on JavaScript-----------
 
@@ -55,7 +61,7 @@ class FilmModel
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        if ($film_id == '') {
+        if ($film_id == null) {
 
             $sql = "INSERT INTO films (film_name, user_id) VALUES (:film_name, :user_id)";
             $query = $database->prepare($sql);
@@ -65,41 +71,22 @@ class FilmModel
                 return true;
             }
 
-            // default return
             Session::add('feedback_negative', Text::get('FEEDBACK_FILM_CREATION_FAILED'));
             return false;
         } else {
-            $sql = "UPDATE films (film_name, user_id) VALUES (:film_name, :user_id)";
+
+            $sql = "UPDATE films SET film_name = :film_name WHERE id = :film_id";
             $query = $database->prepare($sql);
-            $query->execute(array(':film_name' => $film_name, ':user_id' => Session::get('user_id')));
-        }
+            $query->execute(array(':film_id' => $film_id, ':film_name' => $film_name));
 
-    }
+            if ($query->rowCount() == 1) {
+                return true;
+            }
 
-    /**
-     * Update an existing note
-     * @param int $note_id id of the specific note
-     * @param string $film_name new text of the specific note
-     * @return bool feedback (was the update successful ?)
-     */
-    public static function updateNote($note_id, $film_name)
-    {
-        if (!$note_id || !$film_name) {
+            Session::add('feedback_negative', Text::get('FEEDBACK_FILM_UPDATE_FAILED'));
             return false;
         }
 
-        $database = DatabaseFactory::getFactory()->getConnection();
-
-        $sql = "UPDATE notes SET film_name = :film_name WHERE note_id = :note_id AND user_id = :user_id LIMIT 1";
-        $query = $database->prepare($sql);
-        $query->execute(array(':note_id' => $note_id, ':film_name' => $film_name, ':user_id' => Session::get('user_id')));
-
-        if ($query->rowCount() == 1) {
-            return true;
-        }
-
-        Session::add('feedback_negative', Text::get('FEEDBACK_NOTE_EDITING_FAILED'));
-        return false;
     }
 
     /**
@@ -107,24 +94,23 @@ class FilmModel
      * @param int $note_id id of the note
      * @return bool feedback (was the note deleted properly ?)
      */
-    public static function deleteNote($note_id)
+    public static function deleteFilm($film_id)
     {
-        if (!$note_id) {
+        if (!$film_id) {
             return false;
         }
 
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "DELETE FROM notes WHERE note_id = :note_id AND user_id = :user_id LIMIT 1";
+        $sql = "DELETE FROM films WHERE id = :film_id LIMIT 1";
         $query = $database->prepare($sql);
-        $query->execute(array(':note_id' => $note_id, ':user_id' => Session::get('user_id')));
+        $query->execute(array(':film_id' => $film_id));
 
         if ($query->rowCount() == 1) {
             return true;
         }
 
-        // default return
-        Session::add('feedback_negative', Text::get('FEEDBACK_NOTE_DELETION_FAILED'));
+        Session::add('feedback_negative', Text::get('FEEDBACK_FILM_DELETION_FAILED'));
         return false;
     }
 }

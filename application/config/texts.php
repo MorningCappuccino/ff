@@ -74,4 +74,6 @@ return array(
 	"FEEDBACK_COOKIE_LOGIN_SUCCESSFUL" => "You were successfully logged in via the remember-me-cookie.",
 
 	"FEEDBACK_FILM_CREATION_FAILED" => "Не удалось создать фильм",
+	"FEEDBACK_FILM_UPDATE_FAILED" => "Редактирование фильма прошло не удачно:(",
+	"FEEDBACK_FILM_DELETION_FAILED" => "Удаление фильма не удалось",
 );

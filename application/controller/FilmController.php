@@ -19,7 +19,7 @@ class FilmController extends Controller
     public function create()
     {
         $this->View->render('madmin/films/create-edit', array(
-            'film' => (object) array('film_id' => '',
+            'film' => (object) array('film_id' => null,
                              'film_name' => '')
             ));
     }
@@ -32,7 +32,7 @@ class FilmController extends Controller
     public function edit($p)
     {
         $this->View->render('madmin/films/create-edit', array(
-            'film' => FilmModel::getFilm($p)
+            'data' => FilmModel::getFilm($p)
         ));
     }
 
@@ -43,19 +43,16 @@ class FilmController extends Controller
      */
     public function save()
     {
-        FilmModel::createFilm(Request::post('film_id'), Request::post('film_name'));
+        FilmModel::createOrUpdateFilm(Request::post('film_id'), Request::post('film_name'));
         Redirect::to('madmin/films');
     }
 
     /**
-     * This method controls what happens when you move to /note/delete(/XX) in your app.
-     * Deletes a note. In a real application a deletion via GET/URL is not recommended, but for demo purposes it's
-     * totally okay.
      * @param int $note_id id of the note
      */
-    public function delete($note_id)
+    public function delete($film_id)
     {
-        NoteModel::deleteNote($note_id);
-        Redirect::to('note');
+        FilmModel::deleteFilm($film_id);
+        Redirect::to('madmin/films');
     }
 }
