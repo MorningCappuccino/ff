@@ -1,11 +1,15 @@
 <div class='row'>
-
 	<div class='col-md-12 wrap'>
-		<h2>$title</h2>
+		<ol class="breadcrumb">
+			<li><a href="../madmin">Home</a></li>
+			<li class="active">Films</li>
+		</ol>
+		<h2>Список фильмов</h2>
 
 		<?php $this->renderFeedbackMessages(); ?>
 
 		<a href="<?= Config::get('URL') . 'film/create' ?>" class="btn btn-default">create film</a>
+		<?php var_dump($this->films) ?>
 		<table class='table table-striped'>
 			<thead>
 				<tr>
@@ -14,7 +18,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<?php foreach ($this->films as $film): ?>
+				<?php foreach ($this->films as $film): ?>
 					<tr>
 						<td><?= $film->id ?> </td> <!-- make hidden -->
 						<td><?= $film->film_name ?> </td>

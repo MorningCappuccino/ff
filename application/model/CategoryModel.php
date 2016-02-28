@@ -1,6 +1,7 @@
 <?php
 
 class CategoryModel {
+
 	public static function getAllCategories()
 	{
 		$database = DatabaseFactory::getFactory()->getConnection();
@@ -10,13 +11,12 @@ class CategoryModel {
     $query->execute();
 
     $all_categories = array();
-
     foreach ($query->fetchAll() as $category) {
 
         array_walk_recursive($category, 'Filter::XSSFilter');
 
         $all_categories[$category->id] = new stdClass();
-        $all_categories[$category->id]->category_id = $category->id;
+        $all_categories[$category->id]->id = $category->id;
         $all_categories[$category->id]->category_name = $category->cat_name;
     }
 
@@ -91,6 +91,8 @@ class CategoryModel {
         Session::add('feedback_negative', Text::get('FEEDBACK_NOTE_CREATION_FAILED'));
         return false;
     }
+
+
 
 }
 

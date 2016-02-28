@@ -5,112 +5,129 @@
  */
 class FilmModel
 {
-    /**
-     * Get all films
-     * @return array an array with several objects (the results)
-     */
-    public static function getAllFilms()
-    {
-        $database = DatabaseFactory::getFactory()->getConnection();
+	/**
+	 * Get all films
+	 * @return array an array with several objects (the results)
+	 */
+	public static function getAllFilms()
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT * FROM films";
-        // $query = $database;
-        // $res = $query->exec($sql);
-        $query = $database->query($sql);
+		$sql = "SELECT * FROM films";
+		$query = $database->query($sql);
 
-        // fetchAll() is the PDO method that gets all result rows
-        return $query->fetchAll();
-    }
+		// fetchAll() is the PDO method that gets all result rows
+		return $query->fetchAll();
+	}
 
-    /**
-     * Get a single note
-     * @param int $note_id id of the specific note
-     * @return object a single object (the result)
-     */
-    public static function getFilm($film_id)
-    {
-        $database = DatabaseFactory::getFactory()->getConnection();
+	/**
+	 * Get a single note
+	 * @param int $note_id id of the specific note
+	 * @return object a single object (the result)
+	 */
+	public static function getFilm($film_id)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT *, id as film_id FROM films WHERE id = :film_id LIMIT 1";
-        $query = $database->prepare($sql);
-        $query->execute(array(':film_id' => $film_id));
+		$sql = "SELECT *, id as film_id FROM films WHERE id = :film_id LIMIT 1";
+		$query = $database->prepare($sql);
+		$query->execute(array(':film_id' => $film_id));
 
-        //select all film categories
-        $sql2 = "SELECT * FROM film_category";
-        $query2 = $database->query($sql2);
+		// fetch() is the PDO method that gets a single result
+		return [ 'film' => $query->fetch(),
+				 'categories' => CategoryModel::getAllcategories(),
+				 'page' => (object) ['title' => 'Редактирование фильма'],
+				 'nominations' => NominationModel::getAllNominations()
+				];
+	}
 
-        // fetch() is the PDO method that gets a single result
-        return  [ 'film' => $query->fetch(),
-                          'categories' => $query2->fetchAll()
-                        ];
-    }
+	public static function prepareToCreateFilm()
+	{
 
-    /**
-     * Set a note (create a new one)
-     * @param string $film_name note text that will be created
-     * @return bool feedback (was the note created properly ?)
-     */
-    public static function createOrUpdateFilm($film_id, $film_name)
-    {
-        // -----------Validate it on JavaScript-----------
+		return [ 'film' => (object) [ 'film_id' => NULL,
+										'film_name' => '',
+										'category_id' => NULL],
+				'categories' => CategoryModel::getAllcategories(),
+				'page' => (object) ['title' => 'Добавление фильма'],
+				'nominations' => NominationModel::getAllNominations()
+		];
+	}
 
-        // if (!$film_name || strlen($film_name) == 0) {
-        //     Session::add('feedback_negative', Text::get('FEEDBACK_NOTE_CREATION_FAILED'));
-        //     return false;
-        // }
+	/**
+	 * Set a note (create a new one)
+	 * @param string $film_name note text that will be created
+	 * @return bool feedback (was the note created properly ?)
+	 */
+	public static function createOrUpdateFilm($film_id, $category_id, $film_name, $nomination_id)
+	{
+		// -----------Validate it on JavaScript-----------
 
-        $database = DatabaseFactory::getFactory()->getConnection();
+		// if (!$film_name || strlen($film_name) == 0) {
+		//     Session::add('feedback_negative', Text::get('FEEDBACK_NOTE_CREATION_FAILED'));
+		//     return false;
+		// }
 
-        if ($film_id == null) {
+		$database = DatabaseFactory::getFactory()->getConnection();
 
-            $sql = "INSERT INTO films (film_name, user_id) VALUES (:film_name, :user_id)";
-            $query = $database->prepare($sql);
-            $query->execute(array(':film_name' => $film_name, ':user_id' => Session::get('user_id')));
+		$arr = [0 => $film_name];
+		array_walk($arr, 'Filter::XSSFilter');
+		$film_name = $arr[0];
+		// $film_name = Filter::XSSFilter($film_name);
 
-            if ($query->rowCount() == 1) {
-                return true;
-            }
+		if ($film_id == null) {
 
-            Session::add('feedback_negative', Text::get('FEEDBACK_FILM_CREATION_FAILED'));
-            return false;
-        } else {
+			$sql = "INSERT INTO films (film_name, user_id) VALUES (:film_name, :user_id)";
+			$query = $database->prepare($sql);
+			$query->execute(array(':film_name' => $film_name, ':user_id' => Session::get('user_id')));
 
-            $sql = "UPDATE films SET film_name = :film_name WHERE id = :film_id";
-            $query = $database->prepare($sql);
-            $query->execute(array(':film_id' => $film_id, ':film_name' => $film_name));
+			if ($query->rowCount() == 1) {
+				return true;
+			}
+			
+			LinkTableModel::LinkFilmNomination($film_id, $nomination_id);
 
-            if ($query->rowCount() == 1) {
-                return true;
-            }
+			Session::add('feedback_negative', Text::get('FEEDBACK_FILM_CREATION_FAILED'));
+			return false;
+		} else {
 
-            Session::add('feedback_negative', Text::get('FEEDBACK_FILM_UPDATE_FAILED'));
-            return false;
-        }
+			$sql = "UPDATE films SET film_name = :film_name, category_id = :category_id WHERE id = :film_id";
+			$query = $database->prepare($sql);
+			$query->execute(array(':film_id' => $film_id, ':film_name' => $film_name, ':category_id' => $category_id));
 
-    }
+			if ($query->rowCount() == 1) {
+				return true;
+			}
 
-    /**
-     * Delete a specific note
-     * @param int $note_id id of the note
-     * @return bool feedback (was the note deleted properly ?)
-     */
-    public static function deleteFilm($film_id)
-    {
-        if (!$film_id) {
-            return false;
-        }
+			// LinkTableModel::LinkFilmNomination($film_id, $nomination_id);
 
-        $database = DatabaseFactory::getFactory()->getConnection();
+			Session::add('feedback_negative', Text::get('FEEDBACK_FILM_UPDATE_FAILED'));
+			return false;
+		}
 
-        $sql = "DELETE FROM films WHERE id = :film_id LIMIT 1";
-        $query = $database->prepare($sql);
-        $query->execute(array(':film_id' => $film_id));
+	}
 
-        if ($query->rowCount() == 1) {
-            return true;
-        }
+	/**
+	 * Delete a specific note
+	 * @param int $note_id id of the note
+	 * @return bool feedback (was the note deleted properly ?)
+	 */
+	public static function deleteFilm($film_id)
+	{
+		if (!$film_id) {
+			return false;
+		}
 
-        Session::add('feedback_negative', Text::get('FEEDBACK_FILM_DELETION_FAILED'));
-        return false;
-    }
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "DELETE FROM films WHERE id = :film_id LIMIT 1";
+		$query = $database->prepare($sql);
+		$query->execute(array(':film_id' => $film_id));
+
+		if ($query->rowCount() == 1) {
+			return true;
+		}
+
+		Session::add('feedback_negative', Text::get('FEEDBACK_FILM_DELETION_FAILED'));
+		return false;
+	}
 }

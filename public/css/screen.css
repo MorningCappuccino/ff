@@ -4,7 +4,7 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 .col-md-12.wrap {
   border: 1px solid #ccc;
-  margin: 0 15px;
+  padding: 15px 15px;
 }
 
 .container table {

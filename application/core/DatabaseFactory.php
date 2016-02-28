@@ -52,7 +52,7 @@ class DatabaseFactory
 
                 // Echo custom message. Echo error code gives you some info.
                 echo 'Database connection can not be estabilished. Please try again later.' . '<br>';
-                echo 'Error code: ' . $e->getCode();
+                echo 'Error code: ' . $e->getCode() .' - '. $e->getMessage();
 
                 // Stop application :(
                 // No connection, reached limit connections etc. so no point to keep it running

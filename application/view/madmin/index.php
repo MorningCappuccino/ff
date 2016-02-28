@@ -4,10 +4,20 @@
 
 		<?php $this->renderFeedbackMessages(); ?>
 
-		<ul>
-			<li><a href="<?php echo Config::get('URL') ?>madmin/category">Category</a></li>
-			<li><a href="<?php echo Config::get('URL') ?>madmin/films">Films</a></li>
-		</ul>
+		<div class="col-md-6">
+			<ul class="list-group">
+				<li><a class="list-group-item" href="<?php echo Config::get('URL') ?>madmin/category">Category</a></li>
+				<li><a class="list-group-item" href="<?php echo Config::get('URL') ?>madmin/films">Films</a></li>
+			</ul>
+		</div>
 
+		<div class="col-md-6">
+			<ul class="list-group">
+				<a class="list-group-item" href="<?php echo Config::get('URL') ?>nomination/index">Nominations</a>
+				<a class="list-group-item" href="<?php echo Config::get('URL') ?>madmin/films">???</a>
+			</ul>
+		</div>
+
+		
 	</div>
 </div>

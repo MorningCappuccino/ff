@@ -16,11 +16,18 @@ class FilmController extends Controller
     }
 
 
+    // public function create()
+    // {
+    //     $this->View->render('madmin/films/create-edit', array(
+    //         'data' => array('film' => (object)['film_id' => null,
+    //                                             'film_name' => ''])
+    //         ));
+    // }
+
     public function create()
     {
         $this->View->render('madmin/films/create-edit', array(
-            'film' => (object) array('film_id' => null,
-                             'film_name' => '')
+            'data' => FilmModel::prepareToCreateFilm()
             ));
     }
 
@@ -43,7 +50,10 @@ class FilmController extends Controller
      */
     public function save()
     {
-        FilmModel::createOrUpdateFilm(Request::post('film_id'), Request::post('film_name'));
+        FilmModel::createOrUpdateFilm(Request::post('film_id'), Request::post('category_id'),
+                                                                Request::post('film_name'),
+                                                                Request::post('nomination_id')
+                                                                );
         Redirect::to('madmin/films');
     }
 
