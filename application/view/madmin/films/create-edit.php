@@ -19,7 +19,7 @@
 					<select name="category_id" class="form-control">
 					<option value="">Выберите категорию</option>
 						<?php foreach ($this->data['categories'] as $category): ?>
-							<option value="<?= $category->id ?>" 
+							<option value="<?= $category->id ?>"
 									<?php if ($category->id == $this->data['film']->category_id) echo 'selected' ?>
 							><?= $category->category_name ?></option>
 						<?php endforeach ?>
@@ -35,8 +35,7 @@
 					<select name="nomination_id" class="form-control">
 					<option value="">Выберите Наминацию</option>
 						<?php foreach ($this->data['nominations'] as $nomination): ?>
-							<option value="<?= $nomination->nomination_id ?>" 
-									// <?php if ($nomination->nomination_id == $this->data['film']->category_id) echo 'selected' ?>
+							<option value="<?= $nomination->nomination_id ?>"
 							><?= $nomination->nomination_name ?></option>
 						<?php endforeach ?>
 					</select>

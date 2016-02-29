@@ -15,15 +15,6 @@ class FilmController extends Controller
         Auth::checkAuthentication();
     }
 
-
-    // public function create()
-    // {
-    //     $this->View->render('madmin/films/create-edit', array(
-    //         'data' => array('film' => (object)['film_id' => null,
-    //                                             'film_name' => ''])
-    //         ));
-    // }
-
     public function create()
     {
         $this->View->render('madmin/films/create-edit', array(
@@ -65,4 +56,20 @@ class FilmController extends Controller
         FilmModel::deleteFilm($film_id);
         Redirect::to('madmin/films');
     }
+
+    public function allfilms()
+    {
+        $this->View->render('allfilms/index', [
+            'films' => FilmModel::getAllFilms()
+            ]);
+    }
+
+    public function details($film_id)
+    {
+        $this->View->render('allfilms/details', [
+            'film' => FilmModel::getDetails($film_id)
+            ]);
+    }
+
+
 }

@@ -83,22 +83,24 @@ class FilmModel
 			if ($query->rowCount() == 1) {
 				return true;
 			}
-			
+
 			LinkTableModel::LinkFilmNomination($film_id, $nomination_id);
 
 			Session::add('feedback_negative', Text::get('FEEDBACK_FILM_CREATION_FAILED'));
 			return false;
+
 		} else {
 
 			$sql = "UPDATE films SET film_name = :film_name, category_id = :category_id WHERE id = :film_id";
 			$query = $database->prepare($sql);
 			$query->execute(array(':film_id' => $film_id, ':film_name' => $film_name, ':category_id' => $category_id));
 
+            LinkTableModel::LinkFilmNomination($film_id, $nomination_id);
+
 			if ($query->rowCount() == 1) {
 				return true;
 			}
 
-			// LinkTableModel::LinkFilmNomination($film_id, $nomination_id);
 
 			Session::add('feedback_negative', Text::get('FEEDBACK_FILM_UPDATE_FAILED'));
 			return false;
@@ -114,10 +116,10 @@ class FilmModel
 	public static function deleteFilm($film_id)
 	{
 		if (!$film_id) {
-			return false;
+            goto fail;
 		}
 
-		$database = DatabaseFactory::getFactory()->getConnection();
+  		$database = DatabaseFactory::getFactory()->getConnection();
 
 		$sql = "DELETE FROM films WHERE id = :film_id LIMIT 1";
 		$query = $database->prepare($sql);
@@ -127,7 +129,23 @@ class FilmModel
 			return true;
 		}
 
+        fail:
 		Session::add('feedback_negative', Text::get('FEEDBACK_FILM_DELETION_FAILED'));
 		return false;
 	}
+
+    public static function getDetails($film_id)
+    {
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT nomination_name FROM films JOIN link_film_nomination link
+                ON films.id = link.film_id JOIN nominations ON link.nomination_id = nominations.nomination_id";
+        $query = $database->prepare($sql);
+        $query->execute(array(':film_id' => $film_id));
+
+        return $query->fetchAll();
+
+    }
+
 }
