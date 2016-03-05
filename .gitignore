@@ -4,6 +4,7 @@
 
 /.idea/
 /-admin/
+/public/.sass-cache
 ff.sublime-project
 ff.sublime-workspace
 # don't commit all the dependencies fetched via Composer

@@ -53,3 +53,4 @@ RewriteRule ^(.*) public/$1 [L]
 
 #SetEnv APLICATION_ENV production
 
+AddType application/json .json

@@ -2,11 +2,24 @@
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-.col-md-12.wrap {
-  border: 1px solid #ccc;
-  padding: 15px 15px;
+.navbar-default {
+  background-color: #fff;
+  border-color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.row {
+  background-color: #fff;
+}
+
+body {
+  background: #f6f5f3;
 }
 
 .container table {
   font-size: 1em;
 }
+
+/*---------------------------------
+===========Action Img==============
+---------------------------------*/

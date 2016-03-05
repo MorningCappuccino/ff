@@ -5,13 +5,28 @@
 
 // @import "compass/reset";
 
+//restyle default
+.navbar-default {
+	background-color: #fff;
+	border-color: #fff;
+	border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+.row {
+	background-color: #fff;
+}
+
 //Common
+body {
+	background: #f6f5f3;
+}
+
 .col-md-12 {
-	&.wrap {
-		border: 1px solid #ccc;
+	// &.wrap {
+		// border: 1px solid #ccc;
 		// margin: 0 15px;
-		padding: 15px 15px;
-	}
+		// padding: 15px 15px;
+	// }
 }
 
 .container {
@@ -19,3 +34,8 @@
 		font-size: 1em;
 	}
 }
+
+/*---------------------------------
+===========Action Img==============
+---------------------------------*/
+
