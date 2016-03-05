@@ -9,7 +9,7 @@
 		<?php $this->renderFeedbackMessages(); ?>
 
 		<a href="<?= Config::get('URL') . 'film/create' ?>" class="btn btn-default">create film</a>
-		<?php var_dump($this->films) ?>
+		<!-- <?php var_dump($this->films) ?> -->
 		<table class='table table-striped'>
 			<thead>
 				<tr>

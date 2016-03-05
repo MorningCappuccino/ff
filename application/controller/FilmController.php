@@ -27,10 +27,10 @@ class FilmController extends Controller
      * Shows the current content of the note and an editing form.
      * @param $note_id int id of the note
      */
-    public function edit($p)
+    public function edit($film_id)
     {
         $this->View->render('madmin/films/create-edit', array(
-            'data' => FilmModel::getFilm($p)
+            'data' => FilmModel::prepareToEditFilm($film_id)
         ));
     }
 
@@ -56,6 +56,8 @@ class FilmController extends Controller
         FilmModel::deleteFilm($film_id);
         Redirect::to('madmin/films');
     }
+// CEUD end
+
 
     public function allfilms()
     {
@@ -67,9 +69,14 @@ class FilmController extends Controller
     public function details($film_id)
     {
         $this->View->render('allfilms/details', [
-            'film' => FilmModel::getDetails($film_id)
+            'data' => FilmModel::getDetails($film_id)
             ]);
     }
 
+
+    public static function rateFilm($film_id, $score)
+    {
+        FilmModel::rateFilm($film_id, $score);
+    }
 
 }

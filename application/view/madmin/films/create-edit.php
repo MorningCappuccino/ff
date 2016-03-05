@@ -2,7 +2,7 @@
 <div class="row">
 	<div class="col-md-12 wrap">
 		<ol class="breadcrumb">
-			<li><a href="../madmin">Home</a></li>
+			<li><a href="..">Home</a></li>
 			<li><a href="<?= Config::get('URL') . 'madmin/films' ?>">Films</a></li>
 			<li class="active">Add-or-Edit</li>
 		</ol>

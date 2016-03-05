@@ -3,7 +3,7 @@
 class NominationModel
 {
     /**
-     * 
+     *
      * @return array an array with several objects (the results)
      */
     public static function getAllNominations()
@@ -104,5 +104,22 @@ class NominationModel
 
         Session::add('feedback_negative', Text::get('FEEDBACK_DELETION_FAILED'));
         return false;
+    }
+
+
+    public static function getNominationsByFilmId($film_id)
+    {
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        //get only nomination of film
+        $sql = "SELECT nomination_name FROM films JOIN link_film_nomination link
+                ON films.id = link.film_id JOIN nominations ON link.nomination_id = nominations.nomination_id WHERE films.id = :film_id";
+        $query = $database->prepare($sql);
+        $query->execute(array(':film_id' => $film_id));
+
+
+        return $query->fetchAll();
+
     }
 }

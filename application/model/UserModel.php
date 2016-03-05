@@ -340,4 +340,27 @@ class UserModel
         // return one row (we only have one result or nothing)
         return $query->fetch();
     }
+
+/**
+ * EXTENDED
+ */
+    public static function getFilmScoreByUserId($user_id, $film_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT score FROM link_user_film_score WHERE user_id = :user_id AND film_id = :film_id LIMIT 1";
+        $query = $database->prepare($sql);
+
+        // DEFAULT is the marker for "normal" accounts (that have a password etc.)
+        // There are other types of accounts that don't have passwords etc. (FACEBOOK)
+        $query->execute(array(':user_id' => $user_id, ':film_id' => $film_id));
+
+        if($query->rowCount() == 1){
+            return $query->fetch()->score;
+        }
+
+        return 0;
+        // return one row (we only have one result or nothing)
+    }
+
 }

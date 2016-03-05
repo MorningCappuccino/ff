@@ -27,6 +27,8 @@ class FilmModel
 	 */
 	public static function getFilm($film_id)
 	{
+
+		//Делал для редктирования фильма, нужно подумать над универсальностью
 		$database = DatabaseFactory::getFactory()->getConnection();
 
 		$sql = "SELECT *, id as film_id FROM films WHERE id = :film_id LIMIT 1";
@@ -34,23 +36,30 @@ class FilmModel
 		$query->execute(array(':film_id' => $film_id));
 
 		// fetch() is the PDO method that gets a single result
-		return [ 'film' => $query->fetch(),
-				 'categories' => CategoryModel::getAllcategories(),
-				 'page' => (object) ['title' => 'Редактирование фильма'],
-				 'nominations' => NominationModel::getAllNominations()
-				];
+		return $query->fetch();
 	}
 
 	public static function prepareToCreateFilm()
 	{
 
 		return [ 'film' => (object) [ 'film_id' => NULL,
-										'film_name' => '',
-										'category_id' => NULL],
+																	'film_name' => '',
+																	'category_id' => NULL],
 				'categories' => CategoryModel::getAllcategories(),
 				'page' => (object) ['title' => 'Добавление фильма'],
 				'nominations' => NominationModel::getAllNominations()
 		];
+	}
+
+	public static function prepareToEditFilm($film_id)
+	{
+
+		return [ 'film' => self::getFilm($film_id),
+				 'category' => CategoryModel::getAllcategories(),
+				 'page' => (object) ['title' => 'Редактирование фильма'],
+				 'nominations' => NominationModel::getAllNominations()
+				];
+
 	}
 
 	/**
@@ -134,18 +143,31 @@ class FilmModel
 		return false;
 	}
 
+// CEUD end
+
     public static function getDetails($film_id)
     {
 
-        $database = DatabaseFactory::getFactory()->getConnection();
+        // $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT nomination_name FROM films JOIN link_film_nomination link
-                ON films.id = link.film_id JOIN nominations ON link.nomination_id = nominations.nomination_id";
-        $query = $database->prepare($sql);
-        $query->execute(array(':film_id' => $film_id));
+        //get only film name, img, descr
+    		$film_info = self::getFilm($film_id);
 
-        return $query->fetchAll();
+        //get only all film nominations
+        $film_nominations = NominationModel::getNominationsByFilmId($film_id);
+
+        //get score of user film
+        $score_of_user = UserModel::getFilmScoreByUserId(Session::get('user_id'), $film_id);
+
+        return  ['film_info' => $film_info,
+        				 'user' => (object)['film_score' => $score_of_user],
+        				 'nominations' => $film_nominations
+        					];
 
     }
 
+    public static function rateFilm($film_id, $score)
+    {
+    	return "hello eveone!";
+    }
 }

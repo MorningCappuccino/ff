@@ -4,6 +4,7 @@
 
 		<?php $this->renderFeedbackMessages(); ?>
 
+<!-- <?php var_dump($this) ?> -->
 		<table class='table table-striped'>
 			<thead>
 				<tr>
