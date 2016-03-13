@@ -14,7 +14,7 @@
 		<div class="col-md-6">
 			<ul class="list-group">
 				<a class="list-group-item" href="<?php echo Config::get('URL') ?>nomination/index">Nominations</a>
-				<a class="list-group-item" href="<?php echo Config::get('URL') ?>madmin/films">???</a>
+				<a class="list-group-item" href="<?php echo Config::get('URL') ?>event/index">Events</a>
 			</ul>
 		</div>
 

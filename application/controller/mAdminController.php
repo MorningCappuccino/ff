@@ -26,7 +26,7 @@ class mAdminController extends Controller
 
     public function category()
     {
-        $this->View->render('madmin/category', array(
+        $this->View->render('madmin/category/index', array(
                 'categories' => CategoryModel::getAllCategories())
         );
     }

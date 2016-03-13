@@ -3,6 +3,8 @@
 <head>
     <title>HUGE</title>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="data:;base64,=">
     <!-- <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/style.css"> -->
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/bootstrap.css">
@@ -11,8 +13,12 @@
 
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/star-rating.css" >
 
+    <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/fileinput.min.css" >
+
     <script src='<?php echo Config::get('URL') ?>js/jquery-2.0.0.js'></script>
+    <script src='<?php echo Config::get('URL') ?>js/bootstrap.js'></script>
     <script src='<?php echo Config::get('URL') ?>js/star-rating.js'></script>
+    <script src='<?php echo Config::get('URL') ?>js/fileinput.min.js'></script>
 
 
 </head>
@@ -33,15 +39,21 @@
                             <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
                                 <a href="<?php echo Config::get('URL'); ?>index/index">Index</a>
                             </li>
+                            <?php if (Session::get("user_account_type") == 7) : ?>
                             <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
                                 <a href="<?php echo Config::get('URL'); ?>profile/index">Profiles</a>
                             </li>
+                            <?php endif ?>
+
                             <li <?php if (View::checkForActiveController($filename, "allFilms")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>film/allfilms">Все фильмы</a>
+                                <a href="<?php echo Config::get('URL'); ?>film/allfilms">Фильмы</a>
                             </li>
                             <?php if (Session::userIsLoggedIn()) { ?>
-                                <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
+                                <!-- <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
                                     <a href="<?php echo Config::get('URL'); ?>dashboard/index">Dashboard</a>
+                                </li>-->
+                                <li <?php if (View::checkForActiveController($filename, "allFestivals")) { echo ' class="active" '; } ?> >
+                                    <a href="<?php echo Config::get('URL'); ?>event/allfestivals">Фестивали</a>
                                 </li>
                                 <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
                                     <a href="<?php echo Config::get('URL'); ?>note/index">My Notes</a>

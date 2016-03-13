@@ -43,6 +43,8 @@ class FilmController extends Controller
     {
         FilmModel::createOrUpdateFilm(Request::post('film_id'), Request::post('category_id'),
                                                                 Request::post('film_name'),
+                                                                Request::post('descr'),
+                                                                Request::post('event_id'),
                                                                 Request::post('nomination_id')
                                                                 );
         Redirect::to('madmin/films');

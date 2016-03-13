@@ -13,7 +13,7 @@
             or suspend a user.
         </div>
         <div>
-            <table class="overview-table">
+            <table class="table">
                 <thead>
                 <tr>
                     <td>Id</td>
@@ -27,7 +27,6 @@
                     <td>Submit</td>
                 </tr>
                 </thead>
-                <?php print_r ($this) ?>
                 <?php foreach ($this->users as $user) { ?>
                     <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
                         <td><?= $user->user_id; ?></td>

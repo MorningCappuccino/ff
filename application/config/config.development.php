@@ -47,6 +47,12 @@ return array(
 	'PATH_AVATARS' => realpath(dirname(__FILE__).'/../../') . '/public/avatars/',
 	'PATH_AVATARS_PUBLIC' => 'avatars/',
 	/**
+	 * Configuration for: Avatar paths
+	 * Internal path to save avatars. Make sure this folder is writable. The slash at the end is VERY important!
+	 */
+	'PATH_UPLOADS' => realpath(dirname(__FILE__).'/../../') . '/public/uploads/',
+	'PATH_UPLOADS_PUBLIC' => 'uploads/',
+	/**
 	 * Configuration for: Default controller and action
 	 */
 	'DEFAULT_CONTROLLER' => 'index',
@@ -110,7 +116,7 @@ return array(
 	'USE_GRAVATAR' => false,
 	'GRAVATAR_DEFAULT_IMAGESET' => 'mm',
 	'GRAVATAR_RATING' => 'pg',
-	'AVATAR_SIZE' => 44,
+	'AVATAR_SIZE' => 80,
 	'AVATAR_JPEG_QUALITY' => 85,
 	'AVATAR_DEFAULT_IMAGE' => 'default.jpg',
     /**

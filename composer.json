@@ -12,6 +12,7 @@
         "psr-4": { "": ["application/core/", "application/model/"] }
     },
     "require": {
-        "kartik-v/bootstrap-star-rating": "@dev"
+        "gregwar/captcha": "~1.1",
+        "phpmailer/phpmailer": "~5.2"
     }
 }

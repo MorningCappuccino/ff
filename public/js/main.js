@@ -8,6 +8,7 @@ $('#film-rating').rating({
 	max: 10,
 	step: 1,
 	stars: 10,
+	size: 'xs',
 	showCaption: true,
 	starCaptions: {
 		1: '1',
