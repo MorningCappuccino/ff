@@ -93,6 +93,15 @@ class CategoryModel {
     }
 
 
+//end CUED
+
+
+    // public static function getCategoryByFilmId($film_id)
+    // {
+    //     $database = DatabaseFactory::getFactory()->getConnection();
+
+    //     $sql = "SELECT category_name FROM film_category WHERE id = :"
+    // }
 
 }
 

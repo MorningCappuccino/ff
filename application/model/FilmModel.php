@@ -168,6 +168,9 @@ class FilmModel
         //get only film name, img, descr
     		$film_info = self::getFilm($film_id);
 
+        //get 
+    		$category = CategoryModel::getCategory($film_info->category_id);
+
         //get only all film nominations
         $film_nominations = NominationModel::getNominationsByFilmId($film_id);
 
@@ -177,14 +180,22 @@ class FilmModel
         //TODO rewrite avg_score on get avg from film_info
         $avg_score = FilmModel::getAVGScoreByFilmId($film_id);
 
+        $festival = EventModel::getEvent($film_info->event_id);
+
         return  ['film_info' => $film_info,
         				 'user' => (object)['film_score' => $score_of_user],
         				 'nominations' => $film_nominations,
-        				 'avg_score' => $avg_score
+        				 'category' => $category,
+        				 'avg_score' => $avg_score,
+        				 'festival' => $festival
         					];
 
     }
 
+
+    //this function is a very bad practice, cause
+    //1) with every viewing film we count avg_score of film and
+    //2) set it to the Film table.
     public static function getAVGScoreByFilmId($film_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -193,6 +204,39 @@ class FilmModel
         $query = $database->prepare($sql);
         $query->execute(array(':film_id' => $film_id));
 
-        return $query->fetch();
+        //setAVGscore
+        $fetch = $query->fetch();
+
+        $sql2 = "UPDATE films SET score = :avg_score WHERE id = :film_id";
+        $query = $database->prepare($sql2);
+        $query->execute(array(':avg_score' => $fetch->avg_score, ':film_id' => $film_id));
+
+
+        return $fetch;
     }
+
+    /**
+     * @param  int event_id id of the specific event
+     * @return int film's id which was the winner
+     */
+    public static function getFilmWonPeopleAward($event_id)
+    {
+    	$database = DatabaseFactory::getFactory()->getConnection();
+
+    	$sql = "SELECT id, film_name, score FROM films WHERE event_id = :event_id";
+    	$query = $database->prepare($sql);
+    	$query->execute(array(':event_id' => $event_id));
+
+    	$pWinners = $query->fetchAll();
+    	$win = $pWinners[0];
+    	for ($i = 1; $i <= count($pWinners)-1; $i++) {
+    		if ($pWinners[$i]->score > $win->score){
+    			$win = $pWinners[$i];
+    		}
+    	}
+
+    	return $win->id;
+    }
+
+
 }

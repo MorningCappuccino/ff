@@ -74,12 +74,12 @@ class EventController extends Controller
      * This method controls what happens when you move to /nomination/delete(/XX) in your app.
      * Deletes a nomination. In a real application a deletion via GET/URL is not recommended, but for demo purposes it's
      * totally okay.
-     * @param int $nomination_id id of the nomination
+     * @param int $event_id id of the nomination
      */
-    public function delete($nomination_id)
+    public function delete($event_id)
     {
-        EventModel::delete($nomination_id);
-        Redirect::to('nomination');
+        EventModel::delete($event_id);
+        Redirect::to('event');
     }
 
 /**
@@ -96,7 +96,7 @@ class EventController extends Controller
     public function details($event_id)
     {
         $this->View->render('allfestivals/details', array(
-            'event' => (object) EventModel::getDetails($event_id)
+            'event' => EventModel::getDetails($event_id)
         ));
     }
 }

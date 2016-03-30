@@ -16,7 +16,7 @@
 				</div>
 				<div class="form-group">
 					<label for="">Категория</label>
-					<select name="category_id" class="form-control">
+					<select name="category_id" class="form-control" required>
 					<option value="">Выберите категорию</option>
 						<?php foreach ($this->data['categories'] as $category): ?>
 							<option value="<?= $category->id ?>"

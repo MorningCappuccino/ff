@@ -9,7 +9,7 @@
             <img id="main" src="<?= Config::get('URL') .'uploads/'. '1140x400' .'.png'?>" alt="">
 					<?php } ?>
             <div class="row">
-              <span><?= $this->data['film_info']->category_id ?></span>
+              <span><?= $this->data['category']->category_name ?></span>
               <h1><?= $this->data['film_info']->film_name ?></h1>
             </div>
             <div class="row">
@@ -18,7 +18,9 @@
               </a>
             </div>
             <div class="row">
-              <div class="member">Участник: Каннский фестиваль 2015</div>
+            <?php if ($this->data['festival'] != false) {?>
+              <div class="member">Участник: <?= $this->data['festival']->fest_type_name . ' фестиваль ' . $this->data['festival']->year ?></div>
+            <?php } ?>
             </div>
           <div class="paranja"></div>
           </div>
@@ -33,7 +35,7 @@
           <span id="count-score">Оценок: <?= $this->data['avg_score']->count_score ?></span>
         </div>
         <div class="col-md-3">
-          <button type="button" class="btn btn-default" role="button">Награды</button>
+          <button type="button" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Награды</button>
         </div>
       </div>
 
@@ -47,7 +49,7 @@
             <h3>Режиссёр</h3>
             <div class="person-info">
             <a class="person-photo">
-              <img src="http://placehold.it/60x80">
+              <img src="<?= Config::get('URL') . 'uploads/TomFord.jpg' ?>">
             </a>
               <div class="person-name">
                 <a href="#">Том форд</a>
@@ -62,7 +64,7 @@
             <h3>В ролях</h3>
             <div class="person-info">
             <a class="person-photo">
-              <img src="http://placehold.it/60x80">
+              <img src="<?= Config::get('URL') . 'uploads/ColinFirth.jpg' ?>">
             </a>
               <div class="person-name">
                 <a href="#">Колин Фёрт</a>
@@ -73,7 +75,7 @@
             </div>
             <div class="person-info">
             <a class="person-photo">
-              <img src="http://placehold.it/60x80">
+              <img src="<?= Config::get('URL') . 'uploads/MetthewGoode.jpg' ?>">
             </a>
               <div class="person-name">
                 <a href="#">Меттью Гуд</a>
@@ -86,6 +88,31 @@
 
         </div>
     </section>
+    <!-- <?php var_dump($this->data['nominations']) ?> -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Награды</h4>
+          </div>
+          <div class="modal-body">
+            <h2>Номинации:</h2>
+              <ul>
+                <?php foreach ($this->data['nominations'] as $nomination) : ?>
+                  <li><?= $nomination->nomination_name ?></li>
+                <?php endforeach ?>
+              </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 <script>
 	setTimeout(initRating, 1000);

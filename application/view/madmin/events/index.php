@@ -1,8 +1,8 @@
 <div class='row'>
 	<div class='col-md-12'>
 		<ol class="breadcrumb">
-			<li><a href="../madmin">Home</a></li>
-			<li class="active">Films</li>
+			<li><a href="madmin">Home</a></li>
+			<li class="active">Events</li>
 		</ol>
 		<h2>Все события</h2>
 

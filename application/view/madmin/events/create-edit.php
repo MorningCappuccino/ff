@@ -7,7 +7,6 @@
 			<li class="active">Add-or-Edit</li>
 		</ol>
 
-		<?php var_dump($this->data) ?>
 		
 		<h3><?= $this->data['page']->title ?></h3>
 

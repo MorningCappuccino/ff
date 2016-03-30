@@ -44,7 +44,7 @@ class EventModel
 	{
 		$database = DatabaseFactory::getFactory()->getConnection();
 
-		$sql = "SELECT *, id as event_id FROM events WHERE id = :event_id LIMIT 1";
+		$sql = "SELECT *, events.id as event_id, fest_type.name as fest_type_name FROM events JOIN fest_type ON fest_type.id = events.fest_type_id WHERE events.id = :event_id";
 		$query = $database->prepare($sql);
 		$query->execute(array(':event_id' => $event_id));
 
@@ -110,6 +110,29 @@ class EventModel
 
 			$event_status = EventModel::SetEventStatus($begin_date, $finish_date);
 
+
+			//People Award
+			//Right now I selecte Film-winner on update Festival action
+			//may be it will be better something else, for example, cron-proccess or some button
+			if ($event_status == 3){
+				$film_id = FilmModel::getFilmWonPeopleAward($event_id);
+
+				$sql00 = "SELECT event_id FROM people_award WHERE event_id = :event_id";
+				$query = $database->prepare($sql00);
+				$query->execute(array(':event_id' => $event_id));
+
+				if ($query->rowCount() != 1) {
+
+				$sql0 = "INSERT INTO people_award (event_id, film_id) VALUES (:event_id, :film_id)";
+				$query = $database->prepare($sql0);
+				$query->execute(array(':event_id' => $event_id, ':film_id' => $film_id));
+
+			}
+
+			}
+			//end People Award
+
+
 			if($img_link != 'file didnt upload'){
 				$sql = "UPDATE events SET fest_type_id = :fest_type_id, year = :year, img_link = :img_link, begin_date = :begin_date, finish_date = :finish_date, status_id = :status_id WHERE id = :event_id";
 				$query = $database->prepare($sql);
@@ -139,17 +162,17 @@ class EventModel
 	 * @param int $note_id id of the note
 	 * @return bool feedback (was the note deleted properly ?)
 	 */
-	public static function deleteFilm($film_id)
+	public static function delete($event_id)
 	{
-		if (!$film_id) {
+		if (!$event_id) {
             goto fail;
 		}
 
   		$database = DatabaseFactory::getFactory()->getConnection();
 
-		$sql = "DELETE FROM events WHERE id = :film_id LIMIT 1";
+		$sql = "DELETE FROM events WHERE id = :event_id LIMIT 1";
 		$query = $database->prepare($sql);
-		$query->execute(array(':film_id' => $film_id));
+		$query->execute(array(':event_id' => $event_id));
 
 		if ($query->rowCount() == 1) {
 			return true;
@@ -160,7 +183,7 @@ class EventModel
 		return false;
 	}
 
-// CEUD end
+///////////////////////////////////// CEUD end ////////////////////////////////////////
 
     public static function getDetails($event_id)
     {
@@ -171,11 +194,43 @@ class EventModel
         $query = $database->prepare($sql);
         $query->execute(array(':event_id' => $event_id));
 
-        return $query->fetch();
+        return ['fest_info' => $query->fetch(),
+        				'films' => EventModel::getAllFilmsByEventId($event_id),
+        				'people_award' => EventModel::getFilmInEventWonPeopleAward($event_id)
+        				];
 
     }
 
-//EventModel's Helpers
+    public static function getAllFilmsByEventId($event_id)
+    {
+    
+        $database = DatabaseFactory::getFactory()->getConnection();
+    
+        $sql = "SELECT * FROM films WHERE event_id = :event_id";
+        $query = $database->prepare($sql);
+        $query->execute(array(':event_id' => $event_id));
+    
+        return $query->fetchAll();
+    
+    }
+
+    public static function getFilmInEventWonPeopleAward($event_id)
+    {
+    
+        $database = DatabaseFactory::getFactory()->getConnection();
+    
+        $sql = "SELECT film_id FROM people_award WHERE event_id = :event_id";
+        $query = $database->prepare($sql);
+        $query->execute(array(':event_id' => $event_id));
+    
+        return FilmModel::getFilm($query->fetch()->film_id);
+    
+    }
+
+/*=======================================================
+----------------EventModel's Helpers---------------------
+=======================================================*/
+
     public static function setEventStatus($begin_date, $finish_date)
     {
     	$cur_date = getDate()[0];

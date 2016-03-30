@@ -2,15 +2,15 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="fest-action-img">
-				<img src="<?= Config::get('URL') .'uploads/'. $this->event->img_link . '.jpg' ?>" alt="">
+				<img src="<?= Config::get('URL') .'uploads/'. $this->event['fest_info']->img_link . '.jpg' ?>" alt="">
 				<!-- <div class="col-sm-12 img-wrapper"> -->
 					<div class="row">
-						<h1><?= $this->event->fest_type_name . ' фестиваль ' . $this->event->year ?></h1>
+						<h1><?= $this->event['fest_info']->fest_type_name . ' фестиваль ' . $this->event['fest_info']->year ?></h1>
 					</div>
 					<!-- <div class="row" style="height: 350px"></div> -->
 					<div class="row">
 						<div class="time-line">Время проведения: <span class="">
-							<?= $this->event->begin_date .' - '. $this->event->finish_date?></span>
+							<?= $this->event['fest_info']->begin_date .' - '. $this->event['fest_info']->finish_date?></span>
 						</div>
 					<!-- </div> -->
 				</div>
@@ -24,8 +24,8 @@
 	</div>
 -->	<div class="row">
 <div class="col-md-5 pull-right">
-	<div class="status pull-right">Статус:<span class="<?= EventModel::getCSSClassEqualsStatusName($this->event->event_status	) ?>">
-		<?= $this->event->event_status ?></span></div>
+	<div class="status pull-right">Статус:<span class="<?= EventModel::getCSSClassEqualsStatusName($this->event['fest_info']->event_status	) ?>">
+		<?= $this->event['fest_info']->event_status ?></span></div>
 	</div>
 </div>
 <div class="row">
@@ -50,11 +50,64 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-8 col-lg-offset-4 col-sm-6 col-sm-offset-6 some-btns">
-			<button class="btn btn-default">Участники</button>
-			<?php if ($this->event->event_status != 'Мотор') {?>
-			<button class="btn btn-default disabled">Победители</button>
-			<button class="btn btn-default">Подать заявку</button>
+			<button class="btn btn-default" role="button" data-toggle="modal" data-target="#participantsModal">Участники</button>
+			<?php if ($this->event['fest_info']->event_status != 'Мотор') {?>
+			<button class="btn btn-default" role="button" data-toggle="modal" data-target="#winnersModal">Победители</button>
+			<button class="btn btn-default disabled">Подать заявку</button>
 			<?php } ?>
 		</div>
 	</div>
 </section>
+
+
+    <!-- Participants Modal -->
+    <div class="modal fade" id="participantsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Участники</h4>
+          </div>
+          <div class="modal-body">
+          <table class="table table-hover">
+          <thead>
+          	<tr>
+          		<th>Название фильма</th>
+          		<th>Ср. оценка</th>
+          	</tr>
+          </thead>
+          <tbody>
+          <?php foreach ($this->event['films'] as $film) : ?>
+          	<tr>
+          		<td><?= $film->film_name ?></td>
+          		<td><?= $film->score ?></td>
+          	</tr>
+        	<?php endforeach ?>
+          </tbody>
+          </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- Participants Modal -->
+    <div class="modal fade" id="winnersModal" tabindex="-1" role="dialog" aria-labelledby="winnersLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="winnersLable">Победители</h4>
+          </div>
+          <div class="modal-body">
+          	<h4>Приз зрительских симпатий:</h4>
+							<p><?= $this->event['people_award']->film_name  ?></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
