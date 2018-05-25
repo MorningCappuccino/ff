@@ -29,10 +29,14 @@
       <div class="row bad-section">
         <div class="col-md-9">
         	<div class="avg-score">
-        		<span><?= $this->data['avg_score']->avg_score ?></span>
+            <?php if ( is_object($this->data['avg_score']) ) :?>
+        		    <span><?= $this->data['avg_score']->avg_score ?></span>
+            <?php endif; ?>
         	</div>
           <input id="film-rating">
-          <span id="count-score">Оценок: <?= $this->data['avg_score']->count_score ?></span>
+          <?php if ( is_object($this->data['avg_score']) ):?>
+            <span id="count-score">Оценок: <?= $this->data['avg_score']->count_score ?></span>
+          <?php endif ?>
         </div>
         <div class="col-md-3">
           <button type="button" class="btn btn-default" role="button" data-toggle="modal" data-target="#myModal">Награды</button>

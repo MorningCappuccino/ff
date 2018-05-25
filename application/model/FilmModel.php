@@ -204,9 +204,15 @@ class FilmModel
         $query = $database->prepare($sql);
         $query->execute(array(':film_id' => $film_id));
 
-        //setAVGscore
-        $fetch = $query->fetch();
+		//Try calc count_score and avg_score
+		$fetch = $query->fetch();
 
+		//If film not rated - do nothing
+		if ($fetch->count_score == 0) {
+			return true;
+		}
+
+				//setAVGscore
         $sql2 = "UPDATE films SET score = :avg_score WHERE id = :film_id";
         $query = $database->prepare($sql2);
         $query->execute(array(':avg_score' => $fetch->avg_score, ':film_id' => $film_id));
@@ -226,6 +232,8 @@ class FilmModel
     	$sql = "SELECT id, film_name, score FROM films WHERE event_id = :event_id";
     	$query = $database->prepare($sql);
     	$query->execute(array(':event_id' => $event_id));
+
+			// TODO: if fest is over and nofilms as participants then no pWinners
 
     	$pWinners = $query->fetchAll();
     	$win = $pWinners[0];
