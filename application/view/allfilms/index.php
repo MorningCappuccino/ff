@@ -16,7 +16,7 @@
 				<?php foreach ($this->films as $film): ?>
 					<tr onmouseover="this.style.cursor = 'pointer'; this.style.background = '#FAEBF9';"
 							onmouseout="this.style.background = ''"
-							onclick="window.location.href='<?= Config::get('URL') . 'film/details/' . $film->id ?>'">
+							onclick="window.location.href='<?= Config::get('URL') . '/film/details/' . $film->id ?>'">
 						<td hidden><?= $film->id ?> </td> <!-- make hidden -->
 						<td><?= $film->film_name ?> </td>
 					</tr>
