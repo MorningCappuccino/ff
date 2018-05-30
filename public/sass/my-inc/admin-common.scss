@@ -1,0 +1,22 @@
+.from-to-inputs {
+    display: flex;
+    justify-content: space-around;
+
+    .wrap-input {
+        display: flex;
+        align-items: center;
+
+        span {
+            margin-right: 10px;
+        }
+    }
+}
+
+// margins
+.mb-lg {
+    margin-bottom: 3vw;
+
+    @media ($xl) {
+        margin-bottom: 50px;
+    }
+}

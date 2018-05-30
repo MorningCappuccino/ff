@@ -1,0 +1,25 @@
+.fresh-movie {
+    &__session {
+        &-add_block {
+            display: flex;
+            justify-content: space-around;
+
+            input {
+                width: 50%;
+            }
+        }
+    }
+
+    .session-pool {
+        display: flex;
+        flex-wrap: wrap;
+
+        .s-item {
+            padding: 4px 8px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-right: 15px;
+        }
+    }
+}

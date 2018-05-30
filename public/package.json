@@ -1,0 +1,29 @@
+{
+  "name": "film_poster",
+  "version": "1.0.0",
+  "description": "diploma)",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MorningCappuccino/ff.git"
+  },
+  "author": "MorningCappuccino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MorningCappuccino/ff/issues"
+  },
+  "homepage": "https://github.com/MorningCappuccino/ff#readme",
+  "devDependencies": {
+    "autoprefixer": "^8.5.1",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-csso": "^3.0.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-postcss": "^7.0.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4"
+  }
+}

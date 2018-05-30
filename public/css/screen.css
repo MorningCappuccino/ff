@@ -1,63 +1,53 @@
 .navbar-default {
   background-color: #fff;
   border-color: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06); }
 
 body {
-  background: #f6f5f3;
-}
+  background: #f6f5f3; }
 
 h1 {
-  font-size: 36px;
-}
+  font-size: 36px; }
 
 h2 {
   font-size: 24px;
-  margin-top: 10px;
-}
+  margin-top: 10px; }
 
 h3 {
-  font-size: 18px;
-}
+  font-size: 18px; }
 
 h4 {
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 0;
-}
+  margin-bottom: 0; }
 
 footer {
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   padding: 10px;
-  margin-top: 10px;
-}
+  margin-top: 10px; }
 
 .container {
-  background-color: #fff;
-}
-.container table {
-  font-size: 1em;
-}
+  background-color: #fff; }
+  .container table {
+    font-size: 1em; }
 
 /*
 * @section view all festivals
 */
 .festival-info img {
   border-radius: 4px;
-  margin-bottom: 10px;
-}
+  margin-bottom: 10px; }
+
 .festival-info .left-info {
-  transform: translate(0, 50%);
-}
-.festival-info .left-info .status {
-  display: inline-block;
-  padding: 5px;
-}
+  -webkit-transform: translate(0, 50%);
+      -ms-transform: translate(0, 50%);
+          transform: translate(0, 50%); }
+  .festival-info .left-info .status {
+    display: inline-block;
+    padding: 5px; }
 
 .festival-detail img, .film-detail img {
-  width: 100%;
-}
+  width: 100%; }
 
 /*------------------------------------------
 ---------------Sign in----------------------
@@ -65,138 +55,182 @@ footer {
 .form-signin {
   max-width: 330px;
   padding: 15px;
-  margin: 0 auto;
-}
+  margin: 0 auto; }
 
 /*------------------------------------------
 ---------------Register box----------------------
 -------------------------------------------*/
 .register-box {
   max-width: 500px;
-  margin: 0 auto;
-}
-.register-box img, .register-box input {
-  margin-bottom: 10px;
-}
+  margin: 0 auto; }
+  .register-box img, .register-box input {
+    margin-bottom: 10px; }
 
 /**********************************
           Festival Detail Page
 **********************************/
 .festival-detail .status {
   font-size: 18px;
-  padding: 10px 20px;
-}
+  padding: 10px 20px; }
+
 .festival-detail .some-btns {
   margin-top: 20px;
-  margin-bottom: 20px;
-}
+  margin-bottom: 20px; }
 
 .fest-action-img {
   position: relative;
-  color: #fff;
-}
-.fest-action-img .paranja {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #000;
-  opacity: .5;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-}
-.fest-action-img img, .fest-action-img .paranja {
-  border-radius: 6px;
-}
-.fest-action-img h1, .fest-action-img .time-line {
-  z-index: 3;
-}
-.fest-action-img h1 {
-  text-align: center;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-.fest-action-img .time-line {
-  text-align: right;
-  margin-right: 20px;
-  position: absolute;
-  bottom: 2%;
-  right: 2%;
-}
+  color: #fff; }
+  .fest-action-img .paranja {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    opacity: .5;
+    width: 100%;
+    height: 100%;
+    z-index: 2; }
+  .fest-action-img img, .fest-action-img .paranja {
+    border-radius: 6px; }
+  .fest-action-img h1, .fest-action-img .time-line {
+    z-index: 3; }
+  .fest-action-img h1 {
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+            transform: translate(-50%, 0); }
+  .fest-action-img .time-line {
+    text-align: right;
+    margin-right: 20px;
+    position: absolute;
+    bottom: 2%;
+    right: 2%; }
 
 /**********************************
           Film Detail Page
 **********************************/
 .film-detail .member {
   font-size: 12px;
-  padding: 10px 20px;
-}
+  padding: 10px 20px; }
+
 .film-detail .avg-score {
   float: left;
   font-size: 1.4em;
-  padding: 6px;
-}
+  padding: 6px; }
+
 .film-detail #count-score {
   font-size: 0.9em;
-  color: #fff;
-}
+  color: #fff; }
+
 .film-detail .bad-section {
-  margin-top: 15px;
-}
+  margin-top: 15px; }
+
 .film-detail .person-info {
-  margin-bottom: 20px;
-}
-.film-detail .person-info .person-photo {
-  float: left;
-  margin-right: 14px;
-}
-.film-detail .person-info .person-other {
-  font-size: .9em;
-}
+  margin-bottom: 20px; }
+  .film-detail .person-info .person-photo {
+    float: left;
+    margin-right: 14px; }
+  .film-detail .person-info .person-other {
+    font-size: .9em; }
 
 .film-action-img {
   position: relative;
-  color: #fff;
-}
-.film-action-img .paranja {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #000;
-  opacity: .5;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-}
-.film-action-img img, .film-action-img .paranja {
-  border-radius: 6px;
-}
-.film-action-img h1, .film-action-img .member, .film-action-img span, .film-action-img #trailer-btn {
-  position: absolute;
-  z-index: 3;
-}
-.film-action-img span {
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-.film-action-img h1 {
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-.film-action-img #trailer-btn {
-  top: 75%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  background-color: rgba(255, 255, 255, 0.4);
-  border-color: transparent;
-}
-.film-action-img .member {
-  text-align: right;
-  margin-right: 20px;
-  bottom: 2%;
-  right: 2%;
-}
+  color: #fff; }
+  .film-action-img .paranja {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000;
+    opacity: .5;
+    width: 100%;
+    height: 100%;
+    z-index: 2; }
+  .film-action-img img, .film-action-img .paranja {
+    border-radius: 6px; }
+  .film-action-img h1, .film-action-img .member, .film-action-img span, .film-action-img #trailer-btn {
+    position: absolute;
+    z-index: 3; }
+  .film-action-img span {
+    top: 0;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+            transform: translate(-50%, 0); }
+  .film-action-img h1 {
+    top: 0;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+            transform: translate(-50%, 0); }
+  .film-action-img #trailer-btn {
+    top: 75%;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
+    background-color: rgba(255, 255, 255, 0.4);
+    border-color: transparent; }
+  .film-action-img .member {
+    text-align: right;
+    margin-right: 20px;
+    bottom: 2%;
+    right: 2%; }
+
+/******************************************************************************
+  MEDIA queries
+******************************************************************************/
+.from-to-inputs {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around; }
+  .from-to-inputs .wrap-input {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .from-to-inputs .wrap-input span {
+      margin-right: 10px; }
+
+.mb-lg {
+  margin-bottom: 3vw; }
+  @media (max-width: 1599px) {
+    .mb-lg {
+      margin-bottom: 50px; } }
+
+.fresh-movie__session-add_block {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around; }
+  .fresh-movie__session-add_block input {
+    width: 50%; }
+
+.fresh-movie .session-pool {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; }
+  .fresh-movie .session-pool .s-item {
+    padding: 4px 8px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 15px; }
+
+/*# sourceMappingURL=screen.css.map */
