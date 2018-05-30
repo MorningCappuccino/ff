@@ -47,7 +47,8 @@ class CinemaModel
 	{
 
 		return [ 'cinema' => self::getCinema($cinema_id),
-				 'page' => (object) ['title' => 'Редактирование кинотеатра']
+				 'page' => (object) ['title' => 'Редактирование кинотеатра'],
+				 'films' => self::getFilmsOfCinema($cinema_id)
 				];
 
 	}
@@ -114,4 +115,38 @@ class CinemaModel
 	/*********************
 	***** CRUD end *****
 	*********************/
+
+	public static function getFilmsOfCinema($cinema_id)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "SELECT * FROM films JOIN link_cinema_film link
+                ON films.id = link.film_id JOIN cinemas ON link.cinema_id = cinemas.id WHERE cinemas.id = :cinema_id";
+		$query = $database->prepare($sql);
+		$query->execute(array(':cinema_id' => $cinema_id));
+
+		// select all Films
+		$films = $query->fetchAll();
+
+		$xFilms = array();
+		foreach ($films as $film) {
+			// get one film, search ticket prices for him and write again to Film
+			$ticket_price = self::getTicketPrice($film->id, $cinema_id);
+			$result = (object) array_merge((array) $film, (array) $ticket_price);
+			array_push($xFilms, $result);
+		}
+
+		return $xFilms;
+	}
+
+	public static function getTicketPrice($film_id, $cinema_id)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "SELECT price_from, price_to FROM ticket_prices tp WHERE tp.film_id = :film_id AND tp.cinema_id = :cinema_id LIMIT 1";
+		$query = $database->prepare($sql);
+		$query->execute(array(':film_id' => $film_id, ':cinema_id' => $cinema_id));
+
+		return $query->fetchAll()[0];
+	}
 }
