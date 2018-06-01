@@ -132,7 +132,20 @@ class CinemaModel
 		foreach ($films as $film) {
 			// get one film, search ticket prices for him and write again to Film
 			$ticket_price = self::getTicketPrice($film->id, $cinema_id);
-			$result = (object) array_merge((array) $film, (array) $ticket_price);
+
+			//get dates when film show in cinema
+			$filmTime = self::getTimeToShowFilms($film->id, $cinema_id);
+
+			//get film sessions
+			$filmSessions = self::getFilmSessions($film->id, $cinema_id);
+
+			$result = (object) array_merge(
+				(array) $film,
+				(array) $ticket_price,
+				(array) $filmTime,
+				(array) $filmSessions
+			);
+
 			array_push($xFilms, $result);
 		}
 
@@ -148,5 +161,43 @@ class CinemaModel
 		$query->execute(array(':film_id' => $film_id, ':cinema_id' => $cinema_id));
 
 		return $query->fetchAll()[0];
+	}
+
+	/*
+		example, from 31.05.2018 to 06.06.2018
+		return (object) {begin_date: 31.05.2018, finish_date: 06.06.2018}
+	*/
+	public static function getTimeToShowFilms($film_id, $cinema_id)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "SELECT begin_date, finish_date FROM time_to_show_films t WHERE t.film_id = :film_id AND t.cinema_id = :cinema_id LIMIT 1";
+		$query = $database->prepare($sql);
+		$query->execute(array(':film_id' => $film_id, ':cinema_id' => $cinema_id));
+
+		return $query->fetchAll()[0];
+	}
+
+	/*
+		example 18:20, 20:30, 21:50
+	*/
+	public static function getFilmSessions($film_id, $cinema_id)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "SELECT film_session FROM film_session fs WHERE fs.film_id = :film_id AND fs.cinema_id = :cinema_id";
+		$query = $database->prepare($sql);
+		$query->execute(array(':film_id' => $film_id, ':cinema_id' => $cinema_id));
+
+		$sessions = (array) $query->fetchAll();
+
+		$xSession = array();
+		foreach ($sessions as $session) {
+			array_push($xSession, $session->film_session);
+		}
+
+		$obj = (object) array('film_sessions' => $xSession);
+
+		return $obj;
 	}
 }

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .navbar-default {
   background-color: #fff;
   border-color: #fff;
@@ -207,6 +208,9 @@ footer {
     .mb-lg {
       margin-bottom: 50px; } }
 
+.fresh-movie .green {
+  background-color: #dbf4da; }
+
 .fresh-movie__session-add_block {
   display: -webkit-box;
   display: -webkit-flex;
@@ -231,6 +235,19 @@ footer {
     background: white;
     border: 1px solid #ccc;
     border-radius: 3px;
-    margin-right: 15px; }
+    margin-right: 15px;
+    cursor: pointer; }
+    .fresh-movie .session-pool .s-item:hover {
+      color: #fff; }
+      .fresh-movie .session-pool .s-item:hover:before {
+        content: '❌';
+        display: block;
+        color: red;
+        position: absolute;
+        font-size: 21px;
+        line-height: 1;
+        padding-left: 10px; }
+    .fresh-movie .session-pool .s-item.new {
+      color: green; }
 
 /*# sourceMappingURL=screen.css.map */

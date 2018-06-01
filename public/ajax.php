@@ -2,4 +2,4 @@
 
 require '../vendor/autoload.php';
 
-new ajaxApplication();
+new AjaxApplication();

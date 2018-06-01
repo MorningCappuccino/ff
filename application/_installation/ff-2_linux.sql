@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 30, 2018 at 05:38 PM
+-- Generation Time: Jun 01, 2018 at 05:47 PM
 -- Server version: 5.7.22-0ubuntu18.04.1
 -- PHP Version: 7.2.5-0ubuntu0.18.04.1
 
@@ -136,7 +136,7 @@ CREATE TABLE `films` (
 
 INSERT INTO `films` (`id`, `film_name`, `img_link`, `descr`, `event_id`, `score`, `category_id`, `user_id`) VALUES
 (1, 'DeadPool', NULL, '', 0, '5.0', 2, 1),
-(2, 'Pulp Fiction', '46e01b3449cfa47074466eddca12de24ef6ca888', '<p>The lives of two mob hit men, a boxer, a gangster\'s wife, and a pair of diner bandits intertwine in four tales of violence and redemption.</p>\r\n<h4>Storyline</h4>\r\n<p>Jules Winnfield and Vincent Vega are two hitmen who are out to retrieve a suitcase stolen from their employer, mob boss Marsellus Wallace. Wallace has also asked Vincent to take his wife Mia out a few days later when Wallace himself will be out of town. Butch Coolidge is an aging boxer who is paid by Wallace to lose his next fight. The lives of these seemingly unrelated people are woven together comprising of a series of funny, bizarre and uncalled-for incidents.</p>', 4, '0.0', 2, 1),
+(2, 'Pulp Fiction', '46e01b3449cfa47074466eddca12de24ef6ca888', '<p>The lives of two mob hit men, a boxer, a gangster\'s wife, and a pair of diner bandits intertwine in four tales of violence and redemption.</p>\r\n<h4>Storyline</h4>\r\n<p>Jules Winnfield and Vincent Vega are two hitmen who are out to retrieve a suitcase stolen from their employer, mob boss Marsellus Wallace. Wallace has also asked Vincent to take his wife Mia out a few days later when Wallace himself will be out of town. Butch Coolidge is an aging boxer who is paid by Wallace to lose his next fight. The lives of these seemingly unrelated people are woven together comprising of a series of funny, bizarre and uncalled-for incidents.</p>', 4, '9.9', 2, 1),
 (4, '&lt;h1&gt;Cry&lt;/h1&gt;', NULL, NULL, 0, '6.0', 3, 1),
 (5, 'The Texas chainsaw messacre', 'c6ad2601e85c023e9ec6b84ccd05f8c47c5105f7', 'В штате Техас на ферме обычного работника скотобойни Томаса Хьюитта полиция обнаружила 33 изувеченных человеческих тела. Ужасающее открытие шокировало людей, и было названо самым жутким массовым убийством за все время. Газеты писали: «Дом террора национального масштаба. Бойня в Техасе». Пресса окрестила убийцу как «Человек с лицом из кожи». \r\n<br>\r\nМестные власти застрелили человека, носившего на лице кожаную маску. Дело было закрыто. Но в последующие годы, множество убийств показало, что полиция нашла не того преступника. Случайно уцелевший свидетель рассказал настоящую историю того, что на самом деле произошло на заброшенном техасском шоссе, когда пятеро подростков оказались в ловушке у безумного человека с бензопилой…', 3, '8.6', 3, 1),
 (6, 'Ace Ventura: pet detective', 'c136110771df6b760767a5c8c0e106c1deac1965', 'Эйс Вентура - частный детектив, занимающийся поиском пропавших и похищенных домашних животных. Он отличается странной причёской, гавайской рубашкой и гипертрофированным чувством юмора. В начальной сцене фильма показано, как он ловко спас похищенную собачку, обманув похитителя с помощью игрушечной копии.\r\n\r\nЗа две недели до начала финального матча по американскому футболу со стадиона имени Джо Робби (ныне стадион «Долфин») неизвестные похищают главный талисман команды Майами Долфинс, дельфина по кличке Снежок. Мистер Риддл, владелец команды, понимает, что если во время проведения соревнований талисман будет отсутствовать, настрой игроков резко ухудшится, и при таком раскладе они обязательно проиграют важнейший матч сезона. Он приказывает главному менеджеру Роджеру Подактеру (Трой Эванс) и главному пресс-секретарю Мелиссе Робинсон (Кортни Кокс) до начала Суперкубка вернуть дельфина, иначе они будут уволены. Секретарь команды рекомендует Мелиссе обратиться за помощью к Эйсу Вентуре. После знакомства с Мелиссой и Подактером Эйс спускается в резервуар, в котором когда-то плавал Снежок, и находит первую улику преступления: редкой выделки янтарный камень.\r\n\r\nЭйс узнаёт, что в городе проживает некто Рональд Кэмп, успешный бизнесмен и коллекционер рыб и морских животных. Подозревая его в похищении, Эйс вместе с Мелиссой отправляется на званый ужин в загородный особняк. Там он обследует большой резервуар, но обнаруживает в нём только несколько больших белых акул. Уходя с вечеринки, Эйс замечает на пальце Кэмпа кольцо с точно таким же янтарным камнем, какой он нашёл в фильтре бассейна Снежка. Выясняется, что подобные кольца с треугольно-обработанным куском янтаря в 1984 году от американской футбольной конференции получили все игроки команды. Эйс делает вывод, что похитителем является тот игрок, в кольце которого не окажется камня. Но после тотальной проверки всего состава оказывается, что янтарь имеется у всех.\r\n\r\nВскоре погибает выпав из окна своей квартиры администратор команды дельфинов Роджер Подактер, Эйс заключает, что это убийство было заказным. Он пытается связать смерть менеджера команды с пропажей Снежка и случайно узнаёт о ещё одном игроке Дельфинов, центральном нападающем по имени Рэй Финкл, который отсутствовал в списке и не был проверен на наличие янтаря. Мелисса объясняет отсутствие Финкла на групповой фотографии тем, что он перешёл в команду только в середине сезона. Но кольцо он получил так же, как и остальные игроки. Выясняется, что карьера Финкла была довольно неудачной, в финальном матче того года на последних секундах игры он не забил верный гол, и Дельфины проиграли Суперкубок. Проклинаемый многочисленными фанатами он попытался продолжить выступления в чемпионате, но команда не продлила с ним контракт.\r\n\r\nЭйс отправляется в родной город Финкла Тампа и знакомится с его престарелыми родителями. Он посещает детскую комнату, по обстановке которой становится ясно, что Финкл ужасно ненавидит другого игрока Дельфинов Дэна Марино, который в том злополучном матче (финал 1984 года против Сан-Франциско Форти Найнерс) для пробития решающего удара поставил мяч шнуровкой к игроку, а не к воротам, из-за чего Финкл смазал удар, и Дельфины проиграли. Эйс и Мелисса решают, что Марино находится в смертельной опасности, но его похищают до того, как они успевают что-либо сделать.\r\n\r\nЭйс возвращается в Майами и рассказывает всё лейтенанту полиции Луис Эйнхорн (Шон Янг), женщине, занимающейся расследованием этого дела. Он предполагает, что мотивом похищения дельфина явился тот факт, что Снежку присвоили 5-й командный номер, который когда-то принадлежал Финклу. Финкл воспринял это как оскорбление и решил выпустить всю накопившуюся злость на несчастном водоплавающем животном.\r\n\r\nВ поисках Рэя Финкла Эйс посещает больницу для душевнобольных под названием «Тенистые Земли», в которую тот был когда-то насильственно помещён, и из которой когда-то сбежал. Изображая душевнобольного футболиста, Эйс обследует кладовую больницы и находит коробку с личными вещами Финкла. Среди них детектив обнаруживает вырезанную из газеты статью, в которой сообщается о пропаже девушки по имени Луис Эйнхорн, тело которой так и не было найдено. Эйс просит помощи у Эмилио, своего приятеля из полицейского участка, тот обследует ящики стола Эйнхорн и находит адресованное ей любовное письмо от Роджера Подактера.\r\n\r\nВсе попытки найти хоть какую-нибудь связь между Финклом и Эйнхорн заканчиваются неудачно, пока маленькая собака Эйса не ложится на фотографию Финкла. Шерсть собаки располагается таким образом, что у Финкла появляются волосы, то есть выставляет его в роли женщины. Наблюдая за этим, Эйс наконец понимает, что лейтенант Луис Эйнхорн — это на самом деле и есть бывший футболист Рэй Финкл. Эйс судорожно чистит зубы, сжигает одежду и принимает долгий-долгий душ, потому что намедни целовался с Эйнхорн, не зная, что она является мужчиной.\r\n\r\nПреследуя подозреваемую, Эйс попадает в портовые склады, где находит и Снежка, и Дэна Марино. Эйнхорн ловит его и немедленно вызывает полицию. Когда полицейские приезжают и уже собираются арестовать Эйса (по приказу Эйнхорн), появляются Мелисса и Эмилио и спасают своего друга. Эйс объясняет всем собравшимся мотивы Финкла и то, что Эйнхорн на самом деле не является той, за кого себя выдаёт. В качестве доказательства он срывает с неё платье и указывает всем на огромный член, зажатый между ног. В отчаянии Эйнхорн предпринимает последнюю попытку убийства Эйса, но падает в резервуар к Снежку. Эйс снимает с неё кольцо, на котором как раз не хватает маленького янтарного камня.\r\n\r\nФильм заканчивается сценой драки между Эйсом и талисманом команды Филадельфия Иглз. Во время футбольного матча Эйс пытался поймать редкого белого голубя (того, что был в начале), за которого назначена награда в 25 тысяч долларов. Но человек в костюме попугая спугивает птицу, в результате чего оказывается втянутым в ожесточённое противостояние с детективом домашних животных.', 3, '8.0', 6, 1),
@@ -167,6 +167,26 @@ INSERT INTO `film_category` (`id`, `cat_name`) VALUES
 (6, 'Comedy'),
 (7, 'Science fiction'),
 (8, 'Fantasy');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `film_session`
+--
+
+CREATE TABLE `film_session` (
+  `id` int(6) NOT NULL,
+  `film_id` int(6) NOT NULL,
+  `cinema_id` int(6) NOT NULL,
+  `film_session` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `film_session`
+--
+
+INSERT INTO `film_session` (`id`, `film_id`, `cinema_id`, `film_session`) VALUES
+(3, 1, 1, '20:10:00');
 
 -- --------------------------------------------------------
 
@@ -235,7 +255,8 @@ INSERT INTO `link_user_film_score` (`id`, `film_id`, `user_id`, `score`) VALUES
 (3, 5, 1, 5),
 (4, 1, 3, 3),
 (5, 6, 1, 8),
-(6, 8, 1, 6);
+(6, 8, 1, 6),
+(7, 2, 1, 10);
 
 -- --------------------------------------------------------
 
@@ -326,6 +347,27 @@ INSERT INTO `ticket_prices` (`id`, `film_id`, `cinema_id`, `price_from`, `price_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `time_to_show_films`
+--
+
+CREATE TABLE `time_to_show_films` (
+  `id` int(6) NOT NULL,
+  `film_id` int(6) NOT NULL,
+  `cinema_id` int(6) NOT NULL,
+  `begin_date` date NOT NULL,
+  `finish_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `time_to_show_films`
+--
+
+INSERT INTO `time_to_show_films` (`id`, `film_id`, `cinema_id`, `begin_date`, `finish_date`) VALUES
+(1, 1, 1, '2018-05-01', '2018-05-12');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -356,7 +398,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `session_id`, `user_name`, `user_password_hash`, `user_email`, `user_active`, `user_deleted`, `user_account_type`, `user_has_avatar`, `user_remember_me_token`, `user_creation_timestamp`, `user_suspension_timestamp`, `user_last_login_timestamp`, `user_failed_logins`, `user_last_failed_login`, `user_activation_hash`, `user_password_reset_hash`, `user_password_reset_timestamp`, `user_provider_type`) VALUES
-(1, '1ji1m6fo3qau18gsfdjifu4jcp', 'demo', '$2y$10$OvprunjvKOOhM1h9bzMPs.vuwGIsOqZbw88rzSyGCTJTcE61g5WXi', 'demo@demo.com', 1, 0, 7, 0, '0a7a402f47b0732d0efb66d605bcf3a59792110c063b473161ef360d1dbd7188', 1422205178, NULL, 1527687882, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
+(1, '0f7if0aadd471qcjgm674766bg', 'demo', '$2y$10$OvprunjvKOOhM1h9bzMPs.vuwGIsOqZbw88rzSyGCTJTcE61g5WXi', 'demo@demo.com', 1, 0, 7, 0, NULL, 1422205178, NULL, 1527854472, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
 (2, NULL, 'demo2', '$2y$10$OvprunjvKOOhM1h9bzMPs.vuwGIsOqZbw88rzSyGCTJTcE61g5WXi', 'demo2@demo.com', 1, 0, 1, 0, NULL, 1422205178, NULL, 1422209189, 0, NULL, NULL, NULL, NULL, 'DEFAULT');
 
 -- --------------------------------------------------------
@@ -425,6 +467,12 @@ ALTER TABLE `film_category`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `film_session`
+--
+ALTER TABLE `film_session`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `link_cinema_film`
 --
 ALTER TABLE `link_cinema_film`
@@ -464,6 +512,12 @@ ALTER TABLE `people_award`
 -- Indexes for table `ticket_prices`
 --
 ALTER TABLE `ticket_prices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `time_to_show_films`
+--
+ALTER TABLE `time_to_show_films`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -509,6 +563,11 @@ ALTER TABLE `films`
 ALTER TABLE `film_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
+-- AUTO_INCREMENT for table `film_session`
+--
+ALTER TABLE `film_session`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `link_cinema_film`
 --
 ALTER TABLE `link_cinema_film`
@@ -522,7 +581,7 @@ ALTER TABLE `link_film_nomination`
 -- AUTO_INCREMENT for table `link_user_film_score`
 --
 ALTER TABLE `link_user_film_score`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `nominations`
 --
@@ -542,6 +601,11 @@ ALTER TABLE `people_award`
 -- AUTO_INCREMENT for table `ticket_prices`
 --
 ALTER TABLE `ticket_prices`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `time_to_show_films`
+--
+ALTER TABLE `time_to_show_films`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `users`

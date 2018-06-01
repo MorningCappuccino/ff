@@ -37,13 +37,13 @@
 				<?php var_dump($this->data['films']) ?>
 				<?php foreach ($this->data['films'] as $film): ?>
 					<!-- Закрепленный флильм -->
-					<div class="fresh-movie" id="movie-123">
-						<div class="well">
+					<div class="fresh-movie" id="movie-<?= $film->id ?>">
+						<div class="well green">
 							<!-- Выбор фильма-->
 							<div class="row mb-lg">
 								<div class="col-lg-12">
 									<a href="<?= Config::get('URL') . 'film/details/' . $film->id ?>">
-										<h2><?= $film->film_name ?></h2>
+										<h2 class="text-center"><?= $film->film_name ?></h2>
 									</a>
 								</div>
 							</div>
@@ -56,11 +56,11 @@
 										<div class="from-to-inputs">
 											<div class="wrap-input from-input">
 												<span>С</span>
-												<input required type="date" name="date_from" value="0" class="form-control">
+												<input required type="date" name="date_from" value="<?= $film->begin_date ?>" class="form-control">
 											</div>
 											<div class="wrap-input to-input">
 												<span>До</span>
-												<input required type="date" name="date_to" value="0" class="form-control">
+												<input required type="date" name="date_to" value="<?= $film->finish_date ?>" class="form-control">
 											</div>
 										</div>
 									</div>
@@ -87,11 +87,23 @@
 							<!-- Ceaнсы -->
 							<div class="row fresh-movie__session mb-lg">
 								<h3 class="text-center">Сеансы</h3>
-								<div class="col-lg-12">
+								<div class="col-lg-6 fresh-movie__session-add_block">
+									<button class="btn btn-default btn-add-session">Добавить</button>
+									<input type="text" class="form-control" value="">
+								</div>
+								<div class="col-lg-6">
 									<div class="session-pool">
-										<div class="s-item">19:35</div>
-										<div class="s-item">15:40</div>
+										<?php foreach ($film->film_sessions as $session) :?>
+											<div class="s-item"><?= substr($session, 0, 5) ?></div>
+										<?php endforeach; ?>
 									</div>
+								</div>
+							</div>
+
+							<!-- Редактировать фильм -->
+							<div class="row">
+								<div class="col-lg-offset-4 col-lg-4 text-center">
+									<button class="btn btn-warning btn-edit-film" film-id="<?= $film->id ?>">Редактировать</button>
 								</div>
 							</div>
 						</div>

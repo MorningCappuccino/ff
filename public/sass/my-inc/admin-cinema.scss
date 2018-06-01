@@ -1,4 +1,8 @@
 .fresh-movie {
+    .green {
+        background-color: $ff-green;
+    }
+
     &__session {
         &-add_block {
             display: flex;
@@ -20,6 +24,25 @@
             border: 1px solid #ccc;
             border-radius: 3px;
             margin-right: 15px;
+            cursor: pointer;
+
+            &:hover {
+                color: $white;
+
+                &:before {
+                    content: '❌';
+                    display: block;
+                    color: red;
+                    position: absolute;
+                    font-size: 21px;
+                    line-height: 1;
+                    padding-left: 10px;
+                }
+            }
+
+            &.new {
+                color: green;
+            }
         }
     }
 }

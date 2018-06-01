@@ -44,7 +44,8 @@ $('#film-rating').on('rating.change', function(event, value, caption) {
 		// console.log(film_id);
 		// console.log(caption);
 		$.ajax({
-			url: 'http://localhost/ff/ajax.php',
+			// url: window.location.host + '/ajax.php',
+			url: host + 'ajax.php',
 			method: 'post',
 			data: { controller_name: 'FilmAjax',
 			action_name: 'rateFilm',
@@ -52,10 +53,116 @@ $('#film-rating').on('rating.change', function(event, value, caption) {
 			user_score: value
 		},
 		success: function(data){
+			console.log(data);
 			$('.response').html(data);
 		}
 	});
+});
+
+/************************************
+************ Variable ***************
+*************************************/
+var
+// host = window.location.host,
+host = 'http://ff/';
+
+/********************************************************************
+************************** Add session ******************************
+********************************************************************/
+$('.fresh-movie .btn-add-session').on('click', function(ev) {
+	let input = $(this).next();
+	let newSes = input.val();
+	let isValid = true;
+
+	// wrong value
+	if (newSes == '' || !/^\d\d:\d\d$/.test(newSes)) {
+		inputWrongValue(input);
+		return false;
+	}
+
+	// is Session exist in Session Pool (on front)
+	let sesPool = $(this).parent().next().children();
+	sesPool.children().each(function(i, el) {
+		if ( $(el).text() == newSes ) {
+			inputWrongValue(input, 'Такой сеанс уже существует');
+			isValid = false;
+			return false;
+		}
 	});
 
+	// valid value
+	if (isValid) {
+		let div = $('<div/>', {
+			class: 's-item new',
+			text: newSes,
+			click: function(){$(this).remove()}
+		});
+
+		$(sesPool).append(div);
+	}
+});
+
+$('.fresh-movie .session-pool .s-item').on('click', function(ev) {
+	$(this).remove();
+});
+
+/********************************************************************
+************************** Edit film ******************************
+********************************************************************/
+$('.fresh-movie .btn-edit-film').on('click', function(ev) {
+	let filmID = $(this).attr('film-id');
+	let eFilm = $(this).closest('.fresh-movie');
+
+	let sessions = [];
+	eFilm.find('.session-pool').children().each(function(i, el) {
+		sessions.push( $(el).text() );
+	});
+
+	let data = {
+		controller_name: 'FilmAjax',
+		action_name: 'editFilmShowingInCinema',
+		film_id: filmID,
+		cinema_id: $(document).find('input[name=cinema_id]').val(),
+		begin_date: eFilm.find('input[name=date_from]').val(),
+		finish_date: eFilm.find('input[name=date_to]').val(),
+		cost_from: eFilm.find('input[name=cost_from]').val(),
+		cost_to: eFilm.find('input[name=cost_to]').val(),
+		film_sessions: sessions
+	}
+
+	console.log(data);
+
+	$.ajax({
+		url: host + 'ajax.php',
+		method: 'post',
+		data: data,
+		success: function(data) {
+			console.log('success');
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	});
+
+});
+
+/********************************************************************
+************************ Helper functions ***************************
+********************************************************************/
+
+function inputWrongValue(input, message) {
+
+	if (!message) {
+		message = 'Неверное значение';
+	}
+
+	$(input).css('background', '#fbaaaa');
+	$(input).val(message);
+
+	setTimeout(function() {
+		$(input).css('background', '');
+		$(input).val('');
+	}, 2000);
+}
 
 })();

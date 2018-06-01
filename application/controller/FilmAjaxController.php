@@ -13,7 +13,13 @@ class FilmAjaxController {
 
 	public function rateFilm($parameters)
 	{
-		FilmAjaxModel::rateFilm($parameters);
+		$res = FilmAjaxModel::rateFilm($parameters);
+		echo $res;
+	}
+
+	public function editFilmShowingInCinema($parameters)
+	{
+		echo FilmAjaxModel::editFilmShowingInCinema($parameters);
 	}
 
 }
