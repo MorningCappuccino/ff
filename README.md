@@ -14,3 +14,7 @@ or set apache settings to notCaseSensitive
 
 4. on linux: when composer autoloader can't find class ajaxApplication - see key sensitive.
 fix: rename file to AjaxApplication.php
+
+##TODO
+1. Add age rating and 2D-3D
+2. Only 1 film name in Cinema

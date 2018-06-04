@@ -274,11 +274,29 @@ footer {
     .from-to-inputs .wrap-input span {
       margin-right: 10px; }
 
+.btn-delete-wrap {
+  display: inline-block;
+  position: relative; }
+  .btn-delete-wrap .btn-choice {
+    display: none;
+    position: absolute;
+    top: -40px; }
+  .btn-delete-wrap .btn-del-film-yes {
+    left: -13px; }
+  .btn-delete-wrap .btn-del-film-no {
+    right: -11px; }
+
 .mb-lg {
   margin-bottom: 3vw; }
   @media (max-width: 1599px) {
     .mb-lg {
       margin-bottom: 50px; } }
+
+.mb-xs {
+  margin-bottom: 1vw; }
+  @media (max-width: 1599px) {
+    .mb-xs {
+      margin-bottom: 20px; } }
 
 .fresh-movie .green {
   background-color: #d6edf9; }

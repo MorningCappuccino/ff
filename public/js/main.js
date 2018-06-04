@@ -59,13 +59,6 @@ $('#film-rating').on('rating.change', function(event, value, caption) {
 	});
 });
 
-/************************************
-************ Variable ***************
-*************************************/
-var
-// host = window.location.host,
-host = 'http://ff/';
-
 /********************************************************************
 ************************** Add session ******************************
 ********************************************************************/
@@ -107,11 +100,154 @@ $('.fresh-movie .session-pool .s-item').on('click', function(ev) {
 });
 
 /********************************************************************
-************************** Edit film in Cinema ******************************
+*********************** Delete film in Cinema **************************
 ********************************************************************/
-$('.fresh-movie .btn-edit-film').on('click', function(ev) {
+
+$('.fresh-movie .btn-del-film').on('click', function(ev) {
+	let parent = $(this).parent();
+	let btnChoice = parent.find('.btn-choice');
+
+	if (btnChoice.css('display') == 'block') {
+		btnChoice.fadeOut();
+	} else {
+		btnChoice.fadeIn();
+	}
+
+});
+
+$('.fresh-movie .btn-del-film-no').on('click', function(ev) {
+	$(this).parent().find('.btn-choice').fadeOut();
+});
+
+$('.fresh-movie .btn-del-film-yes').on('click', function(ev) {
 	let filmID = $(this).attr('film-id');
 	let eFilm = $(this).closest('.fresh-movie');
+
+	let data = {
+		controller_name: 'FilmAjax',
+		action_name: 'deleteFilmShowingInCinema',
+		film_id: filmID,
+		cinema_id: $(document).find('input[name=cinema_id]').val()
+	}
+
+	console.log(data);
+
+	$.ajax({
+		url: host + 'ajax.php',
+		method: 'post',
+		data: data,
+		success: function(data) {
+			data = JSON.parse(data);
+			if (data.status === 'success') {
+				successBalloon();
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	});
+
+});
+
+
+
+/********************************************************************
+*********************** Add film in Cinema **************************
+********************************************************************/
+//prepare to add film (fetch filmsd)
+$('.add-edit-wrap .btn-prepare-to-add-film').on('click', function(ev) {
+
+	let data = {
+		controller_name: 'FilmAjax',
+		action_name: 'getAllFilms'
+	};
+
+	$.ajax({
+		url: host + 'ajax.php',
+		method: 'post',
+		data: data,
+		success: function(data) {
+			data = JSON.parse(data);
+			//create new container for film
+			if ( $('.fresh-movie.new').length == 0 ) {
+				$('.fresh-movie.template').clone(true).show().addClass('new').appendTo('.film-showing-in-cinema');
+			}
+
+			//inset films to select
+			let newFilm = $('.fresh-movie.new');
+			let select = newFilm.find('select[name=film_id]');
+			data.forEach(function(el) {
+				$('<option/>', { value: el.id, text: el.film_name }).appendTo(select);
+			});
+
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	});
+});
+
+})();
+
+/************************************
+************ Variable ***************
+*************************************/
+var
+// host = window.location.host,
+host = 'http://ff/';
+
+
+/********************************************************************
+********************* Add film in Cinema ***************************
+********************************************************************/
+
+function btnAddFilm(form) {
+	let eFilm = $(form).closest('.fresh-movie.new');
+	let filmID = eFilm.find('select[name=film_id]').val();
+
+	let sessions = [];
+	eFilm.find('.session-pool').children().each(function(i, el) {
+		sessions.push( $(el).text() );
+	});
+
+	let data = {
+		controller_name: 'FilmAjax',
+		action_name: 'addFilmShowingInCinema',
+		film_id: filmID,
+		cinema_id: $(document).find('input[name=cinema_id]').val(),
+		begin_date: eFilm.find('input[name=date_from]').val(),
+		finish_date: eFilm.find('input[name=date_to]').val(),
+		cost_from: eFilm.find('input[name=cost_from]').val(),
+		cost_to: eFilm.find('input[name=cost_to]').val(),
+		film_sessions: sessions
+	}
+
+	console.log(data);
+
+	$.ajax({
+		url: host + 'ajax.php',
+		method: 'post',
+		data: data,
+		success: function(data) {
+			data = JSON.parse(data);
+			if (data.status === 'success') {
+				successBalloon();
+			}
+			console.log(data);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	});
+
+}
+
+/********************************************************************
+********************* Edit film in Cinema ***************************
+********************************************************************/
+function btnEditFilm(form) {
+	let filmID = $(form).attr('film-id');
+	let eFilm = $(form).closest('.fresh-movie');
 
 	let sessions = [];
 	eFilm.find('.session-pool').children().each(function(i, el) {
@@ -148,71 +284,7 @@ $('.fresh-movie .btn-edit-film').on('click', function(ev) {
 		}
 	});
 
-});
-
-/********************************************************************
-*********************** Add film in Cinema **************************
-********************************************************************/
-//prepare to add film (fetch films)
-$('.fresh-movie .btn-prepare-to-add-film').on('click', function(ev) {
-	let data = {
-		controller_name: 'FilmAjax',
-		action_name: 'getAllFilms'
-	};
-
-	$.ajax({
-		url: host + 'ajax.php',
-		method: 'post',
-		data: data,
-		success: function(data) {
-			data = JSON.parse(data);
-			console.log(data);
-			//inset films to select
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			console.log('error');
-		}
-	});
-});
-
-$('.fresh-movie .btn-add-film').on('click', function(ev) {
-	let eFilm = $(this).closest('.fresh-movie');
-	// let filmID = from select
-
-	let sessions = [];
-	eFilm.find('.session-pool').children().each(function(i, el) {
-		sessions.push( $(el).text() );
-	});
-
-	let data = {
-		controller_name: 'FilmAjax',
-		action_name: 'addFilmShowingInCinema',
-		film_id: filmID,
-		cinema_id: $(document).find('input[name=cinema_id]').val(),
-		begin_date: eFilm.find('input[name=date_from]').val(),
-		finish_date: eFilm.find('input[name=date_to]').val(),
-		cost_from: eFilm.find('input[name=cost_from]').val(),
-		cost_to: eFilm.find('input[name=cost_to]').val(),
-		film_sessions: sessions
-	}
-
-	$.ajax({
-		url: host + 'ajax.php',
-		method: 'post',
-		data: data,
-		success: function(data) {
-			data = JSON.parse(data);
-			if (data.status === 'success') {
-				successBalloon();
-			}
-			console.log(data);
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			console.log('error');
-		}
-	});
-
-});
+}
 
 /********************************************************************
 ************************ Helper functions ***************************
@@ -239,5 +311,3 @@ function successBalloon() {
 
 	setTimeout(function() { alert.remove() }, 2000);
 }
-
-})();

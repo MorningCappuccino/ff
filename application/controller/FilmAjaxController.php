@@ -29,6 +29,12 @@ class FilmAjaxController {
 		echo $res;
 	}
 
+	public function deleteFilmShowingInCinema($parameters)
+	{
+		$res = FilmAjaxModel::deleteFilmShowingInCinema($parameters);
+		echo $res;
+	}
+
 	public function getAllFilms()
 	{
 		$res = FilmModel::getAllFilms();

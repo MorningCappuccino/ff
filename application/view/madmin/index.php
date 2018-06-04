@@ -1,5 +1,8 @@
 <div class="row">
-	<h2>Welcome to the festival's admin:)</h2>
+
+	<div class="col-md-12 mb-xs">
+		<h2>Панель управления</h2>
+	</div>
 
 	<?php $this->renderFeedbackMessages(); ?>
 

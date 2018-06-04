@@ -131,13 +131,13 @@ class CinemaModel
 		$xFilms = array();
 		foreach ($films as $film) {
 			// get one film, search ticket prices for him and write again to Film
-			$ticket_price = self::getTicketPrice($film->id, $cinema_id);
+			$ticket_price = self::getTicketPrice($film->film_id, $cinema_id);
 
 			//get dates when film show in cinema
-			$filmTime = self::getTimeToShowFilms($film->id, $cinema_id);
+			$filmTime = self::getTimeToShowFilms($film->film_id, $cinema_id);
 
 			//get film sessions
-			$filmSessions = self::getFilmSessions($film->id, $cinema_id);
+			$filmSessions = self::getFilmSessions($film->film_id, $cinema_id);
 
 			$result = (object) array_merge(
 				(array) $film,
