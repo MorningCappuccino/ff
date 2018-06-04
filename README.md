@@ -1,4 +1,16 @@
 # Film Festival
 
-# to server
-on linux: when composer autoloader can't find class - see key sensitive.
+## Deploy on remote server
+### Issues
+1. MariaDB to MySQL syntax
+fix: remove DEFINER from DB dump
+
+2. hostname/avatar/1.jpg not found
+fix: delete .htacces from /avatar/ dir
+
+3. hostname/madmin/ url get 404
+fix: rename application/controller/mAdminController.php to mAdminController.php
+or set apache settings to notCaseSensitive
+
+4. on linux: when composer autoloader can't find class ajaxApplication - see key sensitive.
+fix: rename file to AjaxApplication.php

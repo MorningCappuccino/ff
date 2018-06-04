@@ -19,7 +19,20 @@ class FilmAjaxController {
 
 	public function editFilmShowingInCinema($parameters)
 	{
-		echo FilmAjaxModel::editFilmShowingInCinema($parameters);
+		$res = FilmAjaxModel::editFilmShowingInCinema($parameters);
+		echo $res;
+	}
+
+	public function addFilmShowingInCinema($parameters)
+	{
+		$res = FilmAjaxModel::addFilmShowingInCinema($parameters);
+		echo $res;
+	}
+
+	public function getAllFilms()
+	{
+		$res = FilmModel::getAllFilms();
+		echo json_encode($res);
 	}
 
 }

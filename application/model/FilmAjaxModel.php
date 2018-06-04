@@ -41,20 +41,48 @@ class FilmAjaxModel
 					Add film sessions
 				*/
 				// first: delete all session for curr film_id and cinema_id
-				$sql = "DELETE * FROM film_session WHERE film_id = :film_id AND cinema_id = :cinema_id";
+				$sql = "DELETE FROM film_session WHERE film_id = :film_id AND cinema_id = :cinema_id";
 				$query = $database->prepare($sql);
 				$query->execute(array(':film_id' => $parameters->film_id, ':cinema_id' => $parameters->cinema_id));
 
 				// second: add new session for curr film_id and cinema_id
 				foreach ($parameters->film_sessions as $session) {
-					$sql = "INSERT INTO film_session (film_id, cinema_id, film_session) VALUES (:film_id, :cinema_id, :film_session)";
-					$query = $database->prepare($sql);
-					$query->execute(array(':film_id' => $parameters->film_id, ':cinema_id' => $parameters->cinema_id, ':film_session' => $session));
+					self::addFilmSession($database, $parameters->cinema_id, $parameters->film_id, $session);
 				}
 
+				/*
+					Update Time to show film
+				*/
+				// TODO: make Exception WrongDateException and separete func or Class(?)
+				$sql = "UPDATE time_to_show_films SET begin_date = :begin_date, finish_date = :finish_date
+				WHERE film_id = :film_id AND cinema_id = :cinema_id";
+				$query = $database->prepare($sql);
+				$query->execute(array(
+					':film_id' => $parameters->film_id,
+					':cinema_id' => $parameters->cinema_id,
+					':begin_date' => $parameters->begin_date,
+					':finish_date' => $parameters->finish_date
+				));
+
+				/*
+					Update ticket prices
+				*/
+				$sql = "UPDATE ticket_prices SET price_from = :price_from, price_to = :price_to
+				WHERE film_id = :film_id AND cinema_id = :cinema_id";
+				$query = $database->prepare($sql);
+				$query->execute(array(
+					':film_id' => $parameters->film_id,
+					':cinema_id' => $parameters->cinema_id,
+					':price_from' => substr($parameters->cost_from, 0, 4),
+					':price_to' => substr($parameters->cost_to, 0, 4)
+				));
+
+				$res = array('status' => 'success');
+				return json_encode($res);
+
 			// } catch (Exception $err) {
-				// header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-				// return $err;
+				// $obj = array('status' => 'error', 'error' => $err);
+				// return json_encode($obj);
 			// }
 
 			// if ($query->rowCount() == 1) {
@@ -64,5 +92,65 @@ class FilmAjaxModel
 		}
 
 
+	}
+
+	public static function editFilmShowingInCinema($parameters)
+	{
+		if ($parameters) {
+
+			$database = DatabaseFactory::getFactory()->getConnection();
+
+			// try {
+
+				/*
+					Add film sessions
+				*/
+				// second: add new session for curr film_id and cinema_id
+				foreach ($parameters->film_sessions as $session) {
+					self::addFilmSession($database, $parameters->cinema_id, $parameters->film_id, $session);
+				}
+
+				/*
+					Add Time to show film
+				*/
+				// TODO: make Exception WrongDateException and separete func or Class(?)
+				$sql = "INSERT INTO time_to_show_films (cinema_id, film_id, begin_date, finish_date) VALUES (:cinema_id, :film_id, :begin_date, :finish_date)";
+				$query = $database->prepare($sql);
+				$query->execute(array(
+					':film_id' => $parameters->film_id,
+					':cinema_id' => $parameters->cinema_id,
+					':begin_date' => $parameters->begin_date,
+					':finish_date' => $parameters->finish_date
+				));
+
+				/*
+					Update ticket prices
+				*/
+				$sql = "INSERT INTO ticket_prices VALUE (cinema_id, film_id, price_from, price_to) VALUES (:cinema_id, :film_id, :price_from, :price_to)";
+				$query = $database->prepare($sql);
+				$query->execute(array(
+					':film_id' => $parameters->film_id,
+					':cinema_id' => $parameters->cinema_id,
+					':price_from' => substr($parameters->cost_from, 0, 4),
+					':price_to' => substr($parameters->cost_to, 0, 4)
+				));
+
+				$res = array('status' => 'success');
+				return json_encode($res);
+
+		}
+
+
+	}
+
+	public static function addFilmSession($database, $cinema_id, $film_id, $session)
+	{
+		$sql = "INSERT INTO film_session (film_id, cinema_id, film_session) VALUES (:film_id, :cinema_id, :film_session)";
+		$query = $database->prepare($sql);
+		$query->execute(array(
+				':film_id' => $film_id,
+				':cinema_id' => $cinema_id,
+				':film_session' => $session)
+		);
 	}
 }
