@@ -101,6 +101,21 @@ class FilmAjaxModel
 			$database = DatabaseFactory::getFactory()->getConnection();
 
 			/*
+				Check for all parameters
+			*/
+			$isOnlyOneEmpty = false;
+			foreach($parameters as $key => $value) {
+			    if ( empty($value) ) {
+					$isOnlyOneEmpty = true;
+				}
+			}
+
+			if ($isOnlyOneEmpty) {
+				$res = array('status' => 'expected more arguments');
+				return json_encode($res);
+			}
+
+			/*
 				Add film sessions
 			*/
 			// second: add new session for curr film_id and cinema_id

@@ -346,4 +346,79 @@ footer {
     .fresh-movie .session-pool .s-item.new {
       color: green; }
 
+.cinemas .cinema {
+  margin-bottom: 25px;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed #ccc; }
+  .cinemas .cinema-name {
+    margin-bottom: 10px;
+    display: block;
+    font-size: 20px;
+    color: #dc4545; }
+  .cinemas .cinema-address {
+    margin-bottom: 10px; }
+
+.cinema-details {
+  padding: 0 40px; }
+  .cinema-details .to-cinemas {
+    color: #777;
+    font-size: 16px;
+    padding: 16px 0 14px;
+    text-decoration: none;
+    -webkit-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s; }
+    .cinema-details .to-cinemas:hover {
+      color: #333; }
+  .cinema-details .cinema-name {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px; }
+  .cinema-details .cinema-address {
+    font-size: 16px;
+    margin-bottom: 10px; }
+  .cinema-details .cinema-phone_number {
+    font-size: 16px; }
+
+.cinema-shedule .calendar-filter {
+  -webkit-box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.05);
+  margin-left: -55px;
+  margin-right: -55px;
+  padding-bottom: 20px; }
+
+.cinema-shedule .calendar {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 55px;
+  margin-right: 55px; }
+  .cinema-shedule .calendar-day {
+    color: #777; }
+
+.cinema-shedule .movie {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .cinema-shedule .movie .picture {
+    width: 60px;
+    height: 85px;
+    margin-right: 15px; }
+  .cinema-shedule .movie-info {
+    width: 40%; }
+    .cinema-shedule .movie-info_title {
+      color: black;
+      font-weight: bold;
+      font-size: 16px; }
+    .cinema-shedule .movie-info_summary span {
+      color: #777; }
+      .cinema-shedule .movie-info_summary span:after {
+        color: #777;
+        font-weight: normal;
+        content: ' \2022 '; }
+    .cinema-shedule .movie-info_rating {
+      color: #128b27;
+      font-weight: bold;
+      font-size: 16px; }
+
 /*# sourceMappingURL=screen.css.map */

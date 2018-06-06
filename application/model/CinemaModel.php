@@ -53,6 +53,13 @@ class CinemaModel
 
 	}
 
+	public static function getFilmsOfCinemaByDay($cinema_id, $date)
+	{
+		return [ 'cinema' => self::getCinema($cinema_id),
+				 'films' => self::getFilmsOfCinemaByOneDay($cinema_id, $date)
+				];
+	}
+
 	public static function createOrUpdateCinema($cinema_id, $cinema_name, $address, $phone_number)
 	{
 
@@ -143,6 +150,43 @@ class CinemaModel
 				(array) $film,
 				(array) $ticket_price,
 				(array) $filmTime,
+				(array) $filmSessions
+			);
+
+			array_push($xFilms, $result);
+		}
+
+		return $xFilms;
+	}
+
+	public static function getFilmsOfCinemaByOneDay($cinema_id, $date)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		var_dump($date);
+
+		$sql = "SELECT DISTINCT link.film_id, film_name, score, category_id, price_from, price_to, begin_date, finish_date FROM films
+				JOIN link_cinema_film link ON films.id = link.film_id
+				JOIN cinemas ON link.cinema_id = cinemas.id
+				JOIN ticket_prices tp ON tp.film_id = films.id
+				JOIN time_to_show_films ttsf ON ttsf.film_id = films.id
+				WHERE cinemas.id = 1
+				AND ttsf.begin_date < :curr_date
+				AND ttsf.finish_date > :curr_date
+				";
+		$query = $database->prepare($sql);
+		$query->execute(array(':cinema_id' => $cinema_id, ':curr_date' => $date));
+
+		// select all Films
+		$films = $query->fetchAll();
+
+		$xFilms = array();
+		foreach ($films as $film) {
+			//get film sessions
+			$filmSessions = self::getFilmSessions($film->film_id, $cinema_id);
+
+			$result = (object) array_merge(
+				(array) $film,
 				(array) $filmSessions
 			);
 

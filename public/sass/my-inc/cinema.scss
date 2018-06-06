@@ -1,0 +1,112 @@
+// all cinema
+.cinemas {
+    .cinema {
+        margin-bottom: 25px;
+        padding-bottom: 5px;
+        border-bottom: 1px dashed #ccc;
+
+        &-name {
+            margin-bottom: 10px;
+            display: block;
+            font-size: 20px;
+            color: #dc4545;
+        }
+
+        &-address {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+// cinema details
+.cinema-details {
+    padding: 0 40px;
+
+    .to-cinemas {
+        color: #777;
+        font-size: 16px;
+        padding: 16px 0 14px;
+        text-decoration: none;
+        transition: all .2s;
+
+        &:hover {
+            color: #333;
+        }
+    }
+
+    .cinema-name {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .cinema-address {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .cinema-phone_number {
+        font-size: 16px;
+    }
+}
+
+.cinema-shedule {
+
+    .calendar-filter {
+        box-shadow: inset 0 -1px 0 0 rgba(0,0,0,0.05);
+        margin-left: -55px;
+        margin-right: -55px;
+        padding-bottom: 20px;
+    }
+
+    .calendar {
+        font-size: 24px;
+        font-weight: bold;
+        margin-left: 55px;
+        margin-right: 55px;
+
+        &-day {
+            color: #777;
+        }
+    }
+
+    .movies {}
+
+    .movie {
+        display: flex;
+
+        .picture {
+            width: 60px;
+            height: 85px;
+            margin-right: 15px;
+        }
+
+        &-info {
+            width: 40%;
+            
+            &_title {
+                color: black;
+                font-weight: bold;
+                font-size: 16px;
+            }
+
+            &_summary {
+                span {
+                    color: #777;
+
+                    &:after {
+                        color: #777;
+                        font-weight: normal;
+                        content: ' \2022 ';
+                    }
+                }
+            }
+
+            &_rating {
+                color: #128b27;
+                font-weight: bold;
+                font-size: 16px;
+            }
+        }
+    }
+}

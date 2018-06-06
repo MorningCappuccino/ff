@@ -6,10 +6,10 @@
 			<li><a href="<?= Config::get('URL') . 'cinema/index' ?>">Кинотеатры</a></li>
 			<li class="active">Add-or-Edit</li>
 		</ol>
-		<!-- <?php var_dump($this->data) ?> -->
+		<!-- <?php var_dump($this->data['films']) ?> -->
 		<h3><?= $this->data['page']->title ?></h3>
 		<?php if ($this->data): ?>
-			<form enctype="multipart/form-data" method="post" action="<?= Config::get('URL') . 'cinema/save' ?>" class="form">
+			<form enctype="multipart/form-data" method="post" action="<?= Config::get('URL') . 'cinema/save' ?>" class="form mb-xs">
 				<div class="form-group">
 					<label hidden for="">id</label>
 					<input type="hidden" name="cinema_id" class="form-control" value="<?= $this->data['cinema']->cinema_id ?>">
@@ -34,7 +34,7 @@
 			</form>
 
 			<div class="film-showing-in-cinema">
-				<?php var_dump($this->data['films']) ?>
+				<!-- <?php var_dump($this->data['films']) ?> -->
 				<?php foreach ($this->data['films'] as $film): ?>
 					<!-- Закрепленный флильм -->
 					<div class="fresh-movie" id="movie-<?= $film->film_id ?>">
@@ -89,7 +89,7 @@
 	                            <div class="row fresh-movie__session mb-lg">
 	                                <h3 class="text-center">Сеансы</h3>
 	                                <div class="col-lg-6 fresh-movie__session-add_block">
-	                                    <button class="btn btn-default btn-add-session">Добавить</button>
+	                                    <a class="btn btn-default btn-add-session">Добавить</a>
 	                                    <input type="text" class="form-control" value="">
 	                                </div>
 	                                <div class="col-lg-6">
@@ -174,13 +174,11 @@
 							<div class="row fresh-movie__session mb-lg">
 								<h3 class="text-center">Сеансы</h3>
 								<div class="col-lg-6 fresh-movie__session-add_block">
-									<button class="btn btn-default btn-add-session">Добавить</button>
+									<a class="btn btn-default btn-add-session">Добавить</a>
 									<input type="text" class="form-control" value="">
 								</div>
 								<div class="col-lg-6">
 									<div class="session-pool">
-										<div class="s-item">19:35</div>
-										<div class="s-item">15:40</div>
 									</div>
 								</div>
 							</div>

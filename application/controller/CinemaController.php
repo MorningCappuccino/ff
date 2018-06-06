@@ -75,4 +75,20 @@ class CinemaController extends Controller
         ));
     }
 
+    public function allCinemas()
+    {
+        $this->View->render('cinema/index', array(
+            'cinemas' => CinemaModel::getAllCinemas()
+        ));
+    }
+
+    public function details($cinema_id)
+    {
+        $date = new DateTime(date("Y-m-d"));
+        $date = $date->format('Y-m-d');
+        $this->View->render('cinema/details', array(
+            'data' => CinemaModel::getFilmsOfCinemaByDay($cinema_id, $date)
+        ));
+    }
+
 }

@@ -130,7 +130,7 @@ $('.fresh-movie .btn-del-film-yes').on('click', function(ev) {
 		cinema_id: $(document).find('input[name=cinema_id]').val()
 	}
 
-	console.log(data);
+	// console.log(data);
 
 	$.ajax({
 		url: host + 'ajax.php',
@@ -140,6 +140,7 @@ $('.fresh-movie .btn-del-film-yes').on('click', function(ev) {
 			data = JSON.parse(data);
 			if (data.status === 'success') {
 				successBalloon();
+				eFilm.slideUp();
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -150,9 +151,30 @@ $('.fresh-movie .btn-del-film-yes').on('click', function(ev) {
 });
 
 
+/********************************************************************
+*********************** Init calendar filter  ***********************
+********************************************************************/
+$('.cinema-shedule .calendar-day').on('click', function() {
+
+	if ( $('.cinema-shedule .bootstrap-datepicker').length == 0 ) {
+		$('<div/>', { class: 'bootstrap-datepicker' }).appendTo('.calendar-filter');
+		$('.cinema-shedule .bootstrap-datepicker').datepicker();
+	}
+
+});
+
+})();
+
+/************************************
+************ Variable ***************
+*************************************/
+var
+// host = window.location.host,
+host = 'http://ff/';
+
 
 /********************************************************************
-*********************** Add film in Cinema **************************
+********************* Add film in Cinema ***************************
 ********************************************************************/
 //prepare to add film (fetch filmsd)
 $('.add-edit-wrap .btn-prepare-to-add-film').on('click', function(ev) {
@@ -187,20 +209,6 @@ $('.add-edit-wrap .btn-prepare-to-add-film').on('click', function(ev) {
 	});
 });
 
-})();
-
-/************************************
-************ Variable ***************
-*************************************/
-var
-// host = window.location.host,
-host = 'http://ff/';
-
-
-/********************************************************************
-********************* Add film in Cinema ***************************
-********************************************************************/
-
 function btnAddFilm(form) {
 	let eFilm = $(form).closest('.fresh-movie.new');
 	let filmID = eFilm.find('select[name=film_id]').val();
@@ -227,16 +235,18 @@ function btnAddFilm(form) {
 	$.ajax({
 		url: host + 'ajax.php',
 		method: 'post',
-		data: data,
+		data: JSON.stringify(data),
+		// contentType: 'application/json',
+		// dataType: 'json',
 		success: function(data) {
+			console.log(data);
 			data = JSON.parse(data);
 			if (data.status === 'success') {
 				successBalloon();
 			}
-			console.log(data);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			console.log('error');
+			console.log('error: ', jqXHR, textStatus, errorThrown);
 		}
 	});
 

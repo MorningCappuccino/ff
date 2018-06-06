@@ -15,10 +15,13 @@
 
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/fileinput.min.css" >
 
+    <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/bootstrap-datepicker.css" >
+
     <script src='<?php echo Config::get('URL') ?>js/jquery-2.0.0.js'></script>
     <script src='<?php echo Config::get('URL') ?>js/bootstrap.js'></script>
     <script src='<?php echo Config::get('URL') ?>js/star-rating.js'></script>
     <script src='<?php echo Config::get('URL') ?>js/fileinput.min.js'></script>
+    <script src='<?php echo Config::get('URL') ?>js/bootstrap-datepicker.js'></script>
 
 
 </head>
@@ -47,6 +50,10 @@
 
                             <li <?php if (View::checkForActiveController($filename, "allFilms")) { echo ' class="active" '; } ?> >
                                 <a href="<?php echo Config::get('URL'); ?>film/allfilms">Фильмы</a>
+                            </li>
+
+                            <li <?php if (View::checkForActiveController($filename, "cinema")) { echo ' class="active" '; } ?> >
+                                <a href="<?php echo Config::get('URL'); ?>cinema/allCinemas">Кинотеатры</a>
                             </li>
                             <?php if (Session::userIsLoggedIn()) { ?>
                                 <!-- <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
