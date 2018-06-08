@@ -57,6 +57,7 @@
         margin-left: -55px;
         margin-right: -55px;
         padding-bottom: 20px;
+        position: relative;
     }
 
     .calendar {
@@ -67,6 +68,19 @@
 
         &-day {
             color: #777;
+            position: relative;
+            padding-right: 15px;
+
+            &:after {
+                content: '';
+                display: inline-block;
+                position: absolute;
+                top: 50%;
+                right: 0;
+                width: 11px;
+                height: 6px;
+                background: url('../img/dropdown-arrow.svg') no-repeat;
+            }
         }
     }
 
@@ -83,7 +97,7 @@
 
         &-info {
             width: 40%;
-            
+
             &_title {
                 color: black;
                 font-weight: bold;

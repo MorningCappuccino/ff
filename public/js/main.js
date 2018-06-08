@@ -1,4 +1,4 @@
-(function(){
+// (function(){
 	"use strict";
 
 //Rating system
@@ -154,16 +154,78 @@ $('.fresh-movie .btn-del-film-yes').on('click', function(ev) {
 /********************************************************************
 *********************** Init calendar filter  ***********************
 ********************************************************************/
+let datepicker = $('.cinema-shedule .calendar-filter input');
+
+function initDatePicker() {
+	$('.cinema-shedule .calendar-filter input').datepicker({
+		container: '.calendar-filter',
+		startDate: new Date(),
+		// autoclose: true,
+		orientation: "bottom right",
+		format: {
+			/*
+			 * Say our UI should display a week ahead,
+			 * but textbox should store the actual date.
+			 * This is useful if we need UI to select local dates,
+			 * but store in UTC
+			 */
+			toDisplay: function (date, format, language) {
+				var d = new Date(date);
+				d.setDate(d.getDate() - 7);
+				return d.toISOString();
+			},
+			toValue: function (date, format, language) {
+				var d = new Date(date);
+				d.setDate(d.getDate() + 7);
+				return new Date(d);
+			}
+		}
+	})
+	.on('changeDate', function(ev){
+		console.log(this);
+	    $(this).datepicker('hide');
+		let selectedDate = $(this).datepicker('getDate');
+		let modDate = formatDate(selectedDate);
+		console.log(modDate);
+		getFilmsOfCinemaByDay(modDate);
+	});
+
+}
+
+initDatePicker();
+
 $('.cinema-shedule .calendar-day').on('click', function() {
-
-	if ( $('.cinema-shedule .bootstrap-datepicker').length == 0 ) {
-		$('<div/>', { class: 'bootstrap-datepicker' }).appendTo('.calendar-filter');
-		$('.cinema-shedule .bootstrap-datepicker').datepicker();
-	}
-
+	datepicker.datepicker('show');
 });
 
-})();
+/********************************************************************
+****************** get Films of Cinema by Day ***********************
+********************************************************************/
+function getFilmsOfCinemaByDay(date) {
+
+	var data = {
+		controller_name: 'FilmAjax',
+		action_name: 'getFilmsOfCinemaByDay',
+		cinema_id: $(document).find('input[name=cinema_id]').val(),
+		date: date
+	}
+
+	console.log(data);
+
+	$.ajax({
+		url: host + 'ajax.php',
+		method: 'post',
+		data: data,
+		success: function(data) {
+			console.log(data);
+			// data = JSON.parse(data);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error: ', jqXHR, textStatus, errorThrown);
+		}
+	});
+}
+// })();
 
 /************************************
 ************ Variable ***************
@@ -320,4 +382,13 @@ function successBalloon() {
 	$('body').append(alert);
 
 	setTimeout(function() { alert.remove() }, 2000);
+}
+
+//return date in string format 2018-05-18
+function formatDate(date) {
+	let year = date.getFullYear();
+	let month = ("0" + (date.getMonth() + 1)).slice(-2);
+	let day = ("0" + date.getDate()).slice(-2);
+
+	return year + '-' + month + '-' + day;
 }

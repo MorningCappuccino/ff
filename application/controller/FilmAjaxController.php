@@ -41,4 +41,15 @@ class FilmAjaxController {
 		echo json_encode($res);
 	}
 
+	public function getFilmsOfCinemaByDay($parameters)
+    {
+        //selectedDay
+        $date = $parameters->date;
+		$cinema_id = $parameters->cinema_id;
+
+        $res = CinemaModel::getFilmsOfCinemaByDay($cinema_id, $date);
+		return json_encode($res);
+    }
+
+
 }

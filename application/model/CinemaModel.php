@@ -163,7 +163,7 @@ class CinemaModel
 	{
 		$database = DatabaseFactory::getFactory()->getConnection();
 
-		var_dump($date);
+		// var_dump($date);
 
 		$sql = "SELECT DISTINCT link.film_id, film_name, score, category_id, price_from, price_to, begin_date, finish_date FROM films
 				JOIN link_cinema_film link ON films.id = link.film_id

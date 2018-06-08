@@ -10,6 +10,7 @@
     <div class="cinema">
         <div class="row cinema-info mb-lg">
             <div class="col-md-6">
+                <input type="hidden" name="cinema_id" value="<?= $this->data['cinema']->id ?>">
                 <h2 class="cinema-name"><?= $this->data['cinema']->cinema_name ?></h2>
                 <div class="cinema-address">
                     <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
@@ -29,6 +30,7 @@
                     <span class="calendar-prefix">Расписание на</span>
                     <span class="calendar-day">сегодня, 5 июня</span>
                 </div>
+                <input type="text" class="form-control">
             </div>
             <div class="movies">
                 <div class="movie" id="1">
