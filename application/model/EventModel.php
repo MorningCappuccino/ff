@@ -114,7 +114,8 @@ class EventModel
 			//People Award
 			//Right now I selecte Film-winner on update Festival action
 			//may be it will be better something else, for example, cron-proccess or some button
-			if ($event_status == 3){
+			if ($event_status == 3) {
+				// event status 3 - finished
 				$film_id = FilmModel::getFilmWonPeopleAward($event_id);
 
 				$sql00 = "SELECT event_id FROM people_award WHERE event_id = :event_id";
@@ -122,12 +123,15 @@ class EventModel
 				$query->execute(array(':event_id' => $event_id));
 
 				if ($query->rowCount() != 1) {
+					// fest was NOT be finished, never
+					$sql0 = "INSERT INTO people_award (event_id, film_id) VALUES (:event_id, :film_id)";
+					$query = $database->prepare($sql0);
+					$query->execute(array(':event_id' => $event_id, ':film_id' => $film_id));
 
-				$sql0 = "INSERT INTO people_award (event_id, film_id) VALUES (:event_id, :film_id)";
-				$query = $database->prepare($sql0);
-				$query->execute(array(':event_id' => $event_id, ':film_id' => $film_id));
-
-			}
+				} else {
+					// fest was be reopen and finished, again
+					// recalcute winner (but this func is need???)
+				}
 
 			}
 			//end People Award
@@ -203,28 +207,34 @@ class EventModel
 
     public static function getAllFilmsByEventId($event_id)
     {
-    
+
         $database = DatabaseFactory::getFactory()->getConnection();
-    
+
         $sql = "SELECT * FROM films WHERE event_id = :event_id";
         $query = $database->prepare($sql);
         $query->execute(array(':event_id' => $event_id));
-    
+
         return $query->fetchAll();
-    
+
     }
 
     public static function getFilmInEventWonPeopleAward($event_id)
     {
-    
+
         $database = DatabaseFactory::getFactory()->getConnection();
-    
+
         $sql = "SELECT film_id FROM people_award WHERE event_id = :event_id";
         $query = $database->prepare($sql);
         $query->execute(array(':event_id' => $event_id));
-    
+
+				// TODO: if query fetch rowCount == 0 then hide won
+	    if ($query->rowCount() == 0) {
+		// film has no wins
+	    	return false;
+	    }
+
         return FilmModel::getFilm($query->fetch()->film_id);
-    
+
     }
 
 /*=======================================================

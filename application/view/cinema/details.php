@@ -33,23 +33,92 @@
                 <input type="text" class="form-control">
             </div>
             <div class="movies">
-                <div class="movie" id="1">
-                    <div class="picture" style="background-image: url(//avatars.mds.yandex.net/get-kino-vod-films-gallery/33804/2a00000162b1bba045cb4c5fe8243f1d76f3/60x)"></div>
+                <?php foreach ($this->data['films'] as $film) :?>
+                <div class="movie" id="<?= $film->film_id ?>">
+                    <a href="<?= Config::get('URL') . 'film/details/' . $film->film_id ?>">
+                        <div class="picture" style="background-image: url(https://st.kp.yandex.net/images/film_iphone/iphone360_893681.jpg)">
+                        </div>
+                    </a>
                     <div class="movie-info">
-                        <a href="#" class="movie-info_title">Дэдпул 2</a>
+                        <a href="<?= Config::get('URL') . 'film/details/' . $film->film_id ?>" class="movie-info_title"><?= $film->film_name ?></a>
                         <div class="movie-info_summary">
                             <span class="genres">Фантастика, боевик</span>
                             <span class="duration">1 час 59 минут</span>
                             <span class="age-limit">18+</span>
                         </div>
-                        <div class="movie-info_rating">7.7</div>
+                        <div class="movie-info_rating"><?= $film->score ?></div>
                     </div>
                     <div class="movie-formats">
                         <div class="format">2D</div>
-                        <div class="session">21:20</div>
+                        <div class="sessions">
+                            <?php foreach ($film->film_sessions as $key => $session) :?>
+                                <div class="session" session-id="<?= $key ?>"><?= substr($session, 0, 5) ?></div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
+                    <div class="buy-ticket">
+                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#hall-modal">Купить билет</a>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+
+        <!-- TEMPLATE: movie -->
+        <div class="movie -template" id="" style="display: none">
+            <a href="<?= Config::get('URL') . 'film/details/' ?>">
+                <div class="picture" style="background-image: url(https://st.kp.yandex.net/images/film_iphone/iphone360_893681.jpg)">
+                </div>
+            </a>
+            <div class="movie-info">
+                <a href="<?= Config::get('URL') . 'film/details/' ?>" class="movie-info_title"></a>
+                <div class="movie-info_summary">
+                    <span class="genres">Фантастика, боевик</span>
+                    <span class="duration">1 час 59 минут</span>
+                    <span class="age-limit">18+</span>
+                </div>
+                <div class="movie-info_rating"></div>
+            </div>
+            <div class="movie-formats">
+                <div class="format">2D</div>
+                <div class="sessions">
                 </div>
             </div>
         </div>
+
+        <!-- TEMPLATE: hall -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="hall-modal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Заказ билета</h4>
+              </div>
+              <div class="modal-body">
+                <!-- hall grid -->
+                <div class="hall-grid" id="cinema-film-modal">
+                    <div class="hall-grid__seats">
+                        <div class="hall-grid__row">
+                            <div class="hall-grid__column">1</div>
+                            <div class="hall-grid__column">2</div>
+                            <div class="hall-grid__column">3</div>
+                        </div>
+                        <div class="hall-grid__row">
+                            <div class="hall-grid__column">4</div>
+                            <div class="hall-grid__column">5</div>
+                            <div class="hall-grid__column">6</div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
     </div>
 </div>

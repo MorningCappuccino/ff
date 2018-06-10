@@ -18,3 +18,4 @@ fix: rename file to AjaxApplication.php
 ##TODO
 1. Add age rating and 2D-3D
 2. Only 1 film name in Cinema
+3. Add teaser img to Film

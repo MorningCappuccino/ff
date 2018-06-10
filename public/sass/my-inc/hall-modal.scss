@@ -1,0 +1,21 @@
+
+.hall-grid {
+    display: flex;
+    justify-content: center;
+
+    &__seats {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #ccc;
+    }
+
+    &__row {
+        display: flex;
+    }
+
+    &__column {
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+}

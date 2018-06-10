@@ -58,6 +58,15 @@
         margin-right: -55px;
         padding-bottom: 20px;
         position: relative;
+
+        input {
+            visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 245px;
+            z-index: 0;
+            width: 200px;
+        }
     }
 
     .calendar {
@@ -70,6 +79,7 @@
             color: #777;
             position: relative;
             padding-right: 15px;
+            z-index: 10;
 
             &:after {
                 content: '';
@@ -80,6 +90,13 @@
                 width: 11px;
                 height: 6px;
                 background: url('../img/dropdown-arrow.svg') no-repeat;
+                transition: transform .2s ease;
+            }
+
+            &.-opened {
+                &:after {
+                    transform: rotate(180deg);
+                }
             }
         }
     }
@@ -88,15 +105,22 @@
 
     .movie {
         display: flex;
+        padding: 20px 0;
+        box-shadow: inset 0 -1px 0 0 rgba(0,0,0,0.05);
+        position: relative;
 
         .picture {
             width: 60px;
             height: 85px;
             margin-right: 15px;
+            background-size: cover;
         }
 
         &-info {
             width: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
 
             &_title {
                 color: black;
@@ -113,6 +137,12 @@
                         font-weight: normal;
                         content: ' \2022 ';
                     }
+
+                    &:last-child {
+                        &:after {
+                            display: none;
+                        }
+                    }
                 }
             }
 
@@ -121,6 +151,47 @@
                 font-weight: bold;
                 font-size: 16px;
             }
+        }
+
+        &-formats {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            .format {
+                font-size: 12px;
+                color: #777;
+                font-weight: bold;
+                padding-left: 8px;
+            }
+
+            .sessions {
+                display: flex;
+
+                .session {
+                    padding: 4px 8px;
+                    margin-right: 5px;
+                    border-radius: 3px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: #e6e6e6;
+                        border-color: #adadad;
+                    }
+
+                    &.-selected {
+                        background: $b-warn;
+                        border: 1px solid $b-warn-border;
+                    }
+                }
+            }
+        }
+
+        .buy-ticket {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
         }
     }
 }

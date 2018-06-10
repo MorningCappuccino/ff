@@ -229,7 +229,7 @@ class CinemaModel
 	{
 		$database = DatabaseFactory::getFactory()->getConnection();
 
-		$sql = "SELECT film_session FROM film_session fs WHERE fs.film_id = :film_id AND fs.cinema_id = :cinema_id";
+		$sql = "SELECT id, film_session FROM film_session fs WHERE fs.film_id = :film_id AND fs.cinema_id = :cinema_id";
 		$query = $database->prepare($sql);
 		$query->execute(array(':film_id' => $film_id, ':cinema_id' => $cinema_id));
 
@@ -237,7 +237,7 @@ class CinemaModel
 
 		$xSession = array();
 		foreach ($sessions as $session) {
-			array_push($xSession, $session->film_session);
+			$xSession[$session->id] = $session->film_session;
 		}
 
 		$obj = (object) array('film_sessions' => $xSession);

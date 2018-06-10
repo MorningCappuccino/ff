@@ -387,6 +387,13 @@ footer {
   margin-right: -55px;
   padding-bottom: 20px;
   position: relative; }
+  .cinema-shedule .calendar-filter input {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 245px;
+    z-index: 0;
+    width: 200px; }
 
 .cinema-shedule .calendar {
   font-size: 24px;
@@ -396,7 +403,8 @@ footer {
   .cinema-shedule .calendar-day {
     color: #777;
     position: relative;
-    padding-right: 15px; }
+    padding-right: 15px;
+    z-index: 10; }
     .cinema-shedule .calendar-day:after {
       content: '';
       display: inline-block;
@@ -405,19 +413,45 @@ footer {
       right: 0;
       width: 11px;
       height: 6px;
-      background: url("../img/dropdown-arrow.svg") no-repeat; }
+      background: url("../img/dropdown-arrow.svg") no-repeat;
+      -webkit-transition: -webkit-transform .2s ease;
+      transition: -webkit-transform .2s ease;
+      -o-transition: transform .2s ease;
+      transition: transform .2s ease;
+      transition: transform .2s ease, -webkit-transform .2s ease; }
+    .cinema-shedule .calendar-day.-opened:after {
+      -webkit-transform: rotate(180deg);
+          -ms-transform: rotate(180deg);
+              transform: rotate(180deg); }
 
 .cinema-shedule .movie {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+  padding: 20px 0;
+  -webkit-box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.05);
+  position: relative; }
   .cinema-shedule .movie .picture {
     width: 60px;
     height: 85px;
-    margin-right: 15px; }
+    margin-right: 15px;
+    background-size: cover; }
   .cinema-shedule .movie-info {
-    width: 40%; }
+    width: 40%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-justify-content: space-around;
+        -ms-flex-pack: distribute;
+            justify-content: space-around; }
     .cinema-shedule .movie-info_title {
       color: black;
       font-weight: bold;
@@ -428,9 +462,85 @@ footer {
         color: #777;
         font-weight: normal;
         content: ' \2022 '; }
+      .cinema-shedule .movie-info_summary span:last-child:after {
+        display: none; }
     .cinema-shedule .movie-info_rating {
       color: #128b27;
       font-weight: bold;
       font-size: 16px; }
+  .cinema-shedule .movie-formats {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-justify-content: space-around;
+        -ms-flex-pack: distribute;
+            justify-content: space-around; }
+    .cinema-shedule .movie-formats .format {
+      font-size: 12px;
+      color: #777;
+      font-weight: bold;
+      padding-left: 8px; }
+    .cinema-shedule .movie-formats .sessions {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex; }
+      .cinema-shedule .movie-formats .sessions .session {
+        padding: 4px 8px;
+        margin-right: 5px;
+        border-radius: 3px;
+        cursor: pointer; }
+        .cinema-shedule .movie-formats .sessions .session:hover {
+          background-color: #e6e6e6;
+          border-color: #adadad; }
+        .cinema-shedule .movie-formats .sessions .session.-selected {
+          background: #f0ad4e;
+          border: 1px solid #eea236; }
+  .cinema-shedule .movie .buy-ticket {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+            transform: translateY(-50%); }
+
+.hall-grid {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+  .hall-grid__seats {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border: 1px solid #ccc; }
+  .hall-grid__row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+  .hall-grid__column {
+    padding: 20px;
+    border: 1px solid #ccc; }
 
 /*# sourceMappingURL=screen.css.map */

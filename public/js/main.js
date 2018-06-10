@@ -157,6 +157,9 @@ $('.fresh-movie .btn-del-film-yes').on('click', function(ev) {
 let datepicker = $('.cinema-shedule .calendar-filter input');
 
 function initDatePicker() {
+	//fill label
+	$('.cinema-shedule .calendar-day').text( formatForCalendarDay(new Date()) );
+
 	$('.cinema-shedule .calendar-filter input').datepicker({
 		container: '.calendar-filter',
 		startDate: new Date(),
@@ -170,9 +173,12 @@ function initDatePicker() {
 			 * but store in UTC
 			 */
 			toDisplay: function (date, format, language) {
-				var d = new Date(date);
-				d.setDate(d.getDate() - 7);
-				return d.toISOString();
+
+				var res = formatForCalendarDay(date);
+				//to label
+				$('.cinema-shedule .calendar-day').text(res);
+
+				return res;
 			},
 			toValue: function (date, format, language) {
 				var d = new Date(date);
@@ -182,12 +188,14 @@ function initDatePicker() {
 		}
 	})
 	.on('changeDate', function(ev){
-		console.log(this);
 	    $(this).datepicker('hide');
 		let selectedDate = $(this).datepicker('getDate');
 		let modDate = formatDate(selectedDate);
-		console.log(modDate);
-		getFilmsOfCinemaByDay(modDate);
+
+		//trigger click on label
+		$('.cinema-shedule .calendar-day').click();
+		//send date to server
+		showFilmsOfCinemaByDay(modDate);
 	});
 
 }
@@ -195,13 +203,20 @@ function initDatePicker() {
 initDatePicker();
 
 $('.cinema-shedule .calendar-day').on('click', function() {
-	datepicker.datepicker('show');
+	if ( $(this).hasClass('-opened') ) {
+		datepicker.datepicker('hide');
+		$(this).removeClass('-opened');
+	} else {
+		datepicker.datepicker('show');
+		$(this).addClass('-opened');
+	}
+
 });
 
 /********************************************************************
 ****************** get Films of Cinema by Day ***********************
 ********************************************************************/
-function getFilmsOfCinemaByDay(date) {
+function showFilmsOfCinemaByDay(date) {
 
 	var data = {
 		controller_name: 'FilmAjax',
@@ -217,13 +232,33 @@ function getFilmsOfCinemaByDay(date) {
 		method: 'post',
 		data: data,
 		success: function(data) {
-			console.log(data);
-			// data = JSON.parse(data);
+			data = JSON.parse(data);
+			$('.cinema-shedule .movies').empty();
+			data.films.forEach(function(el) {
+				$('.cinema-shedule .movies').append( showFilm(el) );
+			});
+
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log('error: ', jqXHR, textStatus, errorThrown);
 		}
 	});
+}
+
+function showFilm(film) {
+	var template = $('.movie.-template').clone(true).removeClass('-template').css('display', '');
+	var a = template.find('a').attr('href');
+	template.find('a').attr('href', a + film.film_id);
+	template.find('.movie-info_title').text(film.film_name);
+	template.find('.movie-info_rating').text(film.score);
+
+	var sessions = template.find('.sessions');
+	film.film_sessions.forEach(function(session) {
+		session = session.slice(0, 5);
+		sessions.append( $('<div/>', { class: 'session', text: session }) );
+	});
+
+	return template[0];
 }
 // })();
 
@@ -232,8 +267,33 @@ function getFilmsOfCinemaByDay(date) {
 *************************************/
 var
 // host = window.location.host,
-host = 'http://ff/';
+host = 'http://ff/',
+movie = $('.movie');
 
+
+var App = {
+	init: function() {
+		for (var prop in this) {
+			if (prop != 'init') {
+				this[prop]();
+			}
+		}
+	},
+
+	// init session label
+	initSessionLabel: function() {
+		var sessions = movie.find('.session');
+		sessions.on('click', function() {
+			sessions.each(function(i, el) {
+				$(el).removeClass('-selected');
+			});
+
+			$(this).addClass('-selected');
+		});
+	}
+}
+
+App.init();
 
 /********************************************************************
 ********************* Add film in Cinema ***************************
@@ -391,4 +451,18 @@ function formatDate(date) {
 	let day = ("0" + date.getDate()).slice(-2);
 
 	return year + '-' + month + '-' + day;
+}
+
+function formatForCalendarDay(date) {
+	var d = new Date(date);
+	var options = {
+		  month: 'long',
+		  day: 'numeric',
+		  weekday: 'long',
+		  timezone: 'UTC'
+	}
+	var dayNum = d.getDate();
+	var res = d.toLocaleString('ru', options);
+
+	return res;
 }
