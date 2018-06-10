@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jun 01, 2018 at 05:47 PM
--- Server version: 5.7.22-0ubuntu18.04.1
--- PHP Version: 7.2.5-0ubuntu0.18.04.1
+-- Host: localhost
+-- Generation Time: Jun 10, 2018 at 09:11 PM
+-- Server version: 5.7.20-log
+-- PHP Version: 7.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -186,7 +188,30 @@ CREATE TABLE `film_session` (
 --
 
 INSERT INTO `film_session` (`id`, `film_id`, `cinema_id`, `film_session`) VALUES
-(3, 1, 1, '20:10:00');
+(72, 1, 1, '20:10:00'),
+(73, 1, 1, '18:30:00'),
+(74, 2, 1, '21:00:00'),
+(75, 7, 1, '22:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `halls`
+--
+
+CREATE TABLE `halls` (
+  `id` int(11) NOT NULL,
+  `cinema_id` int(11) NOT NULL,
+  `film_id` int(11) NOT NULL,
+  `session_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `halls`
+--
+
+INSERT INTO `halls` (`id`, `cinema_id`, `film_id`, `session_id`) VALUES
+(1, 1, 1, 73);
 
 -- --------------------------------------------------------
 
@@ -205,7 +230,9 @@ CREATE TABLE `link_cinema_film` (
 --
 
 INSERT INTO `link_cinema_film` (`id`, `cinema_id`, `film_id`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -326,6 +353,29 @@ INSERT INTO `people_award` (`id`, `event_id`, `film_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `seats`
+--
+
+CREATE TABLE `seats` (
+  `id` int(11) NOT NULL,
+  `hall_id` int(11) NOT NULL,
+  `seat_num` int(11) NOT NULL,
+  `user` int(11) DEFAULT NULL,
+  `order_number` varchar(6) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `seats`
+--
+
+INSERT INTO `seats` (`id`, `hall_id`, `seat_num`, `user`, `order_number`) VALUES
+(1, 1, 1, 1, '510f72'),
+(2, 1, 2, 1, '5117b1'),
+(3, 1, 3, 1, '32ed91');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ticket_prices`
 --
 
@@ -342,7 +392,9 @@ CREATE TABLE `ticket_prices` (
 --
 
 INSERT INTO `ticket_prices` (`id`, `film_id`, `cinema_id`, `price_from`, `price_to`) VALUES
-(1, 1, 1, 6, 6.3);
+(1, 1, 1, 5, 6.88),
+(2, 2, 1, 3, 4),
+(3, 7, 1, 4, 5);
 
 -- --------------------------------------------------------
 
@@ -363,7 +415,9 @@ CREATE TABLE `time_to_show_films` (
 --
 
 INSERT INTO `time_to_show_films` (`id`, `film_id`, `cinema_id`, `begin_date`, `finish_date`) VALUES
-(1, 1, 1, '2018-05-01', '2018-05-12');
+(1, 1, 1, '2018-06-03', '2018-06-17'),
+(2, 2, 1, '2018-06-03', '2018-06-08'),
+(3, 7, 1, '2018-06-17', '2018-06-24');
 
 -- --------------------------------------------------------
 
@@ -398,7 +452,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `session_id`, `user_name`, `user_password_hash`, `user_email`, `user_active`, `user_deleted`, `user_account_type`, `user_has_avatar`, `user_remember_me_token`, `user_creation_timestamp`, `user_suspension_timestamp`, `user_last_login_timestamp`, `user_failed_logins`, `user_last_failed_login`, `user_activation_hash`, `user_password_reset_hash`, `user_password_reset_timestamp`, `user_provider_type`) VALUES
-(1, '0f7if0aadd471qcjgm674766bg', 'demo', '$2y$10$OvprunjvKOOhM1h9bzMPs.vuwGIsOqZbw88rzSyGCTJTcE61g5WXi', 'demo@demo.com', 1, 0, 7, 0, NULL, 1422205178, NULL, 1527854472, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
+(1, 'ikn8c75d249hp9ho9n1mgv2t43', 'demo', '$2y$10$OvprunjvKOOhM1h9bzMPs.vuwGIsOqZbw88rzSyGCTJTcE61g5WXi', 'demo@demo.com', 1, 0, 7, 0, '54aced03c921580c9ea3acdd281abf85b3c30622b09512fa117a52c04e7f344b', 1422205178, NULL, 1528621710, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
 (2, NULL, 'demo2', '$2y$10$OvprunjvKOOhM1h9bzMPs.vuwGIsOqZbw88rzSyGCTJTcE61g5WXi', 'demo2@demo.com', 1, 0, 1, 0, NULL, 1422205178, NULL, 1422209189, 0, NULL, NULL, NULL, NULL, 'DEFAULT');
 
 -- --------------------------------------------------------
@@ -473,6 +527,12 @@ ALTER TABLE `film_session`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `halls`
+--
+ALTER TABLE `halls`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `link_cinema_film`
 --
 ALTER TABLE `link_cinema_film`
@@ -509,6 +569,12 @@ ALTER TABLE `people_award`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `seats`
+--
+ALTER TABLE `seats`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `ticket_prices`
 --
 ALTER TABLE `ticket_prices`
@@ -537,81 +603,110 @@ ALTER TABLE `users`
 --
 ALTER TABLE `cinemas`
   MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `event_status`
 --
 ALTER TABLE `event_status`
   MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `fest_type`
 --
 ALTER TABLE `fest_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `films`
 --
 ALTER TABLE `films`
   MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- AUTO_INCREMENT for table `film_category`
 --
 ALTER TABLE `film_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 --
 -- AUTO_INCREMENT for table `film_session`
 --
 ALTER TABLE `film_session`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
+-- AUTO_INCREMENT for table `halls`
+--
+ALTER TABLE `halls`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `link_cinema_film`
 --
 ALTER TABLE `link_cinema_film`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `link_film_nomination`
 --
 ALTER TABLE `link_film_nomination`
   MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `link_user_film_score`
 --
 ALTER TABLE `link_user_film_score`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `nominations`
 --
 ALTER TABLE `nominations`
   MODIFY `nomination_id` int(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `notes`
 --
 ALTER TABLE `notes`
   MODIFY `note_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `people_award`
 --
 ALTER TABLE `people_award`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `seats`
+--
+ALTER TABLE `seats`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `ticket_prices`
 --
 ALTER TABLE `ticket_prices`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `time_to_show_films`
 --
 ALTER TABLE `time_to_show_films`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index', AUTO_INCREMENT=3;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

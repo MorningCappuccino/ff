@@ -45,6 +45,7 @@
                             <span class="genres">Фантастика, боевик</span>
                             <span class="duration">1 час 59 минут</span>
                             <span class="age-limit">18+</span>
+                            <input type="hidden" name="price_to" value="<?= $film->price_to ?>">
                         </div>
                         <div class="movie-info_rating"><?= $film->score ?></div>
                     </div>
@@ -57,7 +58,7 @@
                         </div>
                     </div>
                     <div class="buy-ticket">
-                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#hall-modal">Купить билет</a>
+                        <a href="#" class="btn btn-danger" data-toggle="modal">Купить билет</a>
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -99,18 +100,14 @@
                 <!-- hall grid -->
                 <div class="hall-grid" id="cinema-film-modal">
                     <div class="hall-grid__seats">
-                        <div class="hall-grid__row">
-                            <div class="hall-grid__column">1</div>
-                            <div class="hall-grid__column">2</div>
-                            <div class="hall-grid__column">3</div>
-                        </div>
-                        <div class="hall-grid__row">
-                            <div class="hall-grid__column">4</div>
-                            <div class="hall-grid__column">5</div>
-                            <div class="hall-grid__column">6</div>
-                        </div>
                     </div>
                 </div>
+
+                <div class="pay-section">
+                    <div class="cost">Стоимость: <span></span> руб.</div>
+                    <a href="#" class="btn btn-primary btn-pay">Оплатить</a>
+                </div>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>

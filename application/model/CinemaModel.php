@@ -196,6 +196,59 @@ class CinemaModel
 		return $xFilms;
 	}
 
+	public static function getSeatsOfHall($parameters)
+	{
+		if ( !self::isAllParametersHaveValue($parameters) ) {
+			return array('status' => 'expected more arguments');
+		}
+
+		$p = $parameters;
+
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "SELECT halls.id as hall_id, seats.id as seat_id, seat_num, user FROM halls
+				JOIN seats ON halls.id = seats.hall_id
+				WHERE cinema_id = :cinema_id AND film_id = :film_id AND session_id = :session_id";
+		$query = $database->prepare($sql);
+		$query->execute(array(':cinema_id' => $p->cinema_id, ':film_id' => $p->film_id, ':session_id' => $p->session_id));
+
+		$seats = $query->fetchAll();
+		return $seats;
+	}
+
+	public static function paySuccessfull($parameters)
+	{
+
+		if ( !self::isAllParametersHaveValue($parameters) ) {
+			return array('status' => 'expected more arguments');
+		}
+
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$countSuccessRow = 0;
+
+		foreach ($parameters->seat_ids as $seat_id) {
+			$sql = "UPDATE seats SET user = :user_id, order_number = :order_number WHERE id = :seat_id";
+			$query = $database->prepare($sql);
+			$query->execute(array(':user_id' => Session::get('user_id'), ':seat_id' => $seat_id, ':order_number' => self::randHash(6)));
+
+			if ($query->rowCount() == 1) {
+				$countSuccessRow++;
+			}
+		}
+
+		if ( $countSuccessRow == count($parameters->seat_ids) ) {
+			return array('status' => 'success');
+		}
+
+		return array('status' => 'error');
+
+	}
+
+	/*********************
+	***** Helper Func ****
+	*********************/
+
 	public static function getTicketPrice($film_id, $cinema_id)
 	{
 		$database = DatabaseFactory::getFactory()->getConnection();
@@ -243,5 +296,27 @@ class CinemaModel
 		$obj = (object) array('film_sessions' => $xSession);
 
 		return $obj;
+	}
+
+	public static function isAllParametersHaveValue($params)
+	{
+		$isOnlyOneEmpty = false;
+		foreach($params as $key => $value) {
+			if ( empty($value) ) {
+				$isOnlyOneEmpty = true;
+			}
+		}
+
+		if ($isOnlyOneEmpty) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public static function randHash($len=32)
+	{
+		// return substr(md5(openssl_random_pseudo_bytes(20)),-$len);
+		return substr(uniqid(), -6);
 	}
 }

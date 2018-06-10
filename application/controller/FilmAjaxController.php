@@ -51,5 +51,17 @@ class FilmAjaxController {
 		echo json_encode($res);
     }
 
+	public function getSeatsOfHall($parameters)
+	{
+		$res = CinemaModel::getSeatsOfHall($parameters);
+		echo json_encode($res);
+	}
+
+	public function paySuccessfull($parameters)
+	{
+		$res = CinemaModel::paySuccessfull($parameters);
+		echo json_encode($res);
+	}
+
 
 }

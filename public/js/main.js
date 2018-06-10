@@ -260,6 +260,50 @@ function showFilm(film) {
 
 	return template[0];
 }
+
+function showHall(data) {
+	hallModal.modal('show');
+	hallGrid.attr('hall-id', data[0].hall_id);
+
+	//clear prev seats
+	seats.empty();
+
+	console.log(data);
+
+	$(data).each(function(i, el) {
+		let seat = $('<div/>', { class: 'hall-grid__item', text: el.seat_num, 'seat-id': el.seat_id })
+
+		if (el.user != null) {
+			seat.addClass('-bought');
+		}
+
+		seats.append(seat);
+	});
+}
+
+function initSeats() {
+	seats.find('.hall-grid__item').on('click', function() {
+
+		if ( $(this).is('.-selected, .-bought') ) {
+			$(this).removeClass('-selected');
+		} else {
+			$(this).addClass('-selected');
+		}
+
+		var selectedCount = 0;
+		selected_seat_ids = [];
+		seats.find('.hall-grid__item').each(function(i, el) {
+			if ( $(el).hasClass('-selected') ) {
+				selected_seat_ids.push( $(el).attr('seat-id') );
+				selectedCount++;
+			}
+		});
+
+		$('.pay-section .cost span').text(curr_price_to * selectedCount);
+		$('.pay-section .cost').css('opacity', 1);
+
+	});
+}
 // })();
 
 /************************************
@@ -268,7 +312,14 @@ function showFilm(film) {
 var
 // host = window.location.host,
 host = 'http://ff/',
-movie = $('.movie');
+movie = $('.movie'),
+cinema_id = $('input[name="cinema_id"]').val(),
+curr_session_id = null,
+curr_price_to = null,
+selected_seat_ids = [],
+hallModal = $('#hall-modal'),
+seats = hallModal.find('.hall-grid__seats'),
+hallGrid = hallModal.find('.hall-grid');
 
 
 var App = {
@@ -289,8 +340,89 @@ var App = {
 			});
 
 			$(this).addClass('-selected');
+			curr_session_id = $(this).attr('session-id');
+		});
+	},
+
+	// init buy ticket btn
+	initBuyTicketBtn: function() {
+		movie.find('.buy-ticket a').on('click', function() {
+			var buyBtn = $(this);
+
+			if (curr_session_id == null) {
+				// TODO: add alert "select session"
+				console.log('message not session');
+				return false;
+			}
+
+			let send_data = {
+				controller_name: 'FilmAjax',
+				action_name: 'getSeatsOfHall',
+				cinema_id: cinema_id,
+				film_id: movie.attr('id'),
+				session_id: curr_session_id
+			}
+
+			console.log(send_data);
+
+			$.ajax({
+				url: host + 'ajax.php',
+				method: 'post',
+				data: send_data,
+				success: function(data) {
+					data = JSON.parse(data);
+					showHall(data);
+					initSeats();
+
+					// set current price_to
+					curr_price_to = buyBtn.parent().parent().find('input[name="price_to"]').val();
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log('error');
+				}
+			});
+
+		});
+	},
+
+	// pay button
+	initPayBtn: function() {
+		$('.btn-pay').on('click', function() {
+
+			// check on selected seats
+			if ( $('.hall-grid__item.-selected').lenght == 0 ) {
+				// TODO: alert
+				console.log('no seat selected');
+				return false;
+			}
+
+			let send_data = {
+				controller_name: 'FilmAjax',
+				action_name: 'paySuccessfull',
+				seat_ids: selected_seat_ids
+			}
+
+			console.log(send_data);
+
+			$.ajax({
+				url: host + 'ajax.php',
+				method: 'post',
+				data: send_data,
+				success: function(data) {
+					data = JSON.parse(data);
+					console.log(data);
+					if (data.status === 'success') {
+						successBalloon();
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log('error');
+				}
+			});
+
 		});
 	}
+
 }
 
 App.init();
