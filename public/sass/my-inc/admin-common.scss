@@ -1,0 +1,49 @@
+.from-to-inputs {
+    display: flex;
+    justify-content: space-around;
+
+    .wrap-input {
+        display: flex;
+        align-items: center;
+
+        span {
+            margin-right: 10px;
+        }
+    }
+}
+
+.btn-delete-wrap {
+    display: inline-block;
+    position: relative;
+
+    .btn-choice {
+        display: none;
+        position: absolute;
+        top: -40px;
+    }
+
+    .btn-del-film-yes {
+        left: -13px;
+    }
+
+    .btn-del-film-no {
+        right: -11px;
+    }
+}
+
+// margins
+.mb-lg {
+    margin-bottom: 3vw;
+
+    @media ($xl) {
+        margin-bottom: 50px;
+    }
+}
+
+.mb-xs {
+    margin-bottom: 1vw;
+
+    @media ($xl) {
+        margin-bottom: 20px;
+    }
+}

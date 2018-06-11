@@ -80,7 +80,7 @@ class LoginController extends Controller
 
         // if login successful, redirect to dashboard/index ...
         if ($login_successful) {
-            Redirect::to('dashboard/index');
+            Redirect::to('index/index');
         } else {
             // if not, delete cookie (outdated? attack?) and route user to login form to prevent infinite login loops
             LoginModel::deleteCookie();

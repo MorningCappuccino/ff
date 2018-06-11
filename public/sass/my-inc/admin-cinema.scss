@@ -1,0 +1,52 @@
+.fresh-movie {
+    .green {
+        background-color: $ff-light-blue;
+    }
+
+    &__session {
+        &-add_block {
+            display: flex;
+            justify-content: space-around;
+
+            input {
+                width: 50%;
+            }
+        }
+    }
+
+    .session-pool {
+        display: flex;
+        flex-wrap: wrap;
+
+        .s-item {
+            padding: 4px 8px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+            margin-bottom: 10px;
+
+            &:hover {
+                color: $white;
+
+                &:before {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 12px;
+                    height: 12px;
+                    background: url('../img/close.svg');
+                }
+            }
+
+            &.new {
+                color: green;
+            }
+        }
+    }
+}

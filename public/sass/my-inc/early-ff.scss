@@ -1,0 +1,227 @@
+// var a litle bit
+$white: #fff;
+
+//restyle default
+.navbar-default {
+	background-color: $white;
+	border-color: $white;
+	border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+// _base
+body {
+	background: #f6f5f3;
+}
+
+h1 {
+	font-size: $font-size-h1;
+}
+
+h2 {
+	font-size: $font-size-h3;
+	margin-top: 10px;
+}
+
+h3 {
+	font-size: $font-size-h4;
+}
+
+h4 {
+	font-size: 14px;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+footer {
+	border-top: 1px solid rgba(0,0,0,.06);
+	padding: $padding-large-vertical;
+	margin-top: 10px;
+}
+
+// screen
+.container {
+	background-color: $white;
+	table {
+		font-size: 1em;
+	}
+}
+
+/*
+* @section view all festivals
+*/
+.festival-info {
+	img {
+		border-radius: $border-radius-base;
+		margin-bottom: 10px;
+	}
+	.left-info {
+		transform: translate(0, 50%);
+
+		.status {
+			display: inline-block;
+			padding: 5px;
+		}
+	}
+}
+
+.festival-detail, .film-detail {
+	img {
+		width: 100%;
+	}
+}
+
+/*------------------------------------------
+---------------Sign in----------------------
+-------------------------------------------*/
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+/*------------------------------------------
+---------------Register box----------------------
+-------------------------------------------*/
+.register-box {
+	max-width: 500px;
+	margin: 0 auto;
+	img, input {
+		margin-bottom: 10px;
+	}
+}
+
+/**********************************
+          Festival Detail Page
+**********************************/
+.festival-detail {
+	.status {
+		font-size: $font-size-large;
+		padding: 10px 20px;
+	}
+	.some-btns {
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+}
+
+
+//-----------Festival Action Img-------------
+.fest-action-img {
+	position: relative;
+	color: $white;
+	.paranja {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: #000;
+		opacity: .5;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+	}
+	img, .paranja {
+		border-radius: $border-radius-large;
+	}
+	// .img-wrapper {
+	// 	position: absolute;
+	// 	top: 0;
+	// 	left: 0;
+	// 	z-index: 3;
+	// 	color: #fff;
+	// 	display: table;
+	h1, .time-line {
+		z-index:3;
+	}
+		h1 {
+			text-align: center;
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translate(-50%,0);
+		}
+		.time-line {
+			text-align: right;
+			margin-right: 20px;
+			position: absolute;
+			bottom: 2%;
+			right: 2%;
+		}
+	// }
+}
+/**********************************
+          Film Detail Page
+**********************************/
+.film-detail {
+	.member {
+		font-size: $font-size-small;
+		padding: 10px 20px;
+	}
+	.avg-score {
+		float: left;
+		font-size: 1.4em;
+		padding: 6px;
+	}
+	#count-score {
+		font-size: 0.9em;
+		color: #fff;
+	}
+	.bad-section {
+		margin-top: 15px;
+	}
+	.person-info {
+		margin-bottom: 20px;
+		.person-photo {
+			float: left;
+			margin-right: 14px;
+		}
+		.person-other {
+			font-size: .9em;
+		}
+	}
+}
+
+//-----------Film Action Img-------------
+.film-action-img {
+	position: relative;
+	color: $white;
+	.paranja {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: #000;
+		opacity: .5;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+	}
+	img, .paranja {
+		border-radius: $border-radius-large;
+	}
+	h1, .member, span, #trailer-btn {
+		position: absolute;
+		z-index:3;
+	}
+	span {
+		top: 0;
+		left: 50%;
+		transform: translate(-50%,0);
+	}
+	h1 {
+		top: 0;
+		left: 50%;
+		transform: translate(-50%,0);
+	}
+	#trailer-btn {
+		top: 75%;
+		left: 50%;
+		transform: translate(-50%,0);
+		background-color: rgba(255,255,255,.4);
+		border-color: transparent;
+	}
+	.member {
+		text-align: right;
+		margin-right: 20px;
+		bottom: 2%;
+		right: 2%;
+	}
+}
