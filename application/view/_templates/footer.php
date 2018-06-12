@@ -1,5 +1,5 @@
 
-       <footer class="footer">&copy; <?= date("Y") ?> Alex Min, Inc.</footer>
+       <footer class="footer">&copy; <?= date("Y") ?> Александр Минченков</footer>
     </div>
 
 <script src='<?php echo Config::get('URL') ?>js/star-rating_locale_ru.js'></script>

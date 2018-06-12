@@ -26,19 +26,19 @@
 
 </head>
 <body>
-    <div class="container">
+    <div class="container wrapper">
 
-        <div class="row">
+        <div class="row fp-header">
             <div class="col-lg-12">
-                <nav class="navbar navbar-default">
-                  <div class="container-fluid">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <!-- <nav class="navbar navbar-default fp-nav"> -->
+                  <!-- <div class="container-fluid"> -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="myNavbar">
-                        <ul class="nav navbar-nav">
+                        <ul class="nav navbar-nav fp-nav">
                             <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
                                 <a href="<?php echo Config::get('URL'); ?>index/index">Index</a>
                             </li>
@@ -68,18 +68,17 @@
                                 <?php } else { ?>
                                 <!-- for not logged in users -->
                                 <li <?php if (View::checkForActiveControllerAndAction($filename, "login/index")) { echo ' class="active" '; } ?> >
-                                    <a href="<?php echo Config::get('URL'); ?>login/index">Login</a>
+                                    <a href="<?php echo Config::get('URL'); ?>login/index">Войти</a>
                                 </li>
                                 <li <?php if (View::checkForActiveControllerAndAction($filename, "register/index")) { echo ' class="active" '; } ?> >
-                                    <a href="<?php echo Config::get('URL'); ?>register/index">Register</a>
+                                    <a href="<?php echo Config::get('URL'); ?>register/index">Регистрация</a>
                                 </li>
                                 <?php } ?>
-                            </ul>
 
-                            <!-- my account -->
-                            <ul class="nav navbar-nav navbar-right">
+
+                                <!-- Account -->
                                 <?php if (Session::userIsLoggedIn()) : ?>
-                                    <li <?php if (view::checkforactivecontroller($filename, "user")) { echo ' class="active" '; } ?> >
+                                    <li account <?php if (view::checkforactivecontroller($filename, "user")) { echo ' class="active" '; } ?> >
                                         <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account <span class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             <li>
@@ -105,22 +104,27 @@
                                             </li>
                                         </ul>
                                     </li>
+                                    <!-- Admin -->
                                     <?php if (Session::get("user_account_type") == 7) : ?>
-                                        <li <?php if (View::checkForActiveController($filename, "admin")) {
-                                            echo ' class="active" ';
-                                        } ?> >
-                                        <a href="<?php echo Config::get('URL'); ?>admin/">Admin</a>
-                                    </li>
-                                    <li <?php if (View::checkForActiveController($filename, "madmin")) {
-                                        echo ' class="active" ';
-                                    } ?> >
-                                    <a href="<?php echo Config::get('URL'); ?>madmin/">mAdmin</a>
-                                </li>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                    </ul>
+                                            <li <?php if (View::checkForActiveController($filename, "madmin")) {
+                                                echo ' class="active" ';
+                                            } ?> >
+                                            <a href="<?php echo Config::get('URL'); ?>madmin/">Admin</a>
+                                        </li>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+
+                            </ul>
+
+
                 </div><!-- /.navbar-collapse -->
-            </div> <!-- /.container-fluid -->
-        </nav>
+
+                <!-- my account -->
+                <ul class="nav nav-pills navbar-right">
+
+            </ul>
+
+            <!-- </div> -->
+        <!-- </nav> -->
     </div>
 </div>

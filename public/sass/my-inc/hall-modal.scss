@@ -1,6 +1,9 @@
 
-.hall-grid {
+.hall {
     padding: 30px 0;
+}
+
+.hall-grid {
     display: flex;
     justify-content: center;
 
@@ -9,7 +12,7 @@
         align-items: center;
         flex-wrap: wrap;
         border: 1px solid #ccc;
-        max-width: 302px;
+        max-width: 242px;
     }
 
     &__item {
@@ -48,5 +51,28 @@
     .cost {
         opacity: 0;
         margin-bottom: 10px;
+    }
+}
+
+.screen {
+    margin-bottom: 18px;
+    width: 100%;
+    height: 45px;
+    border-top: 2px solid gray;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 0;
+    display: block;
+    border-radius: 100% 100%;
+    font-size: 17px;
+
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.info-section {
+    span {
+        font-weight: bold;
     }
 }

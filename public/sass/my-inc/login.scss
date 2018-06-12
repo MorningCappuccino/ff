@@ -1,0 +1,21 @@
+.login {
+    display: flex;
+}
+
+.login-box {
+    background: #f4f3f1;
+    margin-left: 15px;
+    padding: 3vw 5vw;
+}
+
+.register-box {
+    background-color: #deecd3;
+    margin: 0;
+    max-width: none;
+    padding: 3vw 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+    margin-right: 15px;
+}

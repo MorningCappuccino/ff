@@ -16,6 +16,7 @@
 
 	<div class="col-md-6">
 		<ul class="list-group">
+			<a class="list-group-item" href="<?php echo Config::get('URL') ?>admin/index">Пользователи</a>
 			<a class="list-group-item" href="<?php echo Config::get('URL') ?>event/index">Фестивали</a>
 			<a class="list-group-item" href="<?php echo Config::get('URL') ?>nomination/index">Номинации</a>
 		</ul>

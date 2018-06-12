@@ -181,6 +181,10 @@ footer {
 /******************************************************************************
   MEDIA queries
 ******************************************************************************/
+.wrapper {
+  margin-top: 40px;
+  border: 1px solid #ccc; }
+
 .alert-baloon {
   position: fixed;
   top: 5vw;
@@ -253,6 +257,68 @@ footer {
           animation-duration: 0.75s;
   -webkit-animation-name: bounceIn;
           animation-name: bounceIn; }
+
+.fp-header .fp-nav {
+  width: 100%; }
+  .fp-header .fp-nav > li[account] {
+    float: right; }
+  .fp-header .fp-nav > li:last-child {
+    float: right; }
+  .fp-header .fp-nav > li a {
+    position: relative; }
+    .fp-header .fp-nav > li a:after {
+      display: block;
+      content: '';
+      width: 1px;
+      height: 20px;
+      background: #ccc;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+              transform: translateY(-50%); }
+
+.fp-header .navbar-toggle {
+  background: #337ab7; }
+  .fp-header .navbar-toggle .icon-bar {
+    background: #fff; }
+
+.fp-header #myNavbar {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px; }
+
+.login {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+
+.login-box {
+  background: #f4f3f1;
+  margin-left: 15px;
+  padding: 3vw 5vw; }
+
+.register-box {
+  background-color: #deecd3;
+  margin: 0;
+  max-width: none;
+  padding: 3vw 5vw;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  text-align: center;
+  margin-right: 15px; }
 
 .from-to-inputs {
   display: -webkit-box;
@@ -462,7 +528,7 @@ footer {
         color: #777;
         font-weight: normal;
         content: ' \2022 '; }
-      .cinema-shedule .movie-info_summary span:last-child:after {
+      .cinema-shedule .movie-info_summary span.age-limit:after {
         display: none; }
     .cinema-shedule .movie-info_rating {
       color: #128b27;
@@ -510,8 +576,10 @@ footer {
         -ms-transform: translateY(-50%);
             transform: translateY(-50%); }
 
+.hall {
+  padding: 30px 0; }
+
 .hall-grid {
-  padding: 30px 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -533,7 +601,7 @@ footer {
         -ms-flex-wrap: wrap;
             flex-wrap: wrap;
     border: 1px solid #ccc;
-    max-width: 302px; }
+    max-width: 242px; }
   .hall-grid__item {
     width: 30px;
     height: 30px;
@@ -580,5 +648,23 @@ footer {
   .pay-section .cost {
     opacity: 0;
     margin-bottom: 10px; }
+
+.screen {
+  margin-bottom: 18px;
+  width: 100%;
+  height: 45px;
+  border-top: 2px solid gray;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 0;
+  display: block;
+  border-radius: 100% 100%;
+  font-size: 17px;
+  width: 50%;
+  margin: 0 auto;
+  text-align: center; }
+
+.info-section span {
+  font-weight: bold; }
 
 /*# sourceMappingURL=screen.css.map */
