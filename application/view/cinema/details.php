@@ -97,9 +97,24 @@
                 <h4 class="modal-title" id="gridSystemModalLabel">Заказ билета</h4>
               </div>
               <div class="modal-body">
-                <!-- hall grid -->
-                <div class="hall-grid" id="cinema-film-modal">
-                    <div class="hall-grid__seats">
+
+                <div class="info-section">
+                    <div class="left">
+                        <div class="cinema">Кинотеатр: <span>Мир</span></div>
+                        <div class="movie">Фильм: <span>Дэдпул</span></div>
+                    </div>
+                    <div class="right">
+                        <div class="date">Дата: <span>воскресенье, 12 июня</span></div>
+                        <div class="time">Время: <span>23:00</span></div>
+                    </div>
+                </div>
+
+                <div class="hall">
+                    <div class="screen">Экран</div>
+                    <!-- hall grid -->
+                    <div class="hall-grid" id="cinema-film-modal">
+                        <div class="hall-grid__seats">
+                        </div>
                     </div>
                 </div>
 

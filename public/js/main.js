@@ -290,6 +290,14 @@ function showHall(data) {
 	hallModal.modal('show');
 	hallGrid.attr('hall-id', data[0].hall_id);
 
+	// fill info section
+	var info = $('.info-section');
+	var cinema = $('.cinema');
+	info.find('.cinema span').text( cinema.find('.cinema-name').text() );
+	info.find('.movie span').text( curr_movie.find('.movie-info_title').text() );
+	info.find('.date span').text( $('.calendar-day').text() );
+	info.find('.time span').text( curr_session_text );
+
 	//clear prev seats
 	seats.empty();
 
@@ -340,7 +348,9 @@ host = 'http://ff/',
 movie = $('.movie'),
 cinema_id = $('input[name="cinema_id"]').val(),
 curr_session_id = null,
+curr_session_text = '',
 curr_price_to = null,
+curr_movie = '',
 selected_seat_ids = [],
 hallModal = $('#hall-modal'),
 seats = hallModal.find('.hall-grid__seats'),
@@ -366,6 +376,7 @@ var App = {
 
 			$(this).addClass('-selected');
 			curr_session_id = $(this).attr('session-id');
+			curr_session_text = $(this).text();
 		});
 	},
 
@@ -373,6 +384,7 @@ var App = {
 	initBuyTicketBtn: function() {
 		movie.find('.buy-ticket a').on('click', function() {
 			var buyBtn = $(this);
+			curr_movie = $(this).closest('.movie');
 
 			if (curr_session_id == null) {
 				// TODO: add alert "select session"
@@ -388,7 +400,7 @@ var App = {
 				session_id: curr_session_id
 			}
 
-			console.log(send_data);
+			// console.log(send_data);
 
 			$.ajax({
 				url: host + 'ajax.php',

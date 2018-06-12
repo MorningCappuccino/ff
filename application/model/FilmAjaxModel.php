@@ -33,6 +33,9 @@ class FilmAjaxModel
 	{
 		if ($parameters) {
 
+			$cinema_id = $parameters->cinema_id;
+			$film_id = $parameters->film_id;
+
 			$database = DatabaseFactory::getFactory()->getConnection();
 
 			// try {
@@ -51,13 +54,15 @@ class FilmAjaxModel
 
 				foreach ($parameters->film_sessions as $session) {
 					//select session from DB - check if exist
-					$isSessionExist = self::selectFilmSession($database, $parameters->cinema_id, $parameters->film_id, $session);
+					$isSessionExist = self::selectFilmSession($database, $cinema_id, $film_id, $session);
 
 					if ($isSessionExist) {
 						continue;
 					}
 
-					self::addFilmSession($database, $parameters->cinema_id, $parameters->film_id, $session);
+					$lastAddedSessionID = self::addFilmSession($database, $parameters->cinema_id, $parameters->film_id, $session);
+
+					HallModel::addHallAndSeats($cinema_id, $film_id, $lastAddedSessionID);
 				}
 
 				/*
@@ -231,9 +236,30 @@ class FilmAjaxModel
 				':film_session' => $session)
 		);
 
-//		$addedID = $query->fetch();
-//		return $addedID;
+		if ($query->rowCount() != 1) {
+			return false;
+		}
 
+		// get last id
+
+		$sql = "SELECT MAX(id) as id FROM film_session";
+		$query = $database->prepare($sql);
+		$query->execute();
+
+		$addedID = $query->fetch()->id;
+		return $addedID;
+
+	}
+
+	public static function getLastIdFromTable($table)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+		
+		$sql = "SELECT MAX(id) as id FROM " . $table;
+		$query = $database->prepare($sql);
+		$query->execute();
+
+		return $query->fetch()->id;
 	}
 
 	/*
