@@ -94,8 +94,8 @@
 	                                </div>
 	                                <div class="col-lg-6">
 	                                    <div class="session-pool">
-	                                        <?php foreach ($film->film_sessions as $session) :?>
-	                                            <div class="s-item"><?= substr($session, 0, 5) ?></div>
+	                                        <?php foreach ($film->film_sessions as $key => $session) :?>
+	                                            <div class="s-item" session-id="<?= $key ?>"><?= substr($session, 0, 5) ?></div>
 	                                        <?php endforeach; ?>
 	                                    </div>
 	                                </div>

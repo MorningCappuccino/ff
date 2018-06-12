@@ -96,7 +96,32 @@ $('.fresh-movie .btn-add-session').on('click', function(ev) {
 });
 
 $('.fresh-movie .session-pool .s-item').on('click', function(ev) {
-	$(this).remove();
+	var sessionLabel = $(this);
+
+	var data = {
+		controller_name: 'FilmAjax',
+		action_name: 'deleteSession',
+		session_id: $(this).attr('session-id')
+	}
+
+	console.log(data);
+
+	$.ajax({
+		url: host + 'ajax.php',
+		method: 'post',
+		data: data,
+		success: function(data) {
+			data = JSON.parse(data);
+			if (data.status === 'success') {
+				successBalloon();
+				sessionLabel.remove();
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log('error');
+		}
+	});
+
 });
 
 /********************************************************************

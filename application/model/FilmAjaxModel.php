@@ -41,12 +41,22 @@ class FilmAjaxModel
 					Add film sessions
 				*/
 				// first: delete all session for curr film_id and cinema_id
-				$sql = "DELETE FROM film_session WHERE film_id = :film_id AND cinema_id = :cinema_id";
-				$query = $database->prepare($sql);
-				$query->execute(array(':film_id' => $parameters->film_id, ':cinema_id' => $parameters->cinema_id));
+				// $sql = "DELETE FROM film_session WHERE film_id = :film_id AND cinema_id = :cinema_id";
+				// $query = $database->prepare($sql);
+				// $query->execute(array(':film_id' => $parameters->film_id, ':cinema_id' => $parameters->cinema_id));
 
 				// second: add new session for curr film_id and cinema_id
+
+
+
 				foreach ($parameters->film_sessions as $session) {
+					//select session from DB - check if exist
+					$isSessionExist = self::selectFilmSession($database, $parameters->cinema_id, $parameters->film_id, $session);
+
+					if ($isSessionExist) {
+						continue;
+					}
+
 					self::addFilmSession($database, $parameters->cinema_id, $parameters->film_id, $session);
 				}
 
@@ -103,14 +113,7 @@ class FilmAjaxModel
 			/*
 				Check for all parameters
 			*/
-			$isOnlyOneEmpty = false;
-			foreach($parameters as $key => $value) {
-			    if ( empty($value) ) {
-					$isOnlyOneEmpty = true;
-				}
-			}
-
-			if ($isOnlyOneEmpty) {
+			if (!CinemaModel::isAllParametersHaveValue($parameters)) {
 				$res = array('status' => 'expected more arguments');
 				return json_encode($res);
 			}
@@ -120,7 +123,7 @@ class FilmAjaxModel
 			*/
 			// second: add new session for curr film_id and cinema_id
 			foreach ($parameters->film_sessions as $session) {
-				self::addFilmSession($database, $parameters->cinema_id, $parameters->film_id, $session);
+				$addedSessionID = self::addFilmSession($database, $parameters->cinema_id, $parameters->film_id, $session);
 			}
 
 			/*
@@ -215,15 +218,64 @@ class FilmAjaxModel
 		return json_encode($res);
 	}
 
+	/*
+		return sessionID
+	*/
 	public static function addFilmSession($database, $cinema_id, $film_id, $session)
 	{
-		$sql = "INSERT INTO film_session (film_id, cinema_id, film_session) VALUES (:film_id, :cinema_id, :film_session)";
+		$sql = "INSERT INTO film_session (film_id, cinema_id, film_session) VALUES (:film_id, :cinema_id, :film_session); SELECT LAST_INSERT_ID();";
 		$query = $database->prepare($sql);
 		$query->execute(array(
 				':film_id' => $film_id,
 				':cinema_id' => $cinema_id,
 				':film_session' => $session)
 		);
+
+//		$addedID = $query->fetch();
+//		return $addedID;
+
+	}
+
+	/*
+		return true/false
+	*/
+	public static function selectFilmSession($database, $cinema_id, $film_id, $session)
+	{
+		$sql = "SELECT * FROM film_session WHERE cinema_id = :cinema_id AND film_id = :film_id AND film_session = :film_session";
+		$query = $database->prepare($sql);
+		$query->execute(array(
+				':film_id' => $film_id,
+				':cinema_id' => $cinema_id,
+				':film_session' => $session)
+		);
+
+		return ($query->rowCount() == 1) ? true : false;
+	}
+
+	/*
+		return true/false
+	*/
+	public static function deleteSession($parameters)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "DELETE FROM film_session WHERE id = :id";
+		$query = $database->prepare($sql);
+		$query->execute(array(
+				':id' => $parameters->session_id
+			)
+		);
+
+		if ( $query->rowCount() == 1 ) {
+			return self::statusSuccess();
+		}
+
+	}
+
+	public static function statusSuccess()
+	{
+		$res = array('status' => 'success');
+		return json_encode($res);
 	}
 
 }

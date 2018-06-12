@@ -63,5 +63,10 @@ class FilmAjaxController {
 		echo json_encode($res);
 	}
 
+	public function deleteSession($parameters)
+	{
+		echo FilmAjaxModel::deleteSession($parameters);
+	}
+
 
 }
