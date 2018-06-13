@@ -52,9 +52,18 @@ $('#film-rating').on('rating.change', function(event, value, caption) {
 			film_id: film_id,
 			user_score: value
 		},
-		success: function(data){
-			console.log(data);
-			$('.response').html(data);
+		success: function(data) {
+			data = JSON.parse(data);
+
+			if ( isRedirect(data.status) ) {
+				redirectTo(data.to);
+				return false;
+			}
+
+			if (data.status == 'success') {
+				successBalloon();
+			}
+
 		}
 	});
 });
@@ -408,6 +417,12 @@ var App = {
 				data: send_data,
 				success: function(data) {
 					data = JSON.parse(data);
+
+					if ( isRedirect(data.status) ) {
+						redirectTo(data.to);
+						return false;
+					}
+
 					showHall(data);
 					initSeats();
 
@@ -634,4 +649,17 @@ function formatForCalendarDay(date) {
 	var res = d.toLocaleString('ru', options);
 
 	return res;
+}
+
+function isRedirect(status) {
+	if (status == 'redirect') {
+		return true;
+	}
+
+	return false;
+}
+
+function redirectTo(to) {
+	window.location.href = window.location.origin + '/' + to;
+	return false;
 }

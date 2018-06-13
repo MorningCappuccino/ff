@@ -16,12 +16,13 @@ class FilmAjaxModel
 
 		$sql = "INSERT INTO link_user_film_score (film_id, user_id, score) VALUES (:film_id, :user_id, :score)";
 		$query = $database->prepare($sql);
-		$query->execute(array(':film_id' => $parameters->film_id, ':user_id' => Session::get('user_id'),
-																															':score' => $parameters->user_score)
-												 );
+		$query->execute(array(':film_id' => $parameters->film_id,
+							':user_id' => Session::get('user_id'),
+							':score' => $parameters->user_score
+						));
 
 		if ($query->rowCount() == 1) {
-			return 'success rate';
+			return array('status' => 'success');
 		}
 
 		fail:
@@ -254,7 +255,7 @@ class FilmAjaxModel
 	public static function getLastIdFromTable($table)
 	{
 		$database = DatabaseFactory::getFactory()->getConnection();
-		
+
 		$sql = "SELECT MAX(id) as id FROM " . $table;
 		$query = $database->prepare($sql);
 		$query->execute();

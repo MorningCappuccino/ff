@@ -7,14 +7,19 @@ class FilmAjaxController {
 
 	public function __construct()
 	{
-     Auth::checkAuthentication();
+    	// echo Auth::checkAuthenticationAjax();
 	}
 
 
 	public function rateFilm($parameters)
 	{
-		$res = FilmAjaxModel::rateFilm($parameters);
-		echo $res;
+		if ( Session::userIsLoggedIn() ) {
+			$res = FilmAjaxModel::rateFilm($parameters);
+			echo json_encode($res);
+		} else {
+			//user is NOT login
+			echo json_encode(array('status' => 'redirect', 'to' => 'login'));
+		}
 	}
 
 	public function editFilmShowingInCinema($parameters)
@@ -53,8 +58,15 @@ class FilmAjaxController {
 
 	public function getSeatsOfHall($parameters)
 	{
-		$res = CinemaModel::getSeatsOfHall($parameters);
-		echo json_encode($res);
+
+		if ( Session::userIsLoggedIn() ) {
+			$res = CinemaModel::getSeatsOfHall($parameters);
+			echo json_encode($res);
+		} else {
+			//user is NOT login
+			echo json_encode(array('status' => 'redirect', 'to' => 'login'));
+		}
+
 	}
 
 	public function paySuccessfull($parameters)
