@@ -3,10 +3,11 @@
  * Class FilmAjaxController
  */
 
-class FilmAjaxController {
+class FilmAjaxController extends Controller {
 
 	public function __construct()
 	{
+		parent::__construct();
     	// echo Auth::checkAuthenticationAjax();
 	}
 
