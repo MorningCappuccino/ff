@@ -10,3 +10,4 @@ ff.sublime-workspace
 # don't commit all the dependencies fetched via Composer
 /vendor/
 /public/node_modules/
+/public/uploads/
