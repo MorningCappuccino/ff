@@ -26,105 +26,102 @@
 
 </head>
 <body>
-    <div class="container wrapper">
+<div class="container fp-header">
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- <nav class="navbar navbar-default fp-nav"> -->
+              <!-- <div class="container-fluid"> -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav fp-nav">
+                        <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
+                            <a href="<?php echo Config::get('URL'); ?>index/index">Главная</a>
+                        </li>
 
-        <div class="row fp-header">
-            <div class="col-lg-12">
-                <!-- <nav class="navbar navbar-default fp-nav"> -->
-                  <!-- <div class="container-fluid"> -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="myNavbar">
-                        <ul class="nav navbar-nav fp-nav">
-                            <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>index/index">Index</a>
-                            </li>
+                        <li <?php if (View::checkForActiveController($filename, "cinema")) { echo ' class="active" '; } ?> >
+                            <a href="<?php echo Config::get('URL'); ?>cinema/allCinemas">Кинотеатры</a>
+                        </li>
+
+                        <li <?php if (View::checkForActiveController($filename, "allFilms")) { echo ' class="active" '; } ?> >
+                            <a href="<?php echo Config::get('URL'); ?>film/allfilms">Фильмы</a>
+                        </li>
+
+                        <li <?php if (View::checkForActiveController($filename, "allFestivals")) { echo ' class="active" '; } ?> >
+                            <a href="<?php echo Config::get('URL'); ?>event/allfestivals">Фестивали</a>
+                        </li>
+
+                        <?php if (Session::userIsLoggedIn()) { ?>
+
+                            <!-- <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
+                                <a href="<?php echo Config::get('URL'); ?>note/index">My Notes</a>
+                            </li> -->
+
                             <?php if (Session::get("user_account_type") == 7) : ?>
                             <li <?php if (View::checkForActiveController($filename, "profile")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>profile/index">Profiles</a>
+                                <a href="<?php echo Config::get('URL'); ?>profile/index">Профили</a>
                             </li>
                             <?php endif ?>
 
-                            <li <?php if (View::checkForActiveController($filename, "allFilms")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>film/allfilms">Фильмы</a>
+                            <?php } else { ?>
+                            <!-- for not logged in users -->
+                            <li <?php if (View::checkForActiveControllerAndAction($filename, "login/index")) { echo ' class="active" '; } ?> >
+                                <a href="<?php echo Config::get('URL'); ?>login/index">Войти</a>
                             </li>
-
-                            <li <?php if (View::checkForActiveController($filename, "cinema")) { echo ' class="active" '; } ?> >
-                                <a href="<?php echo Config::get('URL'); ?>cinema/allCinemas">Кинотеатры</a>
+                            <li <?php if (View::checkForActiveControllerAndAction($filename, "register/index")) { echo ' class="active" '; } ?> >
+                                <a href="<?php echo Config::get('URL'); ?>register/index">Регистрация</a>
                             </li>
-                            <?php if (Session::userIsLoggedIn()) { ?>
-                                <!-- <li <?php if (View::checkForActiveController($filename, "dashboard")) { echo ' class="active" '; } ?> >
-                                    <a href="<?php echo Config::get('URL'); ?>dashboard/index">Dashboard</a>
-                                </li>-->
-                                <li <?php if (View::checkForActiveController($filename, "allFestivals")) { echo ' class="active" '; } ?> >
-                                    <a href="<?php echo Config::get('URL'); ?>event/allfestivals">Фестивали</a>
-                                </li>
-                                <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
-                                    <a href="<?php echo Config::get('URL'); ?>note/index">My Notes</a>
-                                </li>
-                                <?php } else { ?>
-                                <!-- for not logged in users -->
-                                <li <?php if (View::checkForActiveControllerAndAction($filename, "login/index")) { echo ' class="active" '; } ?> >
-                                    <a href="<?php echo Config::get('URL'); ?>login/index">Войти</a>
-                                </li>
-                                <li <?php if (View::checkForActiveControllerAndAction($filename, "register/index")) { echo ' class="active" '; } ?> >
-                                    <a href="<?php echo Config::get('URL'); ?>register/index">Регистрация</a>
-                                </li>
-                                <?php } ?>
+                            <?php } ?>
 
 
-                                <!-- Account -->
-                                <?php if (Session::userIsLoggedIn()) : ?>
-                                    <li account <?php if (view::checkforactivecontroller($filename, "user")) { echo ' class="active" '; } ?> >
-                                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account <span class="caret"></span></a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="<?php echo Config::get('URL'); ?>user/index">My Account</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo Config::get('URL'); ?>user/changeUserRole">Change account type</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo Config::get('URL'); ?>user/editAvatar">Edit your avatar</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo Config::get('URL'); ?>user/editusername">Edit my username</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo Config::get('URL'); ?>user/edituseremail">Edit my email</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo Config::get('URL'); ?>user/changePassword">Change Password</a>
-                                            </li>
-                                            <li>
-                                                <a href="<?php echo Config::get('URL'); ?>login/logout">Logout</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <!-- Admin -->
-                                    <?php if (Session::get("user_account_type") == 7) : ?>
-                                            <li <?php if (View::checkForActiveController($filename, "madmin")) {
-                                                echo ' class="active" ';
-                                            } ?> >
-                                            <a href="<?php echo Config::get('URL'); ?>madmin/">Admin</a>
+                            <!-- Account -->
+                            <?php if (Session::userIsLoggedIn()) : ?>
+                                <li account <?php if (view::checkforactivecontroller($filename, "user")) { echo ' class="active" '; } ?> >
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Мой аккаунт<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="<?php echo Config::get('URL'); ?>user/index">Мой аккаунт</a>
                                         </li>
-                                    <?php endif; ?>
+                                        <li>
+                                            <a href="<?php echo Config::get('URL'); ?>user/changeUserRole">Изменить тип аккаунта</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo Config::get('URL'); ?>user/editAvatar">Изменить аватар</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo Config::get('URL'); ?>user/editusername">Изменить имя</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo Config::get('URL'); ?>user/edituseremail">Изменить email</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo Config::get('URL'); ?>user/changePassword">Изменить пароль</a>
+                                        </li>
+                                        <li>
+                                            <a href="<?php echo Config::get('URL'); ?>login/logout">Выйти</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!-- Admin -->
+                                <?php if (Session::get("user_account_type") == 7) : ?>
+                                        <li <?php if (View::checkForActiveController($filename, "madmin")) {
+                                            echo ' class="active" ';
+                                        } ?> >
+                                        <a href="<?php echo Config::get('URL'); ?>madmin/">Admin</a>
+                                    </li>
                                 <?php endif; ?>
+                            <?php endif; ?>
 
-                            </ul>
+                        </ul>
 
 
-                </div><!-- /.navbar-collapse -->
+            </div><!-- /.navbar-collapse -->
 
-                <!-- my account -->
-                <ul class="nav nav-pills navbar-right">
-
-            </ul>
-
-            <!-- </div> -->
-        <!-- </nav> -->
+        </div>
     </div>
 </div>
+
+<div class="container wrapper">

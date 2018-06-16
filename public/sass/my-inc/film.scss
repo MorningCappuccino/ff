@@ -1,0 +1,21 @@
+.film-detail {
+    .film-action-img {
+        span {
+            top: 20px;
+        }
+
+        h1 {
+            top: 34px;
+        }
+
+        .img-bg {
+            height: 450px;
+            background-size: cover;
+            background-position: center center;
+
+            @media ($xl) {
+                // height: 30vw;
+            }
+        }
+    }
+}

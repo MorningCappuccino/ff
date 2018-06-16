@@ -1,5 +1,7 @@
 
-       <footer class="footer">&copy; <?= date("Y") ?> Александр Минченков</footer>
+        <div class="row">
+           <footer class="footer">&copy; <?= date("Y") ?> Александр Минченков</footer>
+        </div>
     </div>
 
 <script src='<?php echo Config::get('URL') ?>js/star-rating_locale_ru.js'></script>

@@ -165,12 +165,13 @@ class CinemaModel
 
 		// var_dump($date);
 
-		$sql = "SELECT DISTINCT link.film_id, film_name, score, category_id, price_from, price_to, begin_date, finish_date FROM films
+		$sql = "SELECT link.film_id, film_name, score, category_id, teaser_img_link, price_from, price_to, begin_date, finish_date, duration, age_limit_id, age_limit FROM films
 				JOIN link_cinema_film link ON films.id = link.film_id
 				JOIN cinemas ON link.cinema_id = cinemas.id
 				JOIN ticket_prices tp ON tp.film_id = films.id
 				JOIN time_to_show_films ttsf ON ttsf.film_id = films.id
-				WHERE cinemas.id = 1
+				JOIN age_limit al ON al.id = films.age_limit_id
+				WHERE cinemas.id = :cinema_id
 				AND ttsf.begin_date < :curr_date
 				AND ttsf.finish_date > :curr_date
 				";
@@ -185,9 +186,15 @@ class CinemaModel
 			//get film sessions
 			$filmSessions = self::getFilmSessions($film->film_id, $cinema_id);
 
+			$film_category = self::getFilmCategories($film->category_id);
+
+			$duration_mod = self::modDuration($film->duration, '%2d час %02d минут');
+
 			$result = (object) array_merge(
 				(array) $film,
-				(array) $filmSessions
+				(array) $filmSessions,
+				(array) $film_category,
+				array( 'duration_mod' => $duration_mod )
 			);
 
 			array_push($xFilms, $result);
@@ -228,9 +235,9 @@ class CinemaModel
 		$countSuccessRow = 0;
 
 		foreach ($parameters->seat_ids as $seat_id) {
-			$sql = "UPDATE seats SET user = :user_id, order_number = :order_number WHERE id = :seat_id";
+			$sql = "UPDATE seats SET user = :user_id, order_number = :order_number, order_date = :order_date WHERE id = :seat_id";
 			$query = $database->prepare($sql);
-			$query->execute(array(':user_id' => Session::get('user_id'), ':seat_id' => $seat_id, ':order_number' => self::randHash(6)));
+			$query->execute(array(':user_id' => Session::get('user_id'), ':seat_id' => $seat_id, ':order_number' => self::randHash(6), ':order_date' => $parameters->order_date));
 
 			if ($query->rowCount() == 1) {
 				$countSuccessRow++;
@@ -264,6 +271,7 @@ class CinemaModel
 
 		return $res;
 	}
+
 	/*********************
 	***** Helper Func ****
 	*********************/
@@ -317,6 +325,19 @@ class CinemaModel
 		return $obj;
 	}
 
+	public static function getFilmCategories($category_id)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "SELECT * FROM film_category fc WHERE fc.id = :category_id";
+		$query = $database->prepare($sql);
+		$query->execute(array(':category_id' => $category_id));
+
+		$category = $query->fetch();
+
+		return $category;
+	}
+
 	public static function isAllParametersHaveValue($params)
 	{
 		$isOnlyOneEmpty = false;
@@ -337,5 +358,15 @@ class CinemaModel
 	{
 		// return substr(md5(openssl_random_pseudo_bytes(20)),-$len);
 		return substr(uniqid(), -6);
+	}
+
+	public static function modDuration($time, $format = '%02d:%02d')
+	{
+		if ($time < 1) {
+			return;
+		}
+		$hours = floor($time / 60);
+		$minutes = ($time % 60);
+		return sprintf($format, $hours, $minutes);
 	}
 }

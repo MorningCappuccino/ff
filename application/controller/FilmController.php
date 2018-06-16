@@ -45,7 +45,10 @@ class FilmController extends Controller
                                                                 Request::post('film_name'),
                                                                 Request::post('descr'),
                                                                 Request::post('event_id'),
-                                                                Request::post('nomination_id')
+                                                                Request::post('nomination_id'),
+                                                                Request::post('age_limit_id'),
+                                                                Request::post('duration'),
+                                                                Request::post('link_on_trailer')
                                                                 );
         Redirect::to('madmin/films');
     }

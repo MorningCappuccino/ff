@@ -193,6 +193,7 @@ let datepicker = $('.cinema-shedule .calendar-filter input');
 function initDatePicker() {
 	//fill label
 	$('.cinema-shedule .calendar-day').text( formatForCalendarDay(new Date()) );
+	$('.cinema-shedule .calendar-day').attr('order-date', formatDate( new Date() ));
 
 	$('.cinema-shedule .calendar-filter input').datepicker({
 		container: '.calendar-filter',
@@ -211,6 +212,8 @@ function initDatePicker() {
 				var res = formatForCalendarDay(date);
 				//to label
 				$('.cinema-shedule .calendar-day').text(res);
+
+				$('.cinema-shedule .calendar-day').attr('order-date', formatDate(date));
 
 				return res;
 			},
@@ -266,11 +269,15 @@ function showFilmsOfCinemaByDay(date) {
 		method: 'post',
 		data: data,
 		success: function(data) {
+			console.log(data);
 			data = JSON.parse(data);
 			$('.cinema-shedule .movies').empty();
 			data.films.forEach(function(el) {
 				$('.cinema-shedule .movies').append( showFilm(el) );
 			});
+
+			App.initSessionLabel();
+			// App.initBuyTicketBtn();
 
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -281,21 +288,26 @@ function showFilmsOfCinemaByDay(date) {
 
 function showFilm(film) {
 	var template = $('.movie.-template').clone(true).removeClass('-template').css('display', '');
-	var a = template.find('a').attr('href');
-	template.find('a').attr('href', a + film.film_id);
+	var a = template.find('a.link-to-movie').attr('href');
+	template.attr('id', film.film_id);
+	template.find('a.link-to-movie').attr('href', a + film.film_id);
 	template.find('.movie-info_title').text(film.film_name);
 	template.find('.movie-info_rating').text(film.score);
+	template.find('.genres').text(film.cat_name);
+	template.find('.duration').text(film.duration_mod);
+	template.find('.age-limit').text(film.age_limit);
 
 	var sessions = template.find('.sessions');
-	film.film_sessions.forEach(function(session) {
-		session = session.slice(0, 5);
-		sessions.append( $('<div/>', { class: 'session', text: session }) );
-	});
+	for (var key in film.film_sessions) {
+		let session = film.film_sessions[key].slice(0, 5);
+		sessions.append( $('<div/>', { class: 'session', text: session, 'session-id': key }) );
+	};
 
 	return template[0];
 }
 
 function showHall(data) {
+	console.log(data);
 	hallModal.modal('show');
 	hallGrid.attr('hall-id', data[0].hall_id);
 
@@ -377,7 +389,7 @@ var App = {
 
 	// init session label
 	initSessionLabel: function() {
-		var sessions = movie.find('.session');
+		var sessions = $('.movie .session');
 		sessions.on('click', function() {
 			sessions.each(function(i, el) {
 				$(el).removeClass('-selected');
@@ -405,17 +417,18 @@ var App = {
 				controller_name: 'FilmAjax',
 				action_name: 'getSeatsOfHall',
 				cinema_id: cinema_id,
-				film_id: movie.attr('id'),
+				film_id: curr_movie.attr('id'),
 				session_id: curr_session_id
 			}
 
-			// console.log(send_data);
+			console.log(send_data);
 
 			$.ajax({
 				url: host + 'ajax.php',
 				method: 'post',
 				data: send_data,
 				success: function(data) {
+					// console.log(data);
 					data = JSON.parse(data);
 
 					if ( isRedirect(data.status) ) {
@@ -451,7 +464,8 @@ var App = {
 			let send_data = {
 				controller_name: 'FilmAjax',
 				action_name: 'paySuccessfull',
-				seat_ids: selected_seat_ids
+				seat_ids: selected_seat_ids,
+				order_date: $('.calendar-day').attr('order-date')
 			}
 
 			console.log(send_data);

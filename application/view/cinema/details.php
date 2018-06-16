@@ -6,7 +6,7 @@
             </div>
         </div>
     </div>
-    <?= var_dump($this->data['films']) ?>
+    <!-- <?= var_dump($this->data['films']) ?> -->
     <div class="cinema">
         <div class="row cinema-info mb-lg">
             <div class="col-md-6">
@@ -36,15 +36,15 @@
                 <?php foreach ($this->data['films'] as $film) :?>
                 <div class="movie" id="<?= $film->film_id ?>">
                     <a href="<?= Config::get('URL') . 'film/details/' . $film->film_id ?>">
-                        <div class="picture" style="background-image: url(https://st.kp.yandex.net/images/film_iphone/iphone360_893681.jpg)">
+                        <div class="picture" style="background-image: url(<?= Config::get('URL') .'/uploads/'. $film->teaser_img_link .'.jpg'?>)">
                         </div>
                     </a>
                     <div class="movie-info">
                         <a href="<?= Config::get('URL') . 'film/details/' . $film->film_id ?>" class="movie-info_title"><?= $film->film_name ?></a>
                         <div class="movie-info_summary">
-                            <span class="genres">Фантастика, боевик</span>
-                            <span class="duration">1 час 59 минут</span>
-                            <span class="age-limit">18+</span>
+                            <span class="genres"><?= $film->cat_name ?></span>
+                            <span class="duration"><?= $film->duration_mod ?></span>
+                            <span class="age-limit"><?= $film->age_limit ?></span>
                             <input type="hidden" name="price_to" value="<?= $film->price_to ?>">
                         </div>
                         <div class="movie-info_rating"><?= $film->score ?></div>
@@ -68,12 +68,12 @@
 
         <!-- TEMPLATE: movie -->
         <div class="movie -template" id="" style="display: none">
-            <a href="<?= Config::get('URL') . 'film/details/' ?>">
+            <a class="link-to-movie" href="<?= Config::get('URL') . 'film/details/' ?>">
                 <div class="picture" style="background-image: url(https://st.kp.yandex.net/images/film_iphone/iphone360_893681.jpg)">
                 </div>
             </a>
             <div class="movie-info">
-                <a href="<?= Config::get('URL') . 'film/details/' ?>" class="movie-info_title"></a>
+                <a href="<?= Config::get('URL') . 'film/details/' ?>" class="link-to-movie movie-info_title"></a>
                 <div class="movie-info_summary">
                     <span class="genres">Фантастика, боевик</span>
                     <span class="duration">1 час 59 минут</span>
@@ -85,6 +85,9 @@
                 <div class="format">2D</div>
                 <div class="sessions">
                 </div>
+            </div>
+            <div class="buy-ticket">
+                <a href="#" class="btn btn-danger" data-toggle="modal">Купить билет</a>
             </div>
         </div>
 
@@ -104,7 +107,7 @@
                         <div class="movie">Фильм: <span>Дэдпул</span></div>
                     </div>
                     <div class="right">
-                        <div class="date">Дата: <span>воскресенье, 12 июня</span></div>
+                        <div class="date">Дата: <span class="order-date">воскресенье, 12 июня</span></div>
                         <div class="time">Время: <span>23:00</span></div>
                     </div>
                 </div>

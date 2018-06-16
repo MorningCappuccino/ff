@@ -61,7 +61,8 @@ class FilmModel
 				 'categories' => CategoryModel::getAllcategories(),
 				 'page' => (object) ['title' => 'Редактирование фильма'],
 				 'nominations' => NominationModel::getAllNominations(),
-				 'events' => EventModel::getAllEvents()
+				 'events' => EventModel::getAllEvents(),
+				 'age_limits' => FilmModel::getAgeLimits()
 				];
 
 	}
@@ -71,7 +72,7 @@ class FilmModel
 	 * @param string $film_name note text that will be created
 	 * @return bool feedback (was the note created properly ?)
 	 */
-	public static function createOrUpdateFilm($film_id, $category_id, $film_name, $descr, $event_id, $nomination_id)
+	public static function createOrUpdateFilm($film_id, $category_id, $film_name, $descr, $event_id, $nomination_id, $age_limit_id, $duration, $link_on_trailer)
 	{
 		// -----------Validate it on JavaScript-----------
 
@@ -89,44 +90,84 @@ class FilmModel
 
 		if ($film_id == null) {
 
+			/*
+				Create Film
+			*/
 			$img_link = ImageModel::createImage();
+			$teaser_link = ImageModel::createTeaserImage();
 
-			$sql = "INSERT INTO films (film_name, category_id, img_link, descr, event_id, user_id) VALUES (:film_name, :category_id, :img_link, :descr, :event_id, :user_id)";
+			$sql = "INSERT INTO films (film_name, category_id, teaser_img_link, descr, user_id, age_limit_id, duration, link_on_trailer) VALUES (:film_name, :category_id, :img_link, :teaser_img_link, :descr, :event_id, :user_id, :age_limit_id, :duration, :link_on_trailer)";
 			$query = $database->prepare($sql);
-			$query->execute(array(':film_name' => $film_name, ':category_id' => $category_id, ':img_link' => $img_link, ':descr' => $descr, ':event_id' => $event_id, ':user_id' => Session::get('user_id')));
+			$query->execute(array(':film_name' => $film_name, ':category_id' => $category_id, ':teaser_img_link' => $teaser_link, ':descr' => $descr, ':user_id' => Session::get('user_id'), ':age_limit_id' => $age_limit_id, ':duration' => $duration, ':link_on_trailer' => $link_on_trailer));
 
-			if ($query->rowCount() == 1) {
-				return true;
+			$last_film_id = FilmAjaxModel::getLastIdFromTable('films');
+
+			if ($img_link != 'file didnt upload') {
+				// new image was uploaded
+				$sql = "INSERT INTO films (img_link) VALUES (:img_link) WHERE id = :film_id";
+				$query = $database->prepare($sql);
+				$query->execute(array(':img_link' => $img_link, ':film_id' => $last_film_id));
 			}
 
-			LinkTableModel::LinkFilmNomination($film_id, $nomination_id);
+			if ($teaser_link != 'file didnt upload') {
+				// new image was uploaded
+				$sql = "INSERT INTO films (teaser_img_link) VALUES (:teaser_img_link) WHERE id = :film_id";
+				$query = $database->prepare($sql);
+				$query->execute(array(':teaser_img_link' => $teaser_link, ':film_id' => $last_film_id));
+			}
 
-			Session::add('feedback_negative', Text::get('FEEDBACK_FILM_CREATION_FAILED'));
+			if ($event_id != '') {
+				$sql = "INSERT INTO films (event_id) VALUES (:event_id) WHERE id = :film_id";
+				$query = $database->prepare($sql);
+				$query->execute(array(':event_id' => $event_id, ':film_id' => $last_film_id));
+			}
+
+			if ($nomination_id != '') {
+				LinkTableModel::LinkFilmNomination($last_film_id, $nomination_id);
+			}
+
+			// Session::add('feedback_negative', Text::get('FEEDBACK_FILM_CREATION_FAILED'));
 			return false;
 
 		} else {
 
+			/*
+				Edit Film
+			*/
 			//TODO bad sectoin again (like Event model)
 			$img_link = ImageModel::createImage();
+			$teaser_link = ImageModel::createTeaserImage();
 
-			if($img_link == 'file didnt upload') {
-				$sql = "UPDATE films SET film_name = :film_name, category_id = :category_id, descr = :descr, event_id = :event_id WHERE id = :film_id";
+			$sql = "UPDATE films SET film_name = :film_name, category_id = :category_id, descr = :descr, age_limit_id = :age_limit_id, duration = :duration, link_on_trailer = :link_on_trailer WHERE id = :film_id";
+			$query = $database->prepare($sql);
+			$query->execute(array(':film_id' => $film_id, ':film_name' => $film_name, ':category_id' => $category_id, ':descr' => $descr, ':age_limit_id' => $age_limit_id, ':duration' => $duration, ':link_on_trailer' => $link_on_trailer));
+
+			if ($img_link != 'file didnt upload') {
+				// new image was uploaded
+				$sql = "UPDATE films SET img_link = :img_link WHERE id = :film_id";
 				$query = $database->prepare($sql);
-				$query->execute(array(':film_id' => $film_id, ':film_name' => $film_name, ':category_id' => $category_id, ':descr' => $descr, ':event_id' => $event_id));
-			} else {
-				$sql = "UPDATE films SET film_name = :film_name, category_id = :category_id, img_link = :img_link, descr = :descr, event_id = :event_id WHERE id = :film_id";
-				$query = $database->prepare($sql);
-				$query->execute(array(':film_id' => $film_id, ':film_name' => $film_name, ':category_id' => $category_id, ':img_link' => $img_link, ':descr' => $descr, ':event_id' => $event_id));
+				$query->execute(array(':img_link' => $img_link, ':film_id' => $film_id));
 			}
 
-			LinkTableModel::LinkFilmNomination($film_id, $nomination_id);
+			if ($teaser_link != 'file didnt upload') {
+				// new image was uploaded
+				$sql = "UPDATE films SET teaser_img_link = :teaser_img_link WHERE id = :film_id";
+				$query = $database->prepare($sql);
+				$query->execute(array(':teaser_img_link' => $teaser_link, ':film_id' => $film_id));
+			}
 
-			if ($query->rowCount() == 1) {
-				return true;
+			if ($event_id != '') {
+				$sql = "UPDATE films SET event_id = :event_id WHERE id = :film_id";
+				$query = $database->prepare($sql);
+				$query->execute(array(':event_id' => $event_id, ':film_id' => $film_id));
+			}
+
+			if ($nomination_id != '') {
+				LinkTableModel::LinkFilmNomination($film_id, $nomination_id);
 			}
 
 
-			Session::add('feedback_negative', Text::get('FEEDBACK_FILM_UPDATE_FAILED'));
+			// Session::add('feedback_negative', Text::get('FEEDBACK_FILM_UPDATE_FAILED'));
 			return false;
 		}
 
@@ -168,7 +209,7 @@ class FilmModel
         //get only film name, img, descr
     		$film_info = self::getFilm($film_id);
 
-        //get 
+        //get
     		$category = CategoryModel::getCategory($film_info->category_id);
 
         //get only all film nominations
@@ -245,6 +286,17 @@ class FilmModel
 
     	return $win->id;
     }
+
+	public static function getAgeLimits()
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+    	$sql = "SELECT * FROM age_limit";
+    	$query = $database->prepare($sql);
+		$query->execute();
+
+		return $query->fetchAll();
+	}
 
 
 }

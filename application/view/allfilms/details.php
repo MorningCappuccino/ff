@@ -4,10 +4,10 @@
         <div class="col-lg-12">
           <div class="film-action-img">
           <?php if ($this->data['film_info']->img_link != '') {?>
-            <img id="main" src="<?= Config::get('URL') .'uploads/'. $this->data['film_info']->img_link .'.jpg'?>" alt="">
+              <div class="img-bg" style="background-image: url(<?= Config::get('URL') .'/uploads/'. $this->data['film_info']->img_link .'.jpg'?>)"></div>
           <?php } else {?>
-            <img id="main" src="<?= Config::get('URL') .'uploads/'. '1140x400' .'.png'?>" alt="">
-					<?php } ?>
+              <div class="img-bg" style="background-image: url(<?= Config::get('URL') .'uploads/'. '1140x400' .'.png'?>)"></div>
+            <?php } ?>
             <div class="row">
               <span><?= $this->data['category']->category_name ?></span>
               <h1><?= $this->data['film_info']->film_name ?></h1>

@@ -50,14 +50,14 @@ class ImageModel
 	    	switch ($_FILES['uploadFile']['error'][0]){
 	    		case 4: return 'file didnt upload';
 	    	}
-	    	
+
         // check avatar folder writing rights, check if upload fits all rules
-	    	if (self::isUploadFolderWritable() AND $ext = self::validateImageFile()) {
+	    	if (self::isUploadFolderWritable() AND $ext = self::validateImageFile('uploadFile')) {
             // create a jpg file in the avatar folder, write marker to database
 	    		$file_tmp_name = $_FILES['uploadFile']['tmp_name'][0];
 	    		$img_hash = sha1_file($file_tmp_name);
 
-	    		move_uploaded_file( $file_tmp_name, 
+	    		move_uploaded_file( $file_tmp_name,
 	    			sprintf(Config::get('PATH_UPLOADS') . '%s.%s',
            				  $img_hash, $ext ));
 
@@ -65,6 +65,24 @@ class ImageModel
 	    		// self::writeAvatarToDatabase(Session::get('user_id'));
 	    		// Session::set('user_uploadfile', self::getPublicUserAvatarFilePathByUserId(Session::get('user_id')));
 	    		// Session::add('feedback_positive', Text::get('FEEDBACK_UPLOAD_SUCCESSFUL'));
+	    	}
+	    }
+
+		public static function createTeaserImage()
+	    {
+	    	switch ($_FILES['teaser_img']['error'][0]){
+	    		case 4: return 'file didnt upload';
+	    	}
+
+	    	if ( self::isUploadFolderWritable() AND $ext = self::validateImageFile('teaser_img') ) {
+	    		$file_tmp_name = $_FILES['teaser_img']['tmp_name'][0];
+	    		$img_hash = sha1_file($file_tmp_name);
+
+	    		move_uploaded_file( $file_tmp_name,
+	    			sprintf( Config::get('PATH_UPLOADS') . '%s.%s', $img_hash, $ext )
+				);
+
+				return $img_hash;
 	    	}
 	    }
 
@@ -88,17 +106,17 @@ class ImageModel
 	    	return false;
 	    }
 
-	    public static function validateImageFile()
+	    public static function validateImageFile($file)
 	    {
-	    	$file_tmp_name = $_FILES['uploadFile']['tmp_name'][0];//bad - put this in class property
+	    	$file_tmp_name = $_FILES[$file]['tmp_name'][0];//bad - put this in class property
 
-	    	if (!isset($_FILES['uploadFile'])) {
+	    	if (!isset($_FILES[$file])) {
 	    		Session::add('feedback_negative', Text::get('FEEDBACK_IMAGE_UPLOAD_FAILED'));
 	    		return false;
 	    	}
 
         // if input file too big (>5MB)
-	    	if ($_FILES['uploadFile']['size'][0] > 5000000) {
+	    	if ($_FILES[$file]['size'][0] > 5000000) {
 	    		Session::add('feedback_negative', Text::get('FEEDBACK_UPLOAD_TOO_BIG'));
 	    		return false;
 	    	}

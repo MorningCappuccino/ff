@@ -19,3 +19,16 @@
     text-align: center;
     margin-right: 15px;
 }
+
+.register-form {
+    width: 50%;
+    margin: 0 auto;
+
+    input {
+        margin-bottom: 10px;
+
+        &[name="captcha"] {
+            margin-top: 10px;
+        }
+    }
+}

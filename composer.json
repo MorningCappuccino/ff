@@ -13,6 +13,7 @@
     },
     "require": {
         "gregwar/captcha": "~1.1",
-        "phpmailer/phpmailer": "~5.2.23"
+        "phpmailer/phpmailer": "~5.2.23",
+        "phpunit/phpunit": "5.7.*"
     }
 }

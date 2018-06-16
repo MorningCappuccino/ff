@@ -183,7 +183,9 @@ footer {
 ******************************************************************************/
 .wrapper {
   margin-top: 40px;
-  border: 1px solid #ccc; }
+  -webkit-box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.4);
+  padding-top: 20px; }
 
 .alert-baloon {
   position: fixed;
@@ -258,35 +260,23 @@ footer {
   -webkit-animation-name: bounceIn;
           animation-name: bounceIn; }
 
-.fp-header .fp-nav {
-  width: 100%; }
-  .fp-header .fp-nav > li[account] {
-    float: right; }
-  .fp-header .fp-nav > li:last-child {
-    float: right; }
-  .fp-header .fp-nav > li a {
-    position: relative; }
-    .fp-header .fp-nav > li a:after {
-      display: block;
-      content: '';
-      width: 1px;
-      height: 20px;
-      background: #ccc;
-      position: absolute;
-      right: 0;
-      top: 50%;
-      -webkit-transform: translateY(-50%);
-          -ms-transform: translateY(-50%);
-              transform: translateY(-50%); }
-
-.fp-header .navbar-toggle {
-  background: #337ab7; }
-  .fp-header .navbar-toggle .icon-bar {
-    background: #fff; }
-
-.fp-header #myNavbar {
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 20px; }
+.fp-header {
+  margin-top: 40px;
+  background: #656565; }
+  .fp-header .fp-nav {
+    width: 100%; }
+    .fp-header .fp-nav > li[account] {
+      float: right; }
+    .fp-header .fp-nav > li:last-child {
+      float: right; }
+    .fp-header .fp-nav > li > a {
+      color: #ccc; }
+      .fp-header .fp-nav > li > a:hover, .fp-header .fp-nav > li > a:focus {
+        background-color: #828080; }
+  .fp-header .navbar-toggle {
+    background: #337ab7; }
+    .fp-header .navbar-toggle .icon-bar {
+      background: #fff; }
 
 .login {
   display: -webkit-box;
@@ -319,6 +309,14 @@ footer {
           justify-content: space-evenly;
   text-align: center;
   margin-right: 15px; }
+
+.register-form {
+  width: 50%;
+  margin: 0 auto; }
+  .register-form input {
+    margin-bottom: 10px; }
+    .register-form input[name="captcha"] {
+      margin-top: 10px; }
 
 .from-to-inputs {
   display: -webkit-box;
@@ -576,6 +574,17 @@ footer {
         -ms-transform: translateY(-50%);
             transform: translateY(-50%); }
 
+.film-detail .film-action-img span {
+  top: 20px; }
+
+.film-detail .film-action-img h1 {
+  top: 34px; }
+
+.film-detail .film-action-img .img-bg {
+  height: 450px;
+  background-size: cover;
+  background-position: center center; }
+
 .hall {
   padding: 30px 0; }
 
@@ -666,5 +675,12 @@ footer {
 
 .info-section span {
   font-weight: bold; }
+
+.user-profile .user-info {
+  margin-bottom: 40px; }
+
+.footer {
+  background: #656565;
+  color: #ccc; }
 
 /*# sourceMappingURL=screen.css.map */
