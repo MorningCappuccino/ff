@@ -245,6 +245,25 @@ class CinemaModel
 
 	}
 
+	public static function getOrderAndMiscByCurrUser()
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "SELECT order_number, order_date, seat_num, film_name, film_session, cinema_name, cinemas.id as cinema_id, f.id
+				FROM seats
+				  JOIN halls h ON h.id = seats.hall_id
+				  JOIN films f ON h.film_id = f.id
+				  JOIN film_session fs ON fs.id = h.session_id
+				  JOIN cinemas ON cinemas.id = h.cinema_id
+				WHERE seats.user = :user_id
+				";
+		$query = $database->prepare($sql);
+		$query->execute(array(':user_id' => Session::get('user_id')));
+
+		$res = $query->fetchAll();
+
+		return $res;
+	}
 	/*********************
 	***** Helper Func ****
 	*********************/
