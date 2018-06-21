@@ -362,6 +362,19 @@ class CinemaModel
 		return $category;
 	}
 
+	public static function getFilmAgeLimit($age_limit_id)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "SELECT * FROM age_limit al WHERE al.id = :age_limit_id";
+		$query = $database->prepare($sql);
+		$query->execute(array(':age_limit_id' => $age_limit_id));
+
+		$age_limit = $query->fetch();
+
+		return $age_limit;
+	}
+
 	public static function isAllParametersHaveValue($params)
 	{
 		$isOnlyOneEmpty = false;

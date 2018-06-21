@@ -20,10 +20,10 @@
 			<tbody>
 				<?php foreach ($this->films as $film): ?>
 					<tr>
-						<td><?= $film->id ?> </td> <!-- make hidden -->
+						<td><?= $film->film_id ?> </td> <!-- make hidden -->
 						<td><?= $film->film_name ?> </td>
-						<td><a href="<?= Config::get('URL') . 'film/edit/' . $film->id ?>">Редактировать</a></td>
-						<td><a href="<?= Config::get('URL') . 'film/delete/' . $film->id ?>">Удалить</a></td>
+						<td><a href="<?= Config::get('URL') . 'film/edit/' . $film->film_id ?>">Редактировать</a></td>
+						<td><a href="<?= Config::get('URL') . 'film/delete/' . $film->film_id ?>">Удалить</a></td>
 					</tr>
 				<?php endforeach ?>
 			</table>

@@ -13,11 +13,32 @@ class FilmModel
 	{
 		$database = DatabaseFactory::getFactory()->getConnection();
 
-		$sql = "SELECT * FROM films";
+		$sql = "SELECT *, id as film_id FROM films";
 		$query = $database->query($sql);
 
-		// fetchAll() is the PDO method that gets all result rows
-		return $query->fetchAll();
+		// select all Films
+		$films = $query->fetchAll();
+
+		$xFilms = array();
+		foreach ($films as $film) {
+
+			$category = CinemaModel::getFilmCategories($film->category_id);
+
+			$age_limit = CinemaModel::getFilmAgeLimit($film->age_limit_id);
+
+			$duration_mod = CinemaModel::modDuration($film->duration, '%2d час %02d минут');
+
+			$result = (object) array_merge(
+				(array) $film,
+				(array) $category,
+				(array) $age_limit,
+				array( 'duration_mod' => $duration_mod )
+			);
+
+			array_push($xFilms, $result);
+		}
+
+		return $xFilms;
 	}
 
 	/**

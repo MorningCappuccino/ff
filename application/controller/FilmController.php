@@ -67,7 +67,7 @@ class FilmController extends Controller
     public function allfilms()
     {
         $this->View->render('allfilms/index', [
-            'films' => FilmModel::getAllFilms()
+            'data' => array( 'films' => FilmModel::getAllFilms() )
             ]);
     }
 
