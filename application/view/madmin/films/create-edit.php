@@ -6,7 +6,7 @@
 			<li><a href="<?= Config::get('URL') . 'madmin/films' ?>">Фильмы</a></li>
 			<li class="active">Добавление\Редактирование</li>
 		</ol>
-		<?php var_dump($this->data['age_limits']) ?>
+		<!-- <?php var_dump($this->data['film']) ?> -->
 		<h3><?= $this->data['page']->title ?></h3>
 		<?php if ($this->data): ?>
 			<form enctype="multipart/form-data" method="post" action="<?= Config::get('URL') . 'film/save' ?>" class="form">
@@ -62,7 +62,9 @@
 					<option value="">Выберите возрастное ограничение</option>
 						<?php foreach ($this->data['age_limits'] as $age_limit): ?>
 							<option value="<?= $age_limit->id ?>"
-									<?php if ($age_limit->id == $this->data['film']->age_limit_id) echo 'selected' ?>
+									<?php if (!empty($this->data['film']->age_limit_id)) :?>
+										<?php if ($age_limit->id == $this->data['film']->age_limit_id) echo 'selected' ?>
+									<?php endif;?>
 							><?= $age_limit->age_limit ?></option>
 						<?php endforeach ?>
 					</select>

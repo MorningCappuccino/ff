@@ -46,11 +46,14 @@ class FilmModel
 																	'film_name' => '',
 																	'category_id' => NULL,
 																	'descr' => '',
-																	'event_id' => NULL],
+																	'event_id' => NULL,
+																	'duration' => NULL,
+																	'link_on_trailer' => NULL],
 				'categories' => CategoryModel::getAllcategories(),
 				'page' => (object) ['title' => 'Добавление фильма'],
 				'nominations' => NominationModel::getAllNominations(),
-				'events' => EventModel::getAllEvents()
+				'events' => EventModel::getAllEvents(),
+				'age_limits' => FilmModel::getAgeLimits()
 		];
 	}
 
@@ -96,33 +99,38 @@ class FilmModel
 			$img_link = ImageModel::createImage();
 			$teaser_link = ImageModel::createTeaserImage();
 
-			$sql = "INSERT INTO films (film_name, category_id, teaser_img_link, descr, user_id, age_limit_id, duration, link_on_trailer) VALUES (:film_name, :category_id, :img_link, :teaser_img_link, :descr, :event_id, :user_id, :age_limit_id, :duration, :link_on_trailer)";
+			$sql = "INSERT INTO films (film_name, category_id, descr, user_id, age_limit_id, duration, link_on_trailer) VALUES (:film_name, :category_id, :descr, :user_id, :age_limit_id, :duration, :link_on_trailer)";
 			$query = $database->prepare($sql);
-			$query->execute(array(':film_name' => $film_name, ':category_id' => $category_id, ':teaser_img_link' => $teaser_link, ':descr' => $descr, ':user_id' => Session::get('user_id'), ':age_limit_id' => $age_limit_id, ':duration' => $duration, ':link_on_trailer' => $link_on_trailer));
+			$query->execute(array(':film_name' => $film_name, ':category_id' => $category_id, ':descr' => $descr, ':user_id' => Session::get('user_id'), ':age_limit_id' => $age_limit_id, ':duration' => $duration, ':link_on_trailer' => $link_on_trailer));
+
+			if ($query->rowCount() != 1) {
+				Session::add('feedback_negative', Text::get('FEEDBACK_FILM_CREATION_FAILED'));
+				return false;
+			}
 
 			$last_film_id = FilmAjaxModel::getLastIdFromTable('films');
 
 			if ($img_link != 'file didnt upload') {
 				// new image was uploaded
-				$sql = "INSERT INTO films (img_link) VALUES (:img_link) WHERE id = :film_id";
+				$sql = "UPDATE films SET img_link = :img_link WHERE id = :film_id";
 				$query = $database->prepare($sql);
 				$query->execute(array(':img_link' => $img_link, ':film_id' => $last_film_id));
 			}
 
 			if ($teaser_link != 'file didnt upload') {
 				// new image was uploaded
-				$sql = "INSERT INTO films (teaser_img_link) VALUES (:teaser_img_link) WHERE id = :film_id";
+				$sql = "UPDATE films SET teaser_img_link = :teaser_img_link WHERE id = :film_id";
 				$query = $database->prepare($sql);
 				$query->execute(array(':teaser_img_link' => $teaser_link, ':film_id' => $last_film_id));
 			}
 
-			if ($event_id != '') {
-				$sql = "INSERT INTO films (event_id) VALUES (:event_id) WHERE id = :film_id";
+			if ($event_id != 0) {
+				$sql = "UPDATE films SET event_id = :event_id WHERE id = :film_id";
 				$query = $database->prepare($sql);
 				$query->execute(array(':event_id' => $event_id, ':film_id' => $last_film_id));
 			}
 
-			if ($nomination_id != '') {
+			if ($nomination_id != 0) {
 				LinkTableModel::LinkFilmNomination($last_film_id, $nomination_id);
 			}
 

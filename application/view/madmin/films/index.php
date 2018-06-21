@@ -1,20 +1,20 @@
 <div class='row'>
 	<div class='col-md-12 wrap'>
 		<ol class="breadcrumb">
-			<li><a href="../madmin">Home</a></li>
-			<li class="active">Films</li>
+			<li><a href="../madmin">Главная</a></li>
+			<li class="active">Фильмы</li>
 		</ol>
 		<h2>Список фильмов</h2>
 
 		<?php $this->renderFeedbackMessages(); ?>
 
-		<a href="<?= Config::get('URL') . 'film/create' ?>" class="btn btn-default">create film</a>
+		<a href="<?= Config::get('URL') . 'film/create' ?>" class="btn btn-default">Создать фильм</a>
 		<!-- <?php var_dump($this->films) ?> -->
 		<table class='table table-striped'>
 			<thead>
 				<tr>
 					<td>id</td> <!-- hidden -->
-					<td>name</td>
+					<td>Название</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -22,8 +22,8 @@
 					<tr>
 						<td><?= $film->id ?> </td> <!-- make hidden -->
 						<td><?= $film->film_name ?> </td>
-						<td><a href="<?= Config::get('URL') . 'film/edit/' . $film->id ?>">edit</a></td>
-						<td><a href="<?= Config::get('URL') . 'film/delete/' . $film->id ?>">delete</a></td>
+						<td><a href="<?= Config::get('URL') . 'film/edit/' . $film->id ?>">Редактировать</a></td>
+						<td><a href="<?= Config::get('URL') . 'film/delete/' . $film->id ?>">Удалить</a></td>
 					</tr>
 				<?php endforeach ?>
 			</table>
