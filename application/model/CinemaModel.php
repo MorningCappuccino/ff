@@ -259,9 +259,9 @@ class CinemaModel
 		$countSuccessRow = 0;
 
 		foreach ($parameters->seat_ids as $seat_id) {
-			$sql = "UPDATE seats SET user = :user_id, order_number = :order_number, order_date = :order_date, stripe_order_id = :stripe_order_id WHERE id = :seat_id";
+			$sql = "UPDATE seats SET user = :user_id, order_number = :order_number, order_date = :order_date, stripe_order_id = :stripe_order_id, price = :price WHERE id = :seat_id";
 			$query = $database->prepare($sql);
-			$query->execute(array(':user_id' => Session::get('user_id'), ':seat_id' => $seat_id, ':order_number' => self::randHash(6), ':order_date' => $parameters->order_date, ':stripe_order_id' => $charge_id));
+			$query->execute(array(':user_id' => Session::get('user_id'), ':seat_id' => $seat_id, ':order_number' => self::randHash(6), ':order_date' => $parameters->order_date, ':stripe_order_id' => $charge_id, ':price' => $parameters->price));
 
 			if ($query->rowCount() == 1) {
 				$countSuccessRow++;

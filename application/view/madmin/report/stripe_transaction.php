@@ -12,6 +12,7 @@
                      <tr>
                          <th>Пользователь</th>
                          <th>Номер заказа</th>
+                         <th>Цена</th>
                          <th>Номер транзакции</th>
                          <th>Фильм</th>
                          <th>Дата</th>
@@ -25,6 +26,7 @@
                          <tr>
                              <td><a href="<?= Config::get('URL') . 'profile/showProfile/'. $order->user_id?>"><?= $order->user_name ?></a></td>
                              <td><?= $order->order_number ?></td>
+                             <td><?= $order->price ?></td>
                              <td><a target="_blank" href="https://dashboard.stripe.com/test/payments/<?= $order->stripe_order_id ?>"><?= $order->stripe_order_id ?></a></td>
                              <td><?= $order->film_name ?></td>
                              <td><?= $order->order_date ?></td>

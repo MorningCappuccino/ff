@@ -6,7 +6,7 @@ class ReportModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT cinema_name, film_name, film_session, seat_num, order_number, order_date, stripe_order_id, user_name, users.user_id FROM seats
+        $sql = "SELECT cinema_name, film_name, film_session, seat_num, order_number, order_date, stripe_order_id, user_name, users.user_id, price FROM seats
                   JOIN halls h ON h.id = seats.hall_id
                   JOIN films f ON h.film_id = f.id
                   JOIN film_session fs ON fs.id = h.session_id
