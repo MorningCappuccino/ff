@@ -21,4 +21,14 @@
 			<a class="list-group-item" href="<?php echo Config::get('URL') ?>nomination/index">Номинации</a>
 		</ul>
 	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<h3>Отчёты</h3>
+		<div class="report-list">
+			<a class="list-group-item" href="<?php echo Config::get('URL') ?>madmin/stripeTransactions">Stripe транзакции</a>
+		</div>
+	</div>
 </div>

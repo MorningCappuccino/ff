@@ -46,4 +46,12 @@ class mAdminController extends Controller
 
 		Redirect::to("admin");
 	}
+
+    public function stripeTransactions()
+    {
+        $this->View->render('madmin/report/stripe_transaction', array(
+                'transactions' => ReportModel::getAllStripeTransaction()
+            )
+        );
+    }
 }
