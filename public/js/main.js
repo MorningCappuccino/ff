@@ -296,6 +296,7 @@ function showFilm(film) {
 	template.find('.genres').text(film.cat_name);
 	template.find('.duration').text(film.duration_mod);
 	template.find('.age-limit').text(film.age_limit);
+	template.find('.picture').css('background-image', 'url('+ host2 + '/uploads/' + film.teaser_img_link + '.jpg)');
 
 	var sessions = template.find('.sessions');
 	for (var key in film.film_sessions) {
