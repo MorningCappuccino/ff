@@ -165,24 +165,33 @@ class CinemaModel
 
 		// var_dump($date);
 
-		$sql = "SELECT link.film_id, film_name, score, category_id, teaser_img_link, price_from, price_to, begin_date, finish_date, duration, age_limit_id, age_limit FROM films
+		$sql = "SELECT link.film_id, film_name, score, category_id, teaser_img_link, duration, age_limit_id FROM films
 				JOIN link_cinema_film link ON films.id = link.film_id
 				JOIN cinemas ON link.cinema_id = cinemas.id
-				JOIN ticket_prices tp ON tp.film_id = films.id
-				JOIN time_to_show_films ttsf ON ttsf.film_id = films.id
-				JOIN age_limit al ON al.id = films.age_limit_id
-				WHERE cinemas.id = :cinema_id
-				AND ttsf.begin_date < :curr_date
-				AND ttsf.finish_date > :curr_date
-				";
+				WHERE cinemas.id = :cinema_id";
 		$query = $database->prepare($sql);
-		$query->execute(array(':cinema_id' => $cinema_id, ':curr_date' => $date));
+		$query->execute(array(':cinema_id' => $cinema_id));
+
+		// JOIN ticket_prices tp ON tp.film_id = films.id
+		// JOIN time_to_show_films ttsf ON ttsf.film_id = films.id
+		// JOIN age_limit al ON al.id = films.age_limit_id
+		//
+		// AND ttsf.begin_date < :curr_date
+		// AND ttsf.finish_date > :curr_date
 
 		// select all Films
 		$films = $query->fetchAll();
 
 		$xFilms = array();
 		foreach ($films as $film) {
+			//get time to show films
+			$time_to_show_film = self::getTimeToShowFilmsOneDay($film->film_id, $cinema_id, $date);
+
+			// if curren film not shown in $date search next film
+			if ( $time_to_show_film == NULL ) {
+				continue;
+			}
+
 			//get film sessions
 			$filmSessions = self::getFilmSessions($film->film_id, $cinema_id);
 
@@ -190,11 +199,20 @@ class CinemaModel
 
 			$duration_mod = self::modDuration($film->duration, '%2d час %02d минут');
 
+			//get film ticket_prices
+			$ticket_prices = self::getTicketPrice($film->film_id, $cinema_id);
+
+			//get film age limit
+			$age_limit = self::getFilmAgeLimit($film->age_limit_id);
+
 			$result = (object) array_merge(
 				(array) $film,
 				(array) $filmSessions,
 				(array) $film_category,
-				array( 'duration_mod' => $duration_mod )
+				array( 'duration_mod' => $duration_mod ),
+				(array) $ticket_prices,
+				(array) $age_limit,
+				(array) $time_to_show_film
 			);
 
 			array_push($xFilms, $result);
@@ -324,6 +342,23 @@ class CinemaModel
 		$query->execute(array(':film_id' => $film_id, ':cinema_id' => $cinema_id));
 
 		return $query->fetchAll()[0];
+	}
+
+	/*
+		by one day
+	*/
+	public static function getTimeToShowFilmsOneDay($film_id, $cinema_id, $date)
+	{
+		$database = DatabaseFactory::getFactory()->getConnection();
+
+		$sql = "SELECT begin_date, finish_date FROM time_to_show_films t
+				WHERE t.film_id = :film_id AND t.cinema_id = :cinema_id
+				AND t.begin_date < :curr_date AND t.finish_date > :curr_date
+				LIMIT 1";
+		$query = $database->prepare($sql);
+		$query->execute(array(':film_id' => $film_id, ':cinema_id' => $cinema_id, ':curr_date' => $date));
+
+		return $query->fetchAll();
 	}
 
 	/*
