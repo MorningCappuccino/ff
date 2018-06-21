@@ -11,6 +11,7 @@
             <div class="row">
               <span><?= $this->data['category']->category_name ?></span>
               <h1><?= $this->data['film_info']->film_name ?></h1>
+              <input type="hidden" name="film_id" value="<?= $this->data['film_info']->film_id ?>">
             </div>
             <div class="row">
               <a href="#" id="trailer-btn" class="btn btn-default">Трейлер
@@ -26,6 +27,7 @@
           </div>
         </div>
       </div>
+      <!-- <?php var_dump($this->data) ?> -->
       <div class="row bad-section">
         <div class="col-md-9">
         	<div class="avg-score">

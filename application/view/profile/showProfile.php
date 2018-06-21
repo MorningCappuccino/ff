@@ -1,23 +1,20 @@
-<div class="container">
-    <h1>ProfileController/showProfile/:id</h1>
-    <div class="box">
+<div class="row">
+    <div class="col-md-12">
+    <h1>Профиль</h1>
 
         <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>
 
-        <h3>What happens here ?</h3>
-        <div>This controller/action/view shows all public information about a certain user.</div>
-
         <?php if ($this->user) { ?>
             <div>
-                <table class="overview-table">
+                <table class="table">
                     <thead>
                     <tr>
                         <td>Id</td>
-                        <td>Avatar</td>
-                        <td>Username</td>
-                        <td>User's email</td>
-                        <td>Activated ?</td>
+                        <td>Аватар</td>
+                        <td>Имя</td>
+                        <td>email</td>
+                        <td>активирован ?</td>
                     </tr>
                     </thead>
                     <tbody>

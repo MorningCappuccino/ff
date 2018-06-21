@@ -39,7 +39,7 @@ $('#film-rating').rating({
 
 $('#film-rating').on('rating.change', function(event, value, caption) {
 	var furl = window.location.href;
-	var film_id = furl[furl.split('').length-1];
+	var film_id = $('input[name=film_id]').val();
 		// furl = furl[furl.length-1];
 		// console.log(film_id);
 		// console.log(caption);
