@@ -4,6 +4,9 @@
         </div>
     </div>
 
+<!-- stipe payment system -->
+<script src="https://js.stripe.com/v3/"></script>
+
 <script src='<?php echo Config::get('URL') ?>js/star-rating_locale_ru.js'></script>
 <script src='<?php echo Config::get('URL') ?>js/main.js'></script>
 

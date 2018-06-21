@@ -3,7 +3,7 @@
         <h2>Кинотеатры</h2>
     </div>
 </div>
-<?php var_dump($this) ?>
+<!-- <?php var_dump($this) ?> -->
 <div class="cinemas mb-lg">
     <?php foreach ($this->cinemas as $cinema) :?>
     <div class="row cinema">

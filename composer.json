@@ -14,6 +14,7 @@
     "require": {
         "gregwar/captcha": "~1.1",
         "phpmailer/phpmailer": "~5.2.23",
-        "phpunit/phpunit": "5.7.*"
+        "phpunit/phpunit": "5.7.*",
+        "stripe/stripe-php": "^2.0@dev"
     }
 }

@@ -264,6 +264,12 @@ footer {
   width: 80%;
   padding: 10px 0; }
 
+.btn-stripe-pay {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block; }
+
 .ymap {
   height: 150px;
   background: url("../img/yamap.jpg") center center no-repeat;

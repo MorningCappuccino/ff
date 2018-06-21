@@ -70,10 +70,17 @@ class FilmAjaxController extends Controller {
 
 	}
 
-	public function paySuccessfull($parameters)
+	public function paySuccessfull()
 	{
-		$res = CinemaModel::paySuccessfull($parameters);
-		echo json_encode($res);
+		$parameters = (object) array(
+			'seat_ids' => explode(',', Request::post('seat_ids')),
+			'order_date' => Request::post('order_date'),
+			'price' => Request::post('price')
+		);
+
+		$this->View->render('payment/index', [
+			'data' => CinemaModel::paySuccessfull($parameters)
+		]);
 	}
 
 	public function deleteSession($parameters)

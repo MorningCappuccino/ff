@@ -230,14 +230,38 @@ class CinemaModel
 			return array('status' => 'expected more arguments');
 		}
 
+		// stripe
+		\Stripe\Stripe::setApiKey("sk_test_hdr3O2yMwdi9z6uB447l4V5M");
+
+		// Token is created using Checkout or Elements!
+		// Get the payment token ID submitted by the form:
+		$token = Request::post('stripeToken');
+
+		$amount = $parameters->price / 2.004; // byn to usd
+		$amount = substr($amount, 0, 4); // like 3.24
+		$amount = str_replace('.', '', $amount); //delete dot
+
+		$charge = \Stripe\Charge::create([
+			'amount' => $amount,
+			'currency' => 'usd',
+			'description' => 'Место в кинотеатре',
+			'source' => $token,
+		]);
+
+//		print_r($charge);
+		// end stripe
+
+		// save charge id
+		$charge_id = $charge->id;
+
 		$database = DatabaseFactory::getFactory()->getConnection();
 
 		$countSuccessRow = 0;
 
 		foreach ($parameters->seat_ids as $seat_id) {
-			$sql = "UPDATE seats SET user = :user_id, order_number = :order_number, order_date = :order_date WHERE id = :seat_id";
+			$sql = "UPDATE seats SET user = :user_id, order_number = :order_number, order_date = :order_date, stripe_order_id = :stripe_order_id WHERE id = :seat_id";
 			$query = $database->prepare($sql);
-			$query->execute(array(':user_id' => Session::get('user_id'), ':seat_id' => $seat_id, ':order_number' => self::randHash(6), ':order_date' => $parameters->order_date));
+			$query->execute(array(':user_id' => Session::get('user_id'), ':seat_id' => $seat_id, ':order_number' => self::randHash(6), ':order_date' => $parameters->order_date, ':stripe_order_id' => $charge_id));
 
 			if ($query->rowCount() == 1) {
 				$countSuccessRow++;

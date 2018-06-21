@@ -44,8 +44,8 @@ $('#film-rating').on('rating.change', function(event, value, caption) {
 		// console.log(film_id);
 		// console.log(caption);
 		$.ajax({
-			// url: window.location.host + '/ajax.php',
-			url: host + 'ajax.php',
+			// url: window.location.host2 + '/ajax.php',
+			url: host2 + 'ajax.php',
 			method: 'post',
 			data: { controller_name: 'FilmAjax',
 			action_name: 'rateFilm',
@@ -116,7 +116,7 @@ $('.fresh-movie .session-pool .s-item').on('click', function(ev) {
 	console.log(data);
 
 	$.ajax({
-		url: host + 'ajax.php',
+		url: host2 + 'ajax.php',
 		method: 'post',
 		data: data,
 		success: function(data) {
@@ -167,7 +167,7 @@ $('.fresh-movie .btn-del-film-yes').on('click', function(ev) {
 	// console.log(data);
 
 	$.ajax({
-		url: host + 'ajax.php',
+		url: host2 + 'ajax.php',
 		method: 'post',
 		data: data,
 		success: function(data) {
@@ -265,7 +265,7 @@ function showFilmsOfCinemaByDay(date) {
 	console.log(data);
 
 	$.ajax({
-		url: host + 'ajax.php',
+		url: host2 + 'ajax.php',
 		method: 'post',
 		data: data,
 		success: function(data) {
@@ -356,6 +356,12 @@ function initSeats() {
 		$('.pay-section .cost span').text(curr_price_to * selectedCount);
 		$('.pay-section .cost').css('opacity', 1);
 
+		//update stripe inputs info
+		if ( $('.test-stripe').find('input[name=seat_ids]').length != 0 ) {
+			$('.test-stripe').find('input[name=seat_ids]').val( hallModal.find('.cost span').text() );
+			$('.test-stripe').find('input[name=price]').val(selected_seat_ids);
+		}
+
 	});
 }
 // })();
@@ -365,7 +371,7 @@ function initSeats() {
 *************************************/
 var
 // host = window.location.host,
-host = 'http://ff/',
+host2 = window.location.origin + '/',
 movie = $('.movie'),
 cinema_id = $('input[name="cinema_id"]').val(),
 curr_session_id = null,
@@ -409,7 +415,12 @@ var App = {
 
 			if (curr_session_id == null) {
 				// TODO: add alert "select session"
-				console.log('message not session');
+				alert('Не выбрана сессия');
+				return false;
+			}
+
+			if (curr_movie.find('.session.-selected').length == 0) {
+				alert('Не выбрана сессия для текущего фильма');
 				return false;
 			}
 
@@ -424,7 +435,7 @@ var App = {
 			console.log(send_data);
 
 			$.ajax({
-				url: host + 'ajax.php',
+				url: host2 + 'ajax.php',
 				method: 'post',
 				data: send_data,
 				success: function(data) {
@@ -455,36 +466,45 @@ var App = {
 		$('.btn-pay').on('click', function() {
 
 			// check on selected seats
-			if ( $('.hall-grid__item.-selected').lenght == 0 ) {
+			if ( $('.hall-grid__item.-selected').length == 0 ) {
 				// TODO: alert
-				console.log('no seat selected');
+				alert('не выбрано место');
 				return false;
 			}
 
-			let send_data = {
-				controller_name: 'FilmAjax',
-				action_name: 'paySuccessfull',
-				seat_ids: selected_seat_ids,
-				order_date: $('.calendar-day').attr('order-date')
+
+			//stripe form
+			if ( $('.test-stripe').find('input[name=seat_ids]').length == 0 ) {
+				$('<input>').attr({ type: 'hidden', name: 'seat_ids', value: selected_seat_ids }).appendTo(form);
+				$('<input>').attr({ type: 'hidden', name: 'order_date', value: $('.calendar-day').attr('order-date') }).appendTo(form);
+				$('<input>').attr({ type: 'hidden', name: 'price', value: hallModal.find('.cost span').text() }).appendTo(form);
 			}
+			$('.test-stripe').css('opacity', 1);
 
-			console.log(send_data);
+			// let send_data = {
+			// 	controller_name: 'FilmAjax',
+			// 	action_name: 'paySuccessfull',
+			// 	seat_ids: selected_seat_ids,
+			// 	order_date: $('.calendar-day').attr('order-date')
+			// }
+			//
+			// console.log(send_data);
 
-			$.ajax({
-				url: host + 'ajax.php',
-				method: 'post',
-				data: send_data,
-				success: function(data) {
-					data = JSON.parse(data);
-					console.log(data);
-					if (data.status === 'success') {
-						successBalloon();
-					}
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					console.log('error');
-				}
-			});
+			// $.ajax({
+			// 	url: host2 + 'ajax.php',
+			// 	method: 'post',
+			// 	data: send_data,
+			// 	success: function(data) {
+			// 		data = JSON.parse(data);
+			// 		console.log(data);
+			// 		if (data.status === 'success') {
+			// 			successBalloon();
+			// 		}
+			// 	},
+			// 	error: function(jqXHR, textStatus, errorThrown) {
+			// 		console.log('error');
+			// 	}
+			// });
 
 		});
 	}
@@ -505,7 +525,7 @@ $('.add-edit-wrap .btn-prepare-to-add-film').on('click', function(ev) {
 	};
 
 	$.ajax({
-		url: host + 'ajax.php',
+		url: host2 + 'ajax.php',
 		method: 'post',
 		data: data,
 		success: function(data) {
@@ -553,7 +573,7 @@ function btnAddFilm(form) {
 	console.log(data);
 
 	$.ajax({
-		url: host + 'ajax.php',
+		url: host2 + 'ajax.php',
 		method: 'post',
 		data: JSON.stringify(data),
 		// contentType: 'application/json',
@@ -599,7 +619,7 @@ function btnEditFilm(form) {
 	console.log(data);
 
 	$.ajax({
-		url: host + 'ajax.php',
+		url: host2 + 'ajax.php',
 		method: 'post',
 		data: data,
 		success: function(data) {
@@ -614,6 +634,68 @@ function btnEditFilm(form) {
 		}
 	});
 
+}
+
+/********************************************************************
+************************ Stripe payment ****************************
+********************************************************************/
+
+const stripe = Stripe('pk_test_fCYJ18RvZRkPM0Vlneel1QMw');
+const stripeElements = stripe.elements();
+
+// Custom styling can be passed to options when creating an Element.
+const style = {
+  base: {
+    // Add your base input styles here. For example:
+    fontSize: '16px',
+    color: "#32325d",
+  },
+};
+
+// Create an instance of the card Element.
+const card = stripeElements.create('card', {style});
+
+// Add an instance of the card Element into the `card-element` <div>.
+card.mount('#card-element');
+
+//display error
+card.addEventListener('change', ({error}) => {
+  const displayError = document.getElementById('card-errors');
+  if (error) {
+    displayError.textContent = error.message;
+  } else {
+    displayError.textContent = '';
+  }
+});
+
+// Create a token or display an error when the form is submitted.
+const form = document.getElementById('payment-form');
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const {token, error} = await stripe.createToken(card);
+
+  if (error) {
+    // Inform the customer that there was an error.
+    const errorElement = document.getElementById('card-errors');
+    errorElement.textContent = error.message;
+  } else {
+    // Send the token to your server.
+    stripeTokenHandler(token);
+  }
+});
+
+const stripeTokenHandler = (token) => {
+  // Insert the token ID into the form so it gets submitted to the server
+  const form = document.getElementById('payment-form');
+  const hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeToken');
+  hiddenInput.setAttribute('value', token.id);
+  form.appendChild(hiddenInput);
+
+  // Submit the form
+  form.submit();
 }
 
 /********************************************************************
