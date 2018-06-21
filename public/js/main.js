@@ -540,7 +540,7 @@ $('.add-edit-wrap .btn-prepare-to-add-film').on('click', function(ev) {
 			let newFilm = $('.fresh-movie.new');
 			let select = newFilm.find('select[name=film_id]');
 			data.forEach(function(el) {
-				$('<option/>', { value: el.id, text: el.film_name }).appendTo(select);
+				$('<option/>', { value: el.film_id, text: el.film_name }).appendTo(select);
 			});
 
 		},
