@@ -21,6 +21,12 @@
                     <?= $this->data['cinema']->phone_number ?>
                 </div>
             </div>
+            <div class="col-md-offset-2 col-md-4">
+                <div class="ymap" data-lon="<?= $this->data['cinema']->lon ?>" data-lat="<?= $this->data['cinema']->lat ?>">
+                    <div class="overlay"></div>
+                    <div class="btn btn-default">Посмотреть на карте</div>
+                </div>
+            </div>
         </div>
 
         <!-- Расписание -->
@@ -137,3 +143,5 @@
 
     </div>
 </div>
+
+<div id="map_container" style="width: 80%;" data-fancybox></div>

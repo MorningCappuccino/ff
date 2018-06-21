@@ -17,6 +17,8 @@
 
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/bootstrap-datepicker.css" >
 
+    <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/jquery.fancybox.min.css" >
+
     <script src='<?php echo Config::get('URL') ?>js/jquery-2.0.0.js'></script>
     <script src='<?php echo Config::get('URL') ?>js/bootstrap.js'></script>
     <script src='<?php echo Config::get('URL') ?>js/star-rating.js'></script>
