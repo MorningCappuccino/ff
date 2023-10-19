@@ -84,6 +84,7 @@
                     <span class="genres">Фантастика, боевик</span>
                     <span class="duration">1 час 59 минут</span>
                     <span class="age-limit">18+</span>
+                    <input type="hidden" name="price_to" value="">
                 </div>
                 <div class="movie-info_rating"></div>
             </div>

@@ -40,9 +40,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav fp-nav">
-                        <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
+                        <!-- <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> >
                             <a href="<?php echo Config::get('URL'); ?>index/index">Главная</a>
-                        </li>
+                        </li> -->
 
                         <li <?php if (View::checkForActiveController($filename, "cinema")) { echo ' class="active" '; } ?> >
                             <a href="<?php echo Config::get('URL'); ?>cinema/allCinemas">Кинотеатры</a>

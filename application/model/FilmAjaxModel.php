@@ -130,6 +130,8 @@ class FilmAjaxModel
 			// second: add new session for curr film_id and cinema_id
 			foreach ($parameters->film_sessions as $session) {
 				$addedSessionID = self::addFilmSession($database, $parameters->cinema_id, $parameters->film_id, $session);
+
+				HallModel::addHallAndSeats($parameters->cinema_id, $parameters->film_id, $addedSessionID);
 			}
 
 			/*

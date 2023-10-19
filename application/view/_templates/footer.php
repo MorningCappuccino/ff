@@ -1,6 +1,6 @@
 
         <div class="row">
-           <footer class="footer">&copy; <?= date("Y") ?> Александр Минченков</footer>
+           <footer class="footer">&copy; 2017 Александр Минченков</footer>
         </div>
     </div>
 
